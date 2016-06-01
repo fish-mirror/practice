@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd" >
+
+<hibernate-reverse-engineering>
+	<table name="resume" catalog="practice_manage" class="Resume">
+		<primary-key>
+			<generator class="identity"></generator>
+		</primary-key>
+	</table>
+	<table name="college_info" catalog="practice_manage"
+		class="College">
+	</table>
+	<table name="short_term_project" catalog="practice_manage">
+		<column name="com_id"></column>
+	</table>
+</hibernate-reverse-engineering>
