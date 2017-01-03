@@ -1,0 +1,15 @@
+# java  
+*.class
+
+*.jar
+*.war
+*.ear
+
+# local idea
+.DS_Store
+.project
+*.iml
+.idea
+
+target
+out
