@@ -2,11 +2,11 @@ package com.zjicm.action;
 
 import javax.annotation.Resource;
 
+import com.zjicm.entity.Student;
+import com.zjicm.service.IStudentInfoService;
 import org.apache.struts2.json.annotations.JSON;
 
 import com.opensymphony.xwork2.ActionSupport;
-import com.zjicm.entity.Student;
-import com.zjicm.service.IStudentInfoService;
 
 public class PersonalInfoAction extends ActionSupport{
 	private IStudentInfoService sis;

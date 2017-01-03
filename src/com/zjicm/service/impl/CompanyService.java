@@ -4,16 +4,14 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.springframework.stereotype.Component;
-
-import com.zjicm.dao.CollegeDao;
-import com.zjicm.dao.CompanyDao;
-import com.zjicm.dao.CooperateDao;
 import com.zjicm.dto.Page;
-import com.zjicm.entity.College;
 import com.zjicm.entity.Company;
 import com.zjicm.entity.Cooperate;
 import com.zjicm.entity.User;
+import org.springframework.stereotype.Component;
+
+import com.zjicm.dao.CompanyDao;
+import com.zjicm.dao.CooperateDao;
 import com.zjicm.service.ICompanyService;
 
 @Component
@@ -118,7 +116,7 @@ public class CompanyService implements ICompanyService{
 	@Override
 	public void saveAndCoop(User u, Company com, String colId) {
 		this.save(u, com);
-		cooperateDao.save(new Cooperate(colId,com.getId()));
+		cooperateDao.save(new Cooperate(colId, com.getId()));
 	}
 	@Override
 	public void deleteCoop(Integer coopId) {

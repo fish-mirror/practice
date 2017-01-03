@@ -2,13 +2,13 @@ package com.zjicm.service.impl;
 
 import javax.annotation.Resource;
 
+import com.zjicm.dto.Page;
+import com.zjicm.entity.Job;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 import com.zjicm.dao.JobDao;
-import com.zjicm.dto.Page;
-import com.zjicm.entity.Job;
 import com.zjicm.service.IJobService;
 
 @Component

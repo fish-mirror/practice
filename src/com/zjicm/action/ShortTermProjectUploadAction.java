@@ -10,13 +10,13 @@ import java.util.Date;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import com.zjicm.entity.User;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.json.annotations.JSON;
 
 import com.opensymphony.xwork2.ActionSupport;
 import com.zjicm.entity.ShortTermProject;
-import com.zjicm.entity.User;
 import com.zjicm.service.IShortTermService;
 
 public class ShortTermProjectUploadAction extends ActionSupport implements ServletRequestAware{

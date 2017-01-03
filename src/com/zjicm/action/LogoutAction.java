@@ -1,14 +1,13 @@
 package com.zjicm.action;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.zjicm.util.SessionUtil;
 import org.apache.struts2.interceptor.ServletRequestAware;
 
 import com.opensymphony.xwork2.ActionSupport;
-import com.zjicm.util.SessionUtil;
 
 public class LogoutAction extends ActionSupport implements ServletRequestAware{
 	

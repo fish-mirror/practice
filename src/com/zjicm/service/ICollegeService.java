@@ -3,6 +3,7 @@ package com.zjicm.service;
 
 import com.zjicm.dto.Page;
 import com.zjicm.entity.College;
+
 public interface ICollegeService {
 
 	
@@ -12,7 +13,7 @@ public interface ICollegeService {
 	 * @param page
 	 * @return
 	 */
-	public Page pageForCollege(int pageSize,int page);
+	public Page pageForCollege(int pageSize, int page);
 
 	//更新院系用户的照片
 	public boolean updateColImg(String id,String url);

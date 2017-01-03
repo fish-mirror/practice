@@ -5,23 +5,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.zjicm.entity.College;
+import com.zjicm.entity.Company;
+import com.zjicm.entity.Student;
+import com.zjicm.entity.User;
+import com.zjicm.service.ICollegeService;
+import com.zjicm.service.IStudentInfoService;
+import com.zjicm.util.SessionUtil;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.ServletResponseAware;
 
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 import com.zjicm.dto.UserDTO;
-import com.zjicm.entity.College;
-import com.zjicm.entity.Company;
-import com.zjicm.entity.Student;
-import com.zjicm.entity.User;
-import com.zjicm.service.ICollegeService;
 import com.zjicm.service.ICompanyService;
 import com.zjicm.service.ILoginService;
-import com.zjicm.service.IStudentInfoService;
-import com.zjicm.service.impl.LoginService;
-import com.zjicm.service.impl.StudentInfoService;
-import com.zjicm.util.SessionUtil;
 
 public class LoginAction extends ActionSupport 
 		implements ModelDriven<UserDTO>,ServletResponseAware,ServletRequestAware{
@@ -56,7 +54,7 @@ public class LoginAction extends ActionSupport
 	}
 	public String execute() throws Exception{
 		
-		User u = new User(udto.getName(),udto.getPwd());
+		User u = new User(udto.getName(), udto.getPwd());
 		User loginUser = ls.login(u);
 		
 		if(loginUser == null){

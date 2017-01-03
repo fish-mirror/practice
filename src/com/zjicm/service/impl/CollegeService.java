@@ -3,15 +3,14 @@ package com.zjicm.service.impl;
 import java.util.List;
 import javax.annotation.Resource;
 
-import org.springframework.stereotype.Component;
-
 import com.zjicm.dao.CollegeDao;
 import com.zjicm.dto.Page;
 import com.zjicm.entity.College;
 import com.zjicm.service.ICollegeService;
+import org.springframework.stereotype.Component;
 
 @Component
-public class CollegeService implements ICollegeService{
+public class CollegeService implements ICollegeService {
 
 	CollegeDao collegeDao;
 
@@ -24,7 +23,7 @@ public class CollegeService implements ICollegeService{
 	}
 
 	@Override
-	public Page pageForCollege(int pageSize,int page){
+	public Page pageForCollege(int pageSize, int page){
 
 		int count = collegeDao.count();
 		int totalPage = Page.countTotalPage(pageSize, count);

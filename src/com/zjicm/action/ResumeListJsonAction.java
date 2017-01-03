@@ -4,11 +4,11 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import com.zjicm.entity.Resume;
+import com.zjicm.service.impl.ResumeService;
 import org.apache.struts2.json.annotations.JSON;
 
 import com.opensymphony.xwork2.ActionSupport;
-import com.zjicm.entity.Resume;
-import com.zjicm.service.impl.ResumeService;
 
 public class ResumeListJsonAction extends ActionSupport{
 

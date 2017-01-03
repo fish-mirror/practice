@@ -1,16 +1,11 @@
 package com.zjicm.service;
 
-import java.util.List;
-import java.util.Map;
-
 import javax.annotation.Resource;
 
 import org.junit.Test;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 
-import com.zjicm.dto.Page;
-import com.zjicm.dto.StatusDTO;
 import com.zjicm.entity.Student;
 import com.zjicm.service.impl.StudentInfoService;
 

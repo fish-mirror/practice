@@ -1,6 +1,5 @@
 package com.zjicm.dao;
 
-import java.io.File;
 import java.util.List;
 
 import org.junit.Test;
@@ -8,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 
-import com.zjicm.dto.StatusDTO;
 import com.zjicm.entity.ShortTermProject;
 
 @ContextConfiguration("classpath:beans.xml")

@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import com.zjicm.entity.User;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.stereotype.Component;
 import org.hibernate.Query;
@@ -11,7 +12,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import com.zjicm.dao.UserDao;
-import com.zjicm.entity.User;
 
 @Component
 public class UserDaoImpl implements UserDao{

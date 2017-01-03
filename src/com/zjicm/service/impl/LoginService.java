@@ -3,13 +3,11 @@ package com.zjicm.service.impl;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
+import com.zjicm.entity.User;
 import org.springframework.stereotype.Component;
 
 import com.zjicm.dao.UserDao;
-import com.zjicm.dao.impl.UserDaoImpl;
-import com.zjicm.entity.User;
 import com.zjicm.service.ILoginService;
-import com.zjicm.util.SessionUtil;
 
 @Component
 public class LoginService implements ILoginService {

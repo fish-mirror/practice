@@ -1,18 +1,16 @@
 package com.zjicm.action;
 
-import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import com.zjicm.dto.StatusDTO;
+import com.zjicm.service.impl.StudentInfoService;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.json.annotations.JSON;
 
 import com.opensymphony.xwork2.ActionSupport;
-import com.zjicm.dto.Page;
-import com.zjicm.dto.StatusDTO;
-import com.zjicm.service.impl.StudentInfoService;
 
 public class StatusDistributeAction extends ActionSupport implements ServletRequestAware{
 

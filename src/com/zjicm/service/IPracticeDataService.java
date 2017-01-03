@@ -2,6 +2,7 @@ package com.zjicm.service;
 
 import com.zjicm.dto.Page;
 import com.zjicm.entity.PracticeData;
+
 public interface IPracticeDataService {
 
 	
@@ -11,7 +12,7 @@ public interface IPracticeDataService {
 	 * @param page
 	 * @return
 	 */
-	public Page pageForPracticeData(int pageSize,int page);
+	public Page pageForPracticeData(int pageSize, int page);
 	
 	public void add(PracticeData pd);
 }

@@ -2,7 +2,6 @@ package com.zjicm.dao;
 
 import java.util.List;
 
-import com.zjicm.dto.StatusDTO;
 import com.zjicm.entity.Student;
 
 public interface StudentDao {

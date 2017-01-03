@@ -3,14 +3,13 @@ package com.zjicm.interceptor;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.zjicm.entity.User;
 import org.apache.struts2.StrutsStatics;
 import org.apache.struts2.interceptor.ServletRequestAware;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionInvocation;
 import com.opensymphony.xwork2.interceptor.AbstractInterceptor;
-import com.zjicm.entity.User;
-import com.zjicm.util.SessionUtil;
 
 public class RoleInterceptor extends AbstractInterceptor{
 	

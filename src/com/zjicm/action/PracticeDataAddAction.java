@@ -5,11 +5,11 @@ import java.util.Date;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import com.zjicm.dto.StudentDTO;
+import com.zjicm.entity.PracticeData;
 import org.apache.struts2.interceptor.ServletRequestAware;
 
 import com.opensymphony.xwork2.ActionSupport;
-import com.zjicm.dto.StudentDTO;
-import com.zjicm.entity.PracticeData;
 import com.zjicm.service.IPracticeDataService;
 
 public class PracticeDataAddAction extends ActionSupport implements ServletRequestAware{
@@ -30,7 +30,7 @@ public class PracticeDataAddAction extends ActionSupport implements ServletReque
 		
 		
 		try{
-			PracticeData pd = new PracticeData(new StudentDTO(stuId), content,province,city,new Date());
+			PracticeData pd = new PracticeData(new StudentDTO(stuId), content, province, city, new Date());
 			pds.add(pd);
 			return SUCCESS;
 		}catch(Exception e){

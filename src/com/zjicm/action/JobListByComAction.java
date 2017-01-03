@@ -3,11 +3,11 @@ package com.zjicm.action;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import com.zjicm.dto.Page;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.json.annotations.JSON;
 
 import com.opensymphony.xwork2.ActionSupport;
-import com.zjicm.dto.Page;
 import com.zjicm.service.IJobService;
 
 public class JobListByComAction extends ActionSupport implements ServletRequestAware{

@@ -1,8 +1,6 @@
 package com.zjicm.entity;
 // default package
 
-import com.zjicm.entity.Student;
-
 
 /**
  * Resume entity. @author MyEclipse Persistence Tools

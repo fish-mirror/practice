@@ -1,18 +1,15 @@
 package com.zjicm.dao.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
 
+import com.zjicm.dao.StudentDao;
+import com.zjicm.entity.Student;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.stereotype.Component;
-
-import com.zjicm.dao.StudentDao;
-import com.zjicm.dto.StatusDTO;
-import com.zjicm.entity.Student;
 
 @Component
 public class StudentDaoImpl implements StudentDao {
