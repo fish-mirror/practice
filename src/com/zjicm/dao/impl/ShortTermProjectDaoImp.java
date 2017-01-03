@@ -4,12 +4,12 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import com.zjicm.dao.ShortTermProjectDao;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.stereotype.Component;
 
-import com.zjicm.dao.ShortTermProjectDao;
 import com.zjicm.entity.Company;
 import com.zjicm.entity.ShortTermProject;
 

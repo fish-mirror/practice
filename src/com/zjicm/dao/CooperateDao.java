@@ -1,7 +1,5 @@
 package com.zjicm.dao;
 
-import java.util.List;
-
 import com.zjicm.entity.Cooperate;
 
 public interface CooperateDao {

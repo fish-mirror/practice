@@ -2,9 +2,9 @@ package com.zjicm.dao;
 
 import java.util.List;
 
+import com.zjicm.entity.ShortTermReport;
 import com.zjicm.dto.StudentShortTermReport;
 import com.zjicm.entity.ShortTermProject;
-import com.zjicm.entity.ShortTermReport;
 
 public interface ShortTermReportDao {
 

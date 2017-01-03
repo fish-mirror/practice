@@ -3,12 +3,12 @@ package com.zjicm.action;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import com.zjicm.entity.User;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.json.annotations.JSON;
 
 import com.opensymphony.xwork2.ActionSupport;
 import com.zjicm.entity.Company;
-import com.zjicm.entity.User;
 import com.zjicm.service.impl.CompanyService;
 
 public class CompanyAddByColAction extends ActionSupport implements ServletRequestAware{

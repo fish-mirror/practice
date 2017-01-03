@@ -1,8 +1,5 @@
 package com.zjicm.entity;
 
-import java.util.HashSet;
-import java.util.Set;
-
 /**
  * ShortTermProject entity. @author MyEclipse Persistence Tools
  */

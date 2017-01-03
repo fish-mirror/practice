@@ -1,7 +1,6 @@
 package com.zjicm.interceptor;
 
 import java.io.IOException;
-import java.util.concurrent.ConcurrentHashMap;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -14,13 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.struts2.ServletActionContext;
-
-import com.zjicm.entity.ClientUserSessionEntity;
 import com.zjicm.entity.User;
-import com.zjicm.util.DateUtils;
-import com.zjicm.util.MyStringUtils;
-import com.zjicm.util.SessionUtil;
+import org.apache.struts2.ServletActionContext;
 
 public class RoleFilter implements Filter{
 //	private ConcurrentHashMap<String, ClientUserSessionEntity> userSessionEntityMap = SessionUtil.getClientUserSessionMap();

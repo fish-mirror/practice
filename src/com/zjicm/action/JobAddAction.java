@@ -1,17 +1,15 @@
 package com.zjicm.action;
 
-import java.util.Date;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import com.zjicm.entity.Company;
+import com.zjicm.entity.Job;
+import com.zjicm.service.IJobService;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.json.annotations.JSON;
 
 import com.opensymphony.xwork2.ActionSupport;
-import com.zjicm.entity.Company;
-import com.zjicm.entity.Job;
-import com.zjicm.service.IJobService;
 
 public class JobAddAction extends ActionSupport implements ServletRequestAware{
 

@@ -3,11 +3,11 @@ package com.zjicm.action;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import com.zjicm.service.IStudentInfoService;
 import org.apache.struts2.interceptor.ServletRequestAware;
 
 import com.opensymphony.xwork2.ActionSupport;
 import com.zjicm.entity.Student;
-import com.zjicm.service.IStudentInfoService;
 import com.zjicm.util.DateUtils;
 
 public class UpdateStuInfo extends ActionSupport implements ServletRequestAware{

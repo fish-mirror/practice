@@ -2,8 +2,8 @@ package com.zjicm.util;
 
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.zjicm.entity.ClientUserSessionEntity;
 import com.zjicm.entity.User;
+import com.zjicm.entity.ClientUserSessionEntity;
 
 public class SessionUtil {
 private static ConcurrentHashMap<String, ClientUserSessionEntity> clientUserSessionMap = new ConcurrentHashMap<String, ClientUserSessionEntity>();

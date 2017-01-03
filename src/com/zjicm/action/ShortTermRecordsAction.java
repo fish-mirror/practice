@@ -5,12 +5,12 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import com.zjicm.entity.ShortTermReport;
+import com.zjicm.service.IShortTermService;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.json.annotations.JSON;
 
 import com.opensymphony.xwork2.ActionSupport;
-import com.zjicm.entity.ShortTermReport;
-import com.zjicm.service.IShortTermService;
 
 public class ShortTermRecordsAction extends ActionSupport implements ServletRequestAware{
 	private HttpServletRequest request;

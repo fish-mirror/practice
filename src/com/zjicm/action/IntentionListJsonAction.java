@@ -4,11 +4,11 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import com.zjicm.entity.Intention;
+import com.zjicm.service.impl.IntentionService;
 import org.apache.struts2.json.annotations.JSON;
 
 import com.opensymphony.xwork2.ActionSupport;
-import com.zjicm.entity.Intention;
-import com.zjicm.service.impl.IntentionService;
 
 public class IntentionListJsonAction extends ActionSupport{
 

@@ -4,14 +4,12 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import com.zjicm.dao.ResumeDao;
+import com.zjicm.entity.Resume;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.stereotype.Component;
-
-import com.zjicm.dao.ResumeDao;
-import com.zjicm.entity.Resume;
-import com.zjicm.entity.Student;
 
 @Component
 public class ResumeDaoImpl implements ResumeDao {

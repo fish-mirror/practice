@@ -1,15 +1,13 @@
 package com.zjicm.action;
 
-import java.util.Map;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import com.zjicm.dto.Page;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.json.annotations.JSON;
 
 import com.opensymphony.xwork2.ActionSupport;
-import com.zjicm.dto.Page;
 import com.zjicm.service.IPracticeDataService;
 
 public class PracticeDataListAction extends ActionSupport implements ServletRequestAware{

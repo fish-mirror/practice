@@ -1,10 +1,10 @@
 package com.zjicm.dao.impl;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
 
+import com.zjicm.entity.ShortTermReport;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.orm.hibernate3.HibernateTemplate;
@@ -12,9 +12,7 @@ import org.springframework.stereotype.Component;
 
 import com.zjicm.dao.ShortTermReportDao;
 import com.zjicm.dto.StudentShortTermReport;
-import com.zjicm.entity.Company;
 import com.zjicm.entity.ShortTermProject;
-import com.zjicm.entity.ShortTermReport;
 
 @Component
 public class ShortTermReportDaoImpl implements ShortTermReportDao {

@@ -1,7 +1,5 @@
 package com.zjicm.service;
 
-import java.util.List;
-
 import com.zjicm.dto.Page;
 import com.zjicm.entity.Job;
 
@@ -12,7 +10,7 @@ public interface IJobService {
 	//发布职位
 	public void add(Job j);
 	//查看职位列表
-	public Page pageForList(int pageSize,int page);
+	public Page pageForList(int pageSize, int page);
 	//查看某用户发布的职位
 	public Page pageForListByCom(String comId,int pageSize,int page);
 	//查看进行中的职位

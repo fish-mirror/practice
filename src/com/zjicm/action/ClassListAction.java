@@ -5,11 +5,11 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import com.zjicm.service.IStudentInfoService;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.json.annotations.JSON;
 
 import com.opensymphony.xwork2.ActionSupport;
-import com.zjicm.service.IStudentInfoService;
 
 public class ClassListAction extends ActionSupport implements ServletRequestAware{
 

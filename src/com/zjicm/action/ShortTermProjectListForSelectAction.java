@@ -7,13 +7,12 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.zjicm.entity.ShortTermReport;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.json.annotations.JSON;
 
 import com.opensymphony.xwork2.ActionSupport;
-import com.zjicm.entity.Company;
 import com.zjicm.entity.ShortTermProject;
-import com.zjicm.entity.ShortTermReport;
 import com.zjicm.service.IShortTermService;
 
 public class ShortTermProjectListForSelectAction extends ActionSupport implements ServletRequestAware{

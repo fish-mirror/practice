@@ -4,11 +4,11 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import com.zjicm.service.IResumeService;
 import org.springframework.stereotype.Component;
 
 import com.zjicm.dao.ResumeDao;
 import com.zjicm.entity.Resume;
-import com.zjicm.service.IResumeService;
 
 @Component
 public class ResumeService implements IResumeService {

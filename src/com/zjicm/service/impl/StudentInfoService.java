@@ -7,16 +7,15 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import org.springframework.stereotype.Component;
-
 import com.zjicm.dao.StudentDao;
 import com.zjicm.dto.Page;
 import com.zjicm.dto.StatusDTO;
 import com.zjicm.entity.Student;
 import com.zjicm.service.IStudentInfoService;
+import org.springframework.stereotype.Component;
 
 @Component
-public class StudentInfoService implements IStudentInfoService{
+public class StudentInfoService implements IStudentInfoService {
 
 	StudentDao studentDao;
 
@@ -29,7 +28,7 @@ public class StudentInfoService implements IStudentInfoService{
 	}
 
 	
-	public Page pageForStudentInfo(Short graduate,String classname,String num,int pageSize,int page){
+	public Page pageForStudentInfo(Short graduate, String classname, String num, int pageSize, int page){
 
 		int count;
 		if(graduate!=null){

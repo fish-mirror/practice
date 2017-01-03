@@ -6,6 +6,7 @@ import java.util.List;
 import com.zjicm.dto.Page;
 import com.zjicm.entity.Company;
 import com.zjicm.entity.User;
+
 public interface ICompanyService {
 
 	public void save(User u, Company com);
@@ -14,7 +15,7 @@ public interface ICompanyService {
 
 	public List<Company> getCompanyList();
 	public List<Company> getCompanyList(String colId);
-	public Page pageForCompany(int pageSize,int page);
+	public Page pageForCompany(int pageSize, int page);
 	public Page pageForCompany(String colId, int pageSize,int page);
 
 	//更新企业用户的照片
