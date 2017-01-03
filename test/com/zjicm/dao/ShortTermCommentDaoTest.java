@@ -2,6 +2,7 @@ package com.zjicm.dao;
 
 import java.util.List;
 
+import com.zjicm.shortterm.dao.ShortTermCommentDao;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;

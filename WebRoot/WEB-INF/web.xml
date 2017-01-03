@@ -8,7 +8,7 @@
   <!-- 用户是否登录 -->
   <filter>
     <filter-name>userLogin</filter-name>
-    <filter-class>com.zjicm.interceptor.UserFilter</filter-class>
+    <filter-class>com.zjicm.auth.interceptor.UserFilter</filter-class>
   </filter>
   <filter-mapping>
     <filter-name>userLogin</filter-name>
@@ -17,7 +17,7 @@
   <!-- 角色过滤 -->
   <filter>
     <filter-name>role</filter-name>
-    <filter-class>com.zjicm.interceptor.RoleFilter</filter-class>
+    <filter-class>com.zjicm.auth.interceptor.RoleFilter</filter-class>
   </filter>
   <filter-mapping>
     <filter-name>role</filter-name>

@@ -8,7 +8,7 @@ import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.json.annotations.JSON;
 
 import com.opensymphony.xwork2.ActionSupport;
-import com.zjicm.service.IJobService;
+import com.zjicm.job.service.IJobService;
 
 public class JobListByComAction extends ActionSupport implements ServletRequestAware{
 

@@ -5,7 +5,7 @@ import java.util.Date;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
-import com.zjicm.service.impl.IntentionService;
+import com.zjicm.student.service.IntentionService;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.json.annotations.JSON;
 

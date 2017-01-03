@@ -13,8 +13,8 @@
     <package name="default" namespace="" extends="struts-default">
     	
         <interceptors>  
-            <interceptor name="userLogin"  class="com.zjicm.interceptor.UserInterceptor" />  
-            <interceptor name="role"  class="com.zjicm.interceptor.RoleInterceptor" />  
+            <interceptor name="userLogin"  class="com.zjicm.auth.interceptor.UserInterceptor" />
+            <interceptor name="role"  class="com.zjicm.auth.interceptor.RoleInterceptor" />
             <interceptor-stack name="self-validation" >  
                 <interceptor-ref name="userLogin" />
 				<interceptor-ref name="role" />
@@ -144,8 +144,8 @@
     <!-- ajax获取数据的接口 -->
     <package name="common-ajax" namespace="/common" extends="json-default">
   		<interceptors>  
-            <interceptor name="userLogin"  class="com.zjicm.interceptor.UserInterceptor" />  
-            <interceptor name="role"  class="com.zjicm.interceptor.RoleInterceptor" />  
+            <interceptor name="userLogin"  class="com.zjicm.auth.interceptor.UserInterceptor" />
+            <interceptor name="role"  class="com.zjicm.auth.interceptor.RoleInterceptor" />
             <interceptor-stack name="self-validation" >  
                 <interceptor-ref name="userLogin" />
 				<interceptor-ref name="role" />

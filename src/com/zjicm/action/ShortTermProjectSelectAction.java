@@ -10,7 +10,7 @@ import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.json.annotations.JSON;
 
 import com.opensymphony.xwork2.ActionSupport;
-import com.zjicm.service.IShortTermService;
+import com.zjicm.shortterm.service.IShortTermService;
 
 public class ShortTermProjectSelectAction extends ActionSupport implements ServletRequestAware{
 	private HttpServletRequest request;

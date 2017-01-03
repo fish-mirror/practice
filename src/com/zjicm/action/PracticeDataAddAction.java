@@ -10,7 +10,7 @@ import com.zjicm.entity.PracticeData;
 import org.apache.struts2.interceptor.ServletRequestAware;
 
 import com.opensymphony.xwork2.ActionSupport;
-import com.zjicm.service.IPracticeDataService;
+import com.zjicm.practice.service.IPracticeDataService;
 
 public class PracticeDataAddAction extends ActionSupport implements ServletRequestAware{
 
