@@ -5,7 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.zjicm.entity.Company;
 import com.zjicm.entity.Job;
-import com.zjicm.service.IJobService;
+import com.zjicm.job.service.IJobService;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.json.annotations.JSON;
 

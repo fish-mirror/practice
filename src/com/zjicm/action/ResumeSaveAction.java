@@ -4,7 +4,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import com.zjicm.entity.Resume;
-import com.zjicm.service.impl.ResumeService;
+import com.zjicm.student.service.ResumeService;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.json.annotations.JSON;
 

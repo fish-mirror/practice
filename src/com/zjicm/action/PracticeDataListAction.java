@@ -8,7 +8,7 @@ import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.json.annotations.JSON;
 
 import com.opensymphony.xwork2.ActionSupport;
-import com.zjicm.service.IPracticeDataService;
+import com.zjicm.practice.service.IPracticeDataService;
 
 public class PracticeDataListAction extends ActionSupport implements ServletRequestAware{
 

@@ -9,7 +9,7 @@ import com.zjicm.entity.College;
 import com.zjicm.entity.Company;
 import com.zjicm.entity.Student;
 import com.zjicm.entity.User;
-import com.zjicm.service.ICollegeService;
+import com.zjicm.college.service.ICollegeService;
 import com.zjicm.service.IStudentInfoService;
 import com.zjicm.util.SessionUtil;
 import org.apache.struts2.interceptor.ServletRequestAware;
@@ -18,8 +18,8 @@ import org.apache.struts2.interceptor.ServletResponseAware;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 import com.zjicm.dto.UserDTO;
-import com.zjicm.service.ICompanyService;
-import com.zjicm.service.ILoginService;
+import com.zjicm.company.service.ICompanyService;
+import com.zjicm.auth.service.ILoginService;
 
 public class LoginAction extends ActionSupport 
 		implements ModelDriven<UserDTO>,ServletResponseAware,ServletRequestAware{

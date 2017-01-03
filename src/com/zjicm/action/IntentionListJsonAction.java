@@ -5,7 +5,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import com.zjicm.entity.Intention;
-import com.zjicm.service.impl.IntentionService;
+import com.zjicm.student.service.IntentionService;
 import org.apache.struts2.json.annotations.JSON;
 
 import com.opensymphony.xwork2.ActionSupport;

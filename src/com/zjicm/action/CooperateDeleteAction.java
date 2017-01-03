@@ -5,7 +5,7 @@ import javax.annotation.Resource;
 import org.apache.struts2.json.annotations.JSON;
 
 import com.opensymphony.xwork2.ActionSupport;
-import com.zjicm.service.ICompanyService;
+import com.zjicm.company.service.ICompanyService;
 
 public class CooperateDeleteAction extends ActionSupport{
 

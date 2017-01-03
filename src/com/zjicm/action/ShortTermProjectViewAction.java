@@ -5,7 +5,7 @@ import org.apache.struts2.json.annotations.JSON;
 
 import com.opensymphony.xwork2.ActionSupport;
 import com.zjicm.entity.ShortTermProject;
-import com.zjicm.service.IShortTermService;
+import com.zjicm.shortterm.service.IShortTermService;
 
 public class ShortTermProjectViewAction extends ActionSupport{
 	private IShortTermService sts;

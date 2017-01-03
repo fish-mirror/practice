@@ -9,7 +9,7 @@ import org.apache.struts2.json.annotations.JSON;
 
 import com.opensymphony.xwork2.ActionSupport;
 import com.zjicm.entity.Company;
-import com.zjicm.service.impl.CompanyService;
+import com.zjicm.company.service.CompanyService;
 
 public class CompanyAddByColAction extends ActionSupport implements ServletRequestAware{
 

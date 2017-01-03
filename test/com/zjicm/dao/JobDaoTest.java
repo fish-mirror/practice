@@ -1,5 +1,6 @@
 package com.zjicm.dao;
 
+import com.zjicm.job.dao.JobDao;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
