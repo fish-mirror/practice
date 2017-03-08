@@ -1,7 +1,7 @@
-package com.zjicm.common.sql.dao;
+package com.zjicm.common.dao;
 
-import com.zjicm.common.sql.dao.BaseDAOImpl;
-import com.zjicm.common.sql.domain.CanonicalDomain;
+import com.zjicm.common.lang.sql.dao.BaseDAOImpl;
+import com.zjicm.common.lang.sql.domain.CanonicalDomain;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -14,7 +14,7 @@ import java.io.Serializable;
 public class PracticeBaseDaoImpl<V extends CanonicalDomain<K>, K extends Serializable> extends BaseDAOImpl<V, K> {
 
     @Autowired
-    @Qualifier("askSessionFactory")
+    @Qualifier("sessionFactory")
     public void setSessionFactory0(SessionFactory sessionFactory){
         super.setSessionFactory(sessionFactory);
     }
