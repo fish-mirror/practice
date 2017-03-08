@@ -1,4 +1,4 @@
-package com.zjicm.resume;
+package com.zjicm.resume.dao;
 
 import java.util.List;
 
