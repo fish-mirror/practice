@@ -1,4 +1,4 @@
-package com.zjicm.common.dao;
+package com.zjicm.common.sql.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 

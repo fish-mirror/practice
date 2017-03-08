@@ -1,13 +1,19 @@
-package com.zjicm.common.dao;
+package com.zjicm.common.sql.dao;
 
-import com.dxy.base.Consumer;
-import com.dxy.base.Function;
-import com.dxy.base.consts.StringConsts;
-import com.dxy.base.util.*;
-import com.dxy.commons.pager.PageResult;
-import com.dxy.commons.sql.dao.*;
-import com.dxy.commons.sql.dao.CanonicalDomain;
-import com.dxy.commons.sql.util.JdbcUtil;
+import com.zjicm.common.base.Consumer;
+import com.zjicm.common.base.Function;
+import com.zjicm.common.consts.StringConsts;
+import com.zjicm.common.sql.*;
+import com.zjicm.common.sql.domain.CanonicalDomain;
+import com.zjicm.common.sql.exception.DAOReadException;
+import com.zjicm.common.sql.exception.DAOWriteException;
+import com.zjicm.common.sql.util.JdbcUtil;
+import com.zjicm.common.util.NumberUtil;
+import com.zjicm.common.util.ObjectUtil;
+import com.zjicm.common.util.page.PageResult;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.SQLQuery;
@@ -63,7 +69,7 @@ public class BaseDAOImpl<V extends CanonicalDomain<K>, K extends Serializable> e
                     if (columnAnn != null) {
                         primaryKey = columnAnn.name();
                     }
-                    if (StringUtil.isEmpty(primaryKey)) {
+                    if (StringUtils.isEmpty(primaryKey)) {
                         primaryKey = entityKey;
                     }
                     break;
@@ -114,7 +120,7 @@ public class BaseDAOImpl<V extends CanonicalDomain<K>, K extends Serializable> e
             return (Number) this.getHibernateTemplate().execute(new HibernateCallback<Number>() {
                 public Number doInHibernate(Session session) throws HibernateException {
                     SQLQuery query = session.createSQLQuery(sql);
-                    if (ArrayUtil.isNotEmpty(vars)) {
+                    if (ArrayUtils.isNotEmpty(vars)) {
                         for (int i = 0; i < vars.length; i++) {
                             query.setParameter(i, vars[i]);
                         }
@@ -143,7 +149,7 @@ public class BaseDAOImpl<V extends CanonicalDomain<K>, K extends Serializable> e
                                                 public Collection<Number> doInHibernate(Session session) throws
                                                                                                          HibernateException {
                                                     SQLQuery query = session.createSQLQuery(sql);
-                                                    if (ArrayUtil.isNotEmpty(vars)) {
+                                                    if (ArrayUtils.isNotEmpty(vars)) {
                                                         for (int i = 0; i < vars.length; i++) {
                                                             query.setParameter(i, vars[i]);
                                                         }
@@ -174,7 +180,7 @@ public class BaseDAOImpl<V extends CanonicalDomain<K>, K extends Serializable> e
                 public Collection<T> doInHibernate(Session session) throws HibernateException {
                     try {
                         SQLQuery query = session.createSQLQuery(sql);
-                        if (ArrayUtil.isNotEmpty(vars)) {
+                        if (ArrayUtils.isNotEmpty(vars)) {
                             for (int i = 0; i < vars.length; i++) {
                                 query.setParameter(i, vars[i]);
                             }
@@ -385,7 +391,7 @@ public class BaseDAOImpl<V extends CanonicalDomain<K>, K extends Serializable> e
     }
 
     public V getByField(String field, Object value, Number partitionSeed, String table, ReadPolicy readPolicy) {
-        if (StringUtil.isNotEmpty(field)) {
+        if (StringUtils.isNotEmpty(field)) {
             Collection<Criterion> criterions = new ArrayList<Criterion>(1);
             criterions.add(Restrictions.eq(field, value));
 
@@ -406,7 +412,7 @@ public class BaseDAOImpl<V extends CanonicalDomain<K>, K extends Serializable> e
                  ReadPolicy readPolicy) {
         try {
             List<V> entities = getPage(criterions, orders, 0, 1, partitionSeed, table, readPolicy);
-            if (CollectionUtil.isNotEmpty(entities)) {
+            if (CollectionUtils.isNotEmpty(entities)) {
                 return entities.get(0);
             }
         } catch (Throwable e) {
@@ -449,7 +455,7 @@ public class BaseDAOImpl<V extends CanonicalDomain<K>, K extends Serializable> e
 
     @Override
     public void deleteAll(Collection<V> entities, Number partitionSeed, String table) {
-        if (CollectionUtil.isNotEmpty(entities)) {
+        if (CollectionUtils.isNotEmpty(entities)) {
             try {
                 setPartition(partitionSeed, table, null);
                 this.getHibernateTemplate().deleteAll(entities);
@@ -633,39 +639,6 @@ public class BaseDAOImpl<V extends CanonicalDomain<K>, K extends Serializable> e
         }
     }
 
-    @Override
-    public PageBean<V> getPageBean(Collection<Criterion> criterions, List<Order> orders, int offset, int size) {
-        return getPageBean(criterions, orders, offset, size, null, null, null);
-    }
-
-    public PageBean<V> getPageBean(Collection<Criterion> criterions,
-                                   List<Order> orders,
-                                   int offset,
-                                   int size,
-                                   Number partitionSeed) {
-        return getPageBean(criterions, orders, offset, size, partitionSeed, null, null);
-    }
-
-    @Override
-    public PageBean<V> getPageBean(Collection<Criterion> criterions,
-                                   List<Order> orders,
-                                   int offset,
-                                   int size,
-                                   Number partitionSeed,
-                                   String table,
-                                   ReadPolicy readPolicy) {
-        try {
-            int total = count(criterions, partitionSeed, table, readPolicy);
-            List<V> items = null;
-            if (total > offset) {
-                items = getPage(criterions, orders, offset, size, partitionSeed, table, readPolicy);
-            }
-
-            return new PageBean<V>(total, size, offset, items);
-        } catch (Throwable e) {
-            throw new DAOReadException(e);
-        }
-    }
 
     @Override
     public PageResult<V> getPageResult(Collection<Criterion> criterions, List<Order> orders, int offset, int size) {
@@ -694,10 +667,10 @@ public class BaseDAOImpl<V extends CanonicalDomain<K>, K extends Serializable> e
     }
 
     public void delete(Collection<Criterion> criterions, Number partitionSeed, String table) {
-        if (CollectionUtil.isNotEmpty(criterions)) {
+        if (CollectionUtils.isNotEmpty(criterions)) {
             try {
                 Collection<V> entities = null;
-                while (CollectionUtil.isNotEmpty(entities = this.getPage(criterions,
+                while (CollectionUtils.isNotEmpty(entities = this.getPage(criterions,
                                                                          null,
                                                                          0,
                                                                          100,
@@ -792,7 +765,7 @@ public class BaseDAOImpl<V extends CanonicalDomain<K>, K extends Serializable> e
                          ReadPolicy readPolicy) {
         int offset = minId;
         Collection<V> items = null;
-        while (CollectionUtil.isNotEmpty(items = this.getPage(getIterateCriterions(criterions,
+        while (CollectionUtils.isNotEmpty(items = this.getPage(getIterateCriterions(criterions,
                                                                                    offset,
                                                                                    batchSize,
                                                                                    maxId),
@@ -802,7 +775,7 @@ public class BaseDAOImpl<V extends CanonicalDomain<K>, K extends Serializable> e
                                                               partitionSeed,
                                                               table,
                                                               readPolicy)) || (maxId > 0 && offset <= maxId)) {
-            if (CollectionUtil.isNotEmpty(items)) {
+            if (CollectionUtils.isNotEmpty(items)) {
                 try {
                     for (V item : items) {
                         if (item != null) {
@@ -889,7 +862,7 @@ public class BaseDAOImpl<V extends CanonicalDomain<K>, K extends Serializable> e
                             Number partitionSeed,
                             String table,
                             ReadPolicy readPolicy) {
-        if (StringUtil.isNotEmpty(field) && CollectionUtil.isNotEmpty(values)) {
+        if (StringUtils.isNotEmpty(field) && CollectionUtils.isNotEmpty(values)) {
             try {
                 setPartition(partitionSeed, table, readPolicy);
 
@@ -1006,7 +979,7 @@ public class BaseDAOImpl<V extends CanonicalDomain<K>, K extends Serializable> e
                            String table) {
         int count = 0;
         List<V> items = getAll(criterions, null, partitionSeed, table, ReadPolicy.MASTER);
-        if (CollectionUtil.isNotEmpty(items)) {
+        if (CollectionUtils.isNotEmpty(items)) {
             for (V item : items) {
                 if (item != null) {
                     count += fieldUpdate(field, value, item.getId(), partitionSeed, table);
@@ -1019,21 +992,21 @@ public class BaseDAOImpl<V extends CanonicalDomain<K>, K extends Serializable> e
 
     @Override
     public int fieldUpdate(final String field, final Object value, final K id, Number partitionSeed, String table) {
-        if (StringUtil.isNotEmpty(field) && value != null && id != null) {
+        if (StringUtils.isNotEmpty(field) && value != null && id != null) {
             final String column = _getField(field);
             final String modifyColumn = _getField("modifyTime");
-            if (StringUtil.isNotEmpty(column)) {
+            if (StringUtils.isNotEmpty(column)) {
                 try {
                     setPartition(partitionSeed, table, null);
                     int updated = (Integer) this.getHibernateTemplate().execute(new HibernateCallback<Integer>() {
                         public Integer doInHibernate(Session session) throws HibernateException {
-                            SQLQuery query = session.createSQLQuery(StringUtil.concate(new String[]{
+                            SQLQuery query = session.createSQLQuery(StringUtils.join(new String[]{
                                     "update",
                                     getTable(),
                                     "set",
                                     column,
                                     "=?",
-                                    StringUtil.isEmpty(modifyColumn)
+                                    StringUtils.isEmpty(modifyColumn)
                                             ? StringConsts.EMPTY
                                             : ("," + modifyColumn + "=now()"),
                                     "where",
@@ -1062,15 +1035,15 @@ public class BaseDAOImpl<V extends CanonicalDomain<K>, K extends Serializable> e
     }
 
     public int deltaUpdate(final String field, final Object value, final K id, Number partitionSeed, String table) {
-        if (StringUtil.isNotEmpty(field) && value != null && id != null) {
+        if (StringUtils.isNotEmpty(field) && value != null && id != null) {
             final String column = _getField(field);
             final String modifyColumn = _getField("modifyTime");
-            if (StringUtil.isNotEmpty(column)) {
+            if (StringUtils.isNotEmpty(column)) {
                 try {
                     setPartition(partitionSeed, table, null);
                     int updated = (Integer) this.getHibernateTemplate().execute(new HibernateCallback<Integer>() {
                         public Integer doInHibernate(Session session) throws HibernateException {
-                            SQLQuery query = session.createSQLQuery(StringUtil.concate(new String[]{
+                            SQLQuery query = session.createSQLQuery(StringUtils.join(new String[]{
                                     "update",
                                     getTable(),
                                     "set",
@@ -1078,7 +1051,7 @@ public class BaseDAOImpl<V extends CanonicalDomain<K>, K extends Serializable> e
                                     "=",
                                     column,
                                     "+?",
-                                    StringUtil.isEmpty(modifyColumn)
+                                    StringUtils.isEmpty(modifyColumn)
                                             ? StringConsts.EMPTY
                                             : ("," + modifyColumn + "=now()"),
                                     "where",
@@ -1103,18 +1076,18 @@ public class BaseDAOImpl<V extends CanonicalDomain<K>, K extends Serializable> e
     }
 
     public String getTable() {
-        return StringUtil.emptyToDefault(PartitionContext.getTable(), this.table);
+        return StringUtils.defaultIfEmpty(PartitionContext.getTable(), this.table);
     }
 
     private String _getField(String property) {
-        if (StringUtil.isNotEmpty(property)) {
+        if (StringUtils.isNotEmpty(property)) {
             try {
                 Field[] fields = this.entityClass.getDeclaredFields();
-                if (ArrayUtil.isNotEmpty(fields)) {
+                if (ArrayUtils.isNotEmpty(fields)) {
                     for (Field field : fields) {
                         if (field != null && field.getName().equals(property)) {
                             if (field.isAnnotationPresent(Column.class)) {
-                                return StringUtil.emptyToDefault(field.getAnnotation(Column.class).name(), property);
+                                return StringUtils.defaultIfEmpty(field.getAnnotation(Column.class).name(), property);
                             }
 
                             if (!field.isAnnotationPresent(Transient.class)) {
@@ -1149,9 +1122,9 @@ public class BaseDAOImpl<V extends CanonicalDomain<K>, K extends Serializable> e
                        Collection<Number> partitions,
                        String table,
                        ReadPolicy readPolicy) {
-        if (CollectionUtil.isEmpty(partitions)) {
+        if (CollectionUtils.isEmpty(partitions)) {
             List<V> items = getPage(criterions, orders, 0, size, null, table, readPolicy);
-            if (CollectionUtil.isNotEmpty(items) && comparator != null) {
+            if (CollectionUtils.isNotEmpty(items) && comparator != null) {
                 Collections.sort(items, comparator);
             }
             return items;
@@ -1162,7 +1135,7 @@ public class BaseDAOImpl<V extends CanonicalDomain<K>, K extends Serializable> e
             items.addAll(getPage(criterions, orders, 0, size, partition, table, readPolicy));
         }
 
-        if (CollectionUtil.isNotEmpty(items) && comparator != null) {
+        if (CollectionUtils.isNotEmpty(items) && comparator != null) {
             Collections.sort(items, comparator);
         }
 
