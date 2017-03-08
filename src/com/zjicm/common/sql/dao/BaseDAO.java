@@ -1,11 +1,10 @@
-package com.zjicm.common.dao;
+package com.zjicm.common.sql.dao;
 
-import com.dxy.base.Consumer;
-import com.dxy.base.Function;
-import com.dxy.commons.pager.PageResult;
-import com.dxy.commons.sql.dao.BatchHandler;
-import com.dxy.commons.sql.dao.PageBean;
-import com.dxy.commons.sql.dao.ReadPolicy;
+import com.zjicm.common.base.Consumer;
+import com.zjicm.common.base.Function;
+import com.zjicm.common.sql.BatchHandler;
+import com.zjicm.common.sql.ReadPolicy;
+import com.zjicm.common.util.page.PageResult;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
 
@@ -182,22 +181,6 @@ public interface BaseDAO<V, K extends Serializable> {
                     Number partitionSeed,
                     String table,
                     ReadPolicy readPolicy);
-
-    PageBean<V> getPageBean(Collection<Criterion> criterions, List<Order> orders, int offset, int size);
-
-    PageBean<V> getPageBean(Collection<Criterion> criterions,
-                            List<Order> orders,
-                            int offset,
-                            int size,
-                            Number partitionSeed);
-
-    PageBean<V> getPageBean(Collection<Criterion> criterions,
-                                   List<Order> orders,
-                                   int offset,
-                                   int size,
-                                   Number partitionSeed,
-                                   String table,
-                                   ReadPolicy readPolicy);
 
     /**
      * 支持 PageResult 的分页查询
