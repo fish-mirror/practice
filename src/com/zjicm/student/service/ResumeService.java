@@ -6,7 +6,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Component;
 
-import com.zjicm.resume.ResumeDao;
+import com.zjicm.resume.dao.ResumeDao;
 import com.zjicm.entity.Resume;
 
 @Component

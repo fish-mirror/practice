@@ -10,6 +10,7 @@
 .project
 *.iml
 .idea
+.xml
 
 target
 out
