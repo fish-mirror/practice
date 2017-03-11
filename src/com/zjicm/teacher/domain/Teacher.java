@@ -17,7 +17,7 @@ public class Teacher implements CanonicalDomain<Integer> {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    private String account;
+    private String number;
     private String name;
     private String sex;
     private String institute;
@@ -52,12 +52,12 @@ public class Teacher implements CanonicalDomain<Integer> {
         this.id = id;
     }
 
-    public String getAccount() {
-        return this.account;
+    public String getNumber() {
+        return this.number;
     }
 
-    public void setAccount(String account) {
-        this.account = account;
+    public void setNumber(String number) {
+        this.number = number;
     }
 
     public String getName() {
