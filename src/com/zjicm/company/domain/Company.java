@@ -3,15 +3,18 @@ package com.zjicm.company.domain;
 
 import com.zjicm.common.lang.sql.domain.CanonicalDomain;
 
-import javax.persistence.Column;
+import javax.persistence.*;
 import java.util.Date;
 
 /**
  * 企业数据域对象
  */
-
+@Entity
+@Table(name = "company")
 public class Company implements CanonicalDomain<Integer> {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String number;
     private String name;
