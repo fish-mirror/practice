@@ -2,24 +2,28 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
        xmlns:aop="http://www.springframework.org/schema/aop"
-       xmlns:tx="http://www.springframework.org/schema/tx"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-           http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+           http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
            http://www.springframework.org/schema/aop 
-           http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
-           http://www.springframework.org/schema/tx
-     	   http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
+           http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd
            http://www.springframework.org/schema/context
-           http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+           http://www.springframework.org/schema/context/spring-context-4.2.xsd">
 
     <!-- 采用注释的方式配置bean -->
-    <context:annotation-config />
+    <context:annotation-config/>
     <!-- 配置要扫描的包 -->
-    <context:component-scan base-package="com.zjicm" ></context:component-scan>
+    <context:component-scan base-package="com.zjicm"></context:component-scan>
+
+    <mvc:interceptors>
+        <bean class="com.zjicm.common.web.CommonInterceptor"/>
+    </mvc:interceptors>
 
     <!--proxy-target-class="true"强制使用cglib代理   如果为false则spring会自动选择-->
-    <aop:aspectj-autoproxy  proxy-target-class="true"/>
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
 
     <!-- 配置数据源 -->
     <bean id="abstractDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" abstract="true"
@@ -60,7 +64,7 @@
         <property name="packagesToScan">
             <list>
                 <value>com.zjicm.auth.domain</value>
-                <value>com.zjicm.college.domain</value>
+                <value>com.zjicm.teacher.domain</value>
                 <value>com.zjicm.company.domain</value>
                 <value>com.zjicm.cooperation.domain</value>
                 <value>com.zjicm.intention.domain</value>
@@ -74,32 +78,21 @@
     </bean>
 
     <!-- 配置transaction -->
-    <bean id="transactionManager"  class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+    <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 
-    <aop:config>
-        <aop:pointcut id="serviceMethods"  expression="execution(* com.zjicm.service.*Service.*(..))"/>
-        <aop:advisor advice-ref="txAdvice" pointcut-ref="serviceMethods"/>
-    </aop:config>
 
-    <tx:advice id="txAdvice" transaction-manager="transactionManager">
-        <tx:attributes>
-            <tx:method name="login" read-only="true"/>
-            <tx:method name="get*" read-only="true"/>
-            <tx:method name="pageFor*" read-only="true"/>
-            <tx:method name="search*" read-only="true"/>
-            <tx:method name="insert*" propagation="REQUIRED"/>
-            <tx:method name="add*" propagation="REQUIRED"/>
-            <tx:method name="save*" propagation="REQUIRED"/>
-            <tx:method name="update*" propagation="REQUIRED"/>
-            <tx:method name="delete*" propagation="REQUIRED"/>
-            <tx:method name="cancel*" propagation="REQUIRED"/>
-        </tx:attributes>
-    </tx:advice>
 
     <!-- 配置HibernateTemplate -->
     <bean id="hibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">
         <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+
+    <bean id="sessionCookieHandler" class="com.zjicm.common.lang.cookie.CookieHandler">
+        <property name="cookieName" value="ZJICM_SESSIONID"/>
+        <property name="cookieDomain" value="${server.domain.suffix}"/>
+        <property name="cookiePath" value="/"/>
+        <property name="httpOnly" value="true"/>
     </bean>
 </beans>
