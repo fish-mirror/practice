@@ -1,43 +1,40 @@
 package com.zjicm.auth.service;
 
-
-import com.zjicm.auth.dao.UserDao;
 import com.zjicm.auth.domain.User;
-import org.hibernate.criterion.Criterion;
-import org.hibernate.criterion.Restrictions;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+public interface UserService {
 
-@Service
-public class UserService implements IUserService {
+    /**
+     * 新建一个用户信息
+     *
+     * @param user
+     */
+    void save(User user);
 
-    @Autowired
-    private UserDao userDao;
+    /**
+     * 通过用户名和密码进行查找,返回用户
+     *
+     * @param account
+     * @param password
+     * @return
+     */
+    User search(String account, String password);
+
+    /**
+     * 获取用户信息
+     *
+     * @param id
+     * @return
+     */
+    User get(int id);
+
+    /**
+     * 通过学号／工号／账号获取用户信息
+     *
+     * @param number
+     * @return
+     */
+    User getByNum(String number);
 
 
-    @Override
-    public void save(User user) {
-        userDao.save(user);
-    }
-
-    @Override
-    public User search(String account, String password) {
-        List<Criterion> criterions = new ArrayList<>(2);
-        criterions.add(Restrictions.eq("account", account));
-        criterions.add(Restrictions.eq("password", password));
-        return userDao.get(criterions, null);
-    }
-
-    @Override
-    public User get(int id) {
-        return userDao.getById(id);
-    }
-
-    @Override
-    public User getByAccount(String account) {
-        return userDao.getByField("account", account);
-    }
 }
