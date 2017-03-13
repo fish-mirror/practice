@@ -11,7 +11,7 @@ import java.util.Map;
  *
  * Created by yujing on 2017/3/11.
  */
-public class DefaultCacheService implements ICacheService{
+public class DefaultCacheServiceImpl implements CacheService {
     public final static Map<String, Map<String, Serializable>> storageMap = new HashMap<>();
 
     @Override

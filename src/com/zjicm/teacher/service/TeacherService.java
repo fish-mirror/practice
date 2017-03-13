@@ -1,67 +1,56 @@
 package com.zjicm.teacher.service;
 
-import java.util.List;
 
-import com.zjicm.teacher.dao.TeacherDao;
 import com.zjicm.dto.Page;
 import com.zjicm.teacher.domain.Teacher;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
-@Service
-public class TeacherService implements ITeacherService {
+import java.util.List;
 
-    @Autowired
-    TeacherDao teacherDao;
+public interface TeacherService {
+
+    /**
+     * 保存或更新
+     *
+     * @param col
+     */
+    void save(Teacher col);
+
+    /**
+     * 通过主键 ID 获取教师信息
+     * @param id
+     * @return
+     */
+    Teacher get(Integer id);
+
+    /**
+     * 通过 工号 获取教师信息
+     * @param number
+     * @return
+     */
+    Teacher getByNum(String number);
 
 
-    @Override
-    public void save(Teacher col) {
+    void updateImgUrl(String id, String url);
 
-    }
+    List<Teacher> find(int offset, int length);
 
-    @Override
-    public Teacher get(String id) {
-        return null;
-    }
+    /**
+     * 查看院系用户的分页信息【管理员页面需要用到】
+     *
+     * @param pageSize
+     * @param page
+     * @return
+     */
+    Page pageForCollege(int pageSize, int page);
 
-    @Override
-    public void update(Teacher col) {
+    //更新院系用户的照片
+    boolean updateColImg(String id, String url);
 
-    }
+    //更新院系用户信息
+    void updateCol(Teacher col);
 
-    @Override
-    public void updateImgUrl(String id, String url) {
+    //获得一个院系用户的信息
+    Teacher getCol(String id);
 
-    }
 
-    @Override
-    public List<Teacher> find(int offset, int length) {
-        return null;
-    }
-
-    @Override
-    public int count() {
-        return 0;
-    }
-
-    @Override
-    public Page pageForCollege(int pageSize, int page) {
-        return null;
-    }
-
-    @Override
-    public boolean updateColImg(String id, String url) {
-        return false;
-    }
-
-    @Override
-    public void updateCol(Teacher col) {
-
-    }
-
-    @Override
-    public Teacher getCol(String id) {
-        return null;
-    }
 }
