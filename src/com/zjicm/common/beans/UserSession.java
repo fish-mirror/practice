@@ -5,13 +5,14 @@ import com.zjicm.company.domain.Company;
 import com.zjicm.student.domain.Student;
 import com.zjicm.teacher.domain.Teacher;
 
-import java.util.List;
+import java.io.Serializable;
 import java.util.Set;
 
 /**
  * Created by yujing on 2017/3/10.
  */
-public class UserSession {
+public class UserSession implements Serializable {
+    private String id;
     private int userId;
     private String number;
     private String name;
@@ -20,27 +21,12 @@ public class UserSession {
     private String institute;
     private String major;
     private String classname;
+    private String indexPage;
 
-    public UserSession() {
-
+    public UserSession(String sessionId) {
+        this.id = sessionId;
     }
 
-    public UserSession(int userId,
-                       String number,
-                       String name,
-                       int roleId,
-                       Set<Integer> authority,
-                       String institute,
-                       String major, String classname) {
-        this.userId = userId;
-        this.number = number;
-        this.name = name;
-        this.roleId = roleId;
-        this.authority = authority;
-        this.institute = institute;
-        this.major = major;
-        this.classname = classname;
-    }
 
     public void set(User user) {
         if (user == null) return;
@@ -75,6 +61,17 @@ public class UserSession {
 
     public boolean isLogin() {
         return userId > 0;
+    }
+
+    public void logout() {
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public int getUserId() {
@@ -139,5 +136,13 @@ public class UserSession {
 
     public void setClassname(String classname) {
         this.classname = classname;
+    }
+
+    public String getIndexPage() {
+        return indexPage;
+    }
+
+    public void setIndexPage(String indexPage) {
+        this.indexPage = indexPage;
     }
 }

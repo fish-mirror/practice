@@ -8,6 +8,7 @@ import com.zjicm.cache.servive.CacheService;
 import com.zjicm.common.Environment;
 import com.zjicm.common.beans.UserSession;
 import com.zjicm.common.lang.consts.HttpConsts;
+import com.zjicm.common.lang.cookie.CookieHandler;
 import com.zjicm.common.lang.json.JsonDataHolder;
 import com.zjicm.company.domain.Company;
 import com.zjicm.company.service.CompanyService;
@@ -17,10 +18,10 @@ import com.zjicm.teacher.domain.Teacher;
 import com.zjicm.teacher.service.TeacherService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Date;
 
 /**
  * 基类统一控制器
@@ -28,6 +29,12 @@ import java.util.Date;
  * Created by yujing on 2017/3/8.
  */
 public class RootController {
+    protected final static String VIEW_LOGIN = "view.login";
+    protected final static String VIEW_INDEX = "view.index";
+    protected final static String VIEW_STUDENT_INDEX = "view.student.index";
+    protected final static String VIEW_TEACHER_INDEX = "view.teacher.index";
+    protected final static String VIEW_COMPANY_INDEX = "view.company.index";
+
     @Autowired
     protected UserService userService;
     @Autowired
@@ -35,9 +42,12 @@ public class RootController {
     @Autowired
     protected TeacherService teacherService;
     @Autowired
-    private CompanyService companyService;
-
+    protected CompanyService companyService;
+    @Autowired
     protected CacheService cacheService;
+    @Autowired
+    @Qualifier("sessionCookieHandler")
+    protected CookieHandler sessionCookieHandler;
 
     /**
      * 用户登录逻辑
@@ -70,19 +80,27 @@ public class RootController {
             case teacher:
                 Teacher teacher = teacherService.getByNum(user.getNumber());
                 userSession.set(user, teacher);
+                userSession.setIndexPage(VIEW_TEACHER_INDEX);
                 break;
             case student:
                 Student student = studentService.getByNum(user.getNumber());
                 userSession.set(user, student);
+                userSession.setIndexPage(VIEW_STUDENT_INDEX);
                 break;
             case company:
                 Company company = companyService.getByNum(user.getNumber());
                 userSession.set(user, company);
+                userSession.setIndexPage(VIEW_COMPANY_INDEX);
                 break;
             default:
                 return null;
         }
         return userSession;
+    }
+
+    public void doLogout(UserSession userSession, HttpServletResponse response) {
+        cacheService.clear(CacheConsts.Storage.USERSESSION, userSession.getId());
+        sessionCookieHandler.removeCookie(response);
     }
 
     /**
@@ -98,12 +116,27 @@ public class RootController {
             String sessionId = (String) request.getAttribute(HttpConsts.Request.ATTRIBUTES_SESSIONID);
             // 从 USERSESSION 中获取得到 session 时，会重新更新缓存时间
             userSession = cacheService.get(CacheConsts.Storage.USERSESSION, sessionId);
-            if (userSession == null) userSession = new UserSession();
+            if (userSession == null) userSession = new UserSession(sessionId);
             request.setAttribute(HttpConsts.Request.ATTRIBUTES_USERSESSION, userSession);
         }
+        refreshSession(userSession);
         return userSession;
     }
+
+    public void refreshSession(UserSession userSession) {
+        cacheService.set(CacheConsts.Storage.USERSESSION, userSession.getId(),userSession, 0);
+    }
+
     public JsonDataHolder redirect(HttpServletResponse response, String service) {
+        try {
+            response.sendRedirect(StringUtils.defaultIfBlank(service, Environment.WEBINDEX));
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public String redirectWeb(HttpServletResponse response, String service) {
         try {
             response.sendRedirect(StringUtils.defaultIfBlank(service, Environment.WEBINDEX));
         } catch (Throwable e) {
