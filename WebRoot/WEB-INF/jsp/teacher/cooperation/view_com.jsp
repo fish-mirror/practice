@@ -9,7 +9,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <head>
 	<base href="<%=basePath%>">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>进行中的招聘-实习管理系统</title>
+	<title>查看企业信息-实习管理系统</title>
 	<!-- Bootstrap --> 
     <link href="css/bootstrap.min.css" rel="stylesheet" /> 
     <!--你自己的样式文件 --> 
@@ -22,33 +22,48 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <![endif]--> 
 </head>
 <body>
-<%@ include file="/college/nav.jspf" %>
 <div class="container"> 
 	<div class="container-fluid"> 
 		<div class="row"> 
-			<%@ include file="/college/j_m-nav.jspf" %>
+			
        		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main"> 
-		       
-         		<div class="table-responsive"> 
-          			<table class="table table-striped"> 
-		           	<thead> 
-			            <tr> 
-				            <th width="40%">职位名称</th> 
-				            <th>发布方</th> 
-				            <th>工作地点</th> 
-				            <th>职位状态</th> 
-			            </tr> 
-					</thead>
-					<tbody id="job-records"> 
-						
-						
-					</tbody> 
-				</table>
-			</div> 
-         	<div class="table-bottom"> 
-		        <ul id="pageDiv" class="pagination"> 
-		        </ul> 
-         	</div> 
+		        
+		        	
+        			<div class="table-responsive"> 
+         				<table class="table table-striped"> 
+		         				<div class="panel-group" number="accordion">
+								   <div class="panel panel-default">
+								      <div class="panel-heading">
+								         <h4 class="panel-title"> 查看企业信息</h4>
+								      </div>   	
+								      <div>
+         								 <div class="panel-body">
+         									<div class="col-sm-6">
+        										<p number="name"></p>
+        										<p number="type"></p>
+        										<p number="linkman"></p>
+        										<p number="tel"></p>
+        										<p number="location"></p>
+        										<p number="address"></p>
+         									</div>
+								      	</div>
+								    </div>
+								  </div>
+								  
+								  
+								</div>
+								
+							   <input type="hidden" number="com_id" name="com_id" value="${param.company_id }"/>
+							   <div class="form-group">
+							   
+							   </div>
+							</form>
+							
+				    		
+					</table> 
+					
+				</div> 
+        	</div> 
 		</div> 
 	</div> 
 </div>  
@@ -56,15 +71,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="js/jquery.min.js"></script> 
 <!-- 包括所有bootstrap的js插件或者可以根据需要使用的js插件调用　--> 
 <script src="js/bootstrap.min.js"></script> 
-<script src="js/data.js"></script>  
-<script type="text/javascript">
+<script src="js/data.js"></script> 
+<script>
 window.onload = initPage;
 
 //初始化界面
 function initPage(){
-	navStyle();
-	getJobRecriutList(null,1);
+	
+	var com_id = document.getElementById("com_id");
+	loadCompanyData(com_id.value);
 }
+
+
 </script> 
 </body>
 </html>

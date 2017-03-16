@@ -32,7 +32,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			        <li class="active"><a href="#">最新</a></li> 
 			        
          		</ul> 
-         		<div id="main" style="width: 600px;height:400px;"></div>
+         		<div number="main" style="width: 600px;height:400px;"></div>
          		
         	</div> 
 		</div> 

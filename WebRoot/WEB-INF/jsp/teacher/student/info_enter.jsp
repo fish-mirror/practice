@@ -25,39 +25,36 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <%@ include file="/college/nav.jspf" %>
 <div class="container"> 
 	<div class="container-fluid"> 
-    	<div class="row"> 
-    		<%@ include file="/college/s_m-nav.jspf" %>
-        	<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main"> 
-         		<ul id="select_list" class="nav nav-pills"> 
-          			<li id="institute" class="active"><a href="javascript:;">全部</a></li> 
-			        <li id="graduate" ><a href="javascript:;">毕业班学生</a></li> 
-			        <li id="non_graduate" ><a href="javascript:;" > 非毕业班学生    </a></li> 
-         		</ul> 
-         		<div id="pie" style="min-width:500px;height:400px"></div>
-         	</div>
-        </div> 
-        
+		<div class="row"> 
+			<%@ include file="/college/s_m-nav.jspf" %>
+       		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main"> 
+      			<form action="college/stu_manage/importInfo.action"  method="post" enctype="multipart/form-data"> 
+       				<input number="lefile" type="file" style="display:none" />
+      				<h2>批量录入学生信息</h2> 
+       				<div class="modal-body">
+				    	<input type="file" name="xls" number="xls"  value="选择文件" />
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+						<input type="submit" class="btn btn-primary" value="上传">
+					</div>
+      			</form> 
+			</div> 
+		</div> 
 	</div> 
-</div> 
-
+</div>  
 <!-- 如果要使用Bootstrap的js插件，必须先调入jQuery --> 
 <script src="js/jquery.min.js"></script> 
 <!-- 包括所有bootstrap的js插件或者可以根据需要使用的js插件调用　--> 
-<script src="js/bootstrap.min.js"></script> 
-<script src="js/data.js"></script> 
-<!--<script type="text/javascript" src="http://cdn.hcharts.cn/highcharts/exporting.js"></script> -->
-<script type="text/javascript" src="js/highcharts.js"></script>
-<script src="js/pie.js"></script> 
+<script src="js/bootstrap.min.js"></script>
 <script>
 window.onload = initPage;
 
 //初始化界面
 function initPage(){
-	
 	navStyle();
 }
-
-</script> 
+</script>  
 <script src="js/data.js"></script>  
 </body>
 </html>

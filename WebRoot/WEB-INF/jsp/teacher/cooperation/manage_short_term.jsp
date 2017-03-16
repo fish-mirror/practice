@@ -36,7 +36,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		    	<input type="button" class="btn" value="导出选课表">
 		    	<input type="button" class="btn"   data-toggle="modal"  data-target="#myModal1" value="导入选课表">
 				<div class="table-responsive"> 
-					<table id="shortTermList" class="table table-striped"> 
+					<table number="shortTermList" class="table table-striped">
 		         		<thead> 
 					        <tr> 
 					        	<th>学期</th> 
@@ -54,45 +54,45 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						            <td><s:property value="name" /></td> 
 						            <td><s:property value="selectedNum" /></td>
 						            <s:if test="status == 0">
-						            	<td id="<s:property value="id" />">关闭</td>
+						            	<td number="<s:property value="number" />">关闭</td>
 						            	
 						            	<td>	
-						            		<a href="javascript:updateStatus(<s:property value="id" />,1);">发布信息</a>
+						            		<a href="javascript:updateStatus(<s:property value="number" />,1);">发布信息</a>
 						            		<br>
-						            		<a href="javascript:updateStatus(<s:property value="id" />,2);">可上传</a>
+						            		<a href="javascript:updateStatus(<s:property value="number" />,2);">可上传</a>
 						            		<br>
-						            		<a href="javascript:updateStatus(<s:property value="id" />,3);">可评分</a> 
+						            		<a href="javascript:updateStatus(<s:property value="number" />,3);">可评分</a>
 						            		<br>
 						            	</td>
 						            </s:if>
 						            <s:elseif test="status == 1"> 
-										<td id="<s:property value="id" />">已发布</td>
+										<td number="<s:property value="number" />">已发布</td>
 										<td>
-						            		<a href="javascript:updateStatus(<s:property value="id" />,0);">关闭</a>
+						            		<a href="javascript:updateStatus(<s:property value="number" />,0);">关闭</a>
 										</td>
 									</s:elseif>
 									<s:elseif test="status == 2"> 
-										<td id="<s:property value="id" />">可上传</td>
+										<td number="<s:property value="number" />">可上传</td>
 										<td>
-						            		<a href="javascript:updateStatus(<s:property value="id" />,0);">关闭</a>
+						            		<a href="javascript:updateStatus(<s:property value="number" />,0);">关闭</a>
 										</td>
 									</s:elseif>
 									<s:elseif test="status == 4"> 
-										<td id="<s:property value="id" />">可评分</td>
+										<td number="<s:property value="number" />">可评分</td>
 										<td>
-						            		<a href="javascript:updateStatus(<s:property value="id" />,0);">关闭</a>
+						            		<a href="javascript:updateStatus(<s:property value="number" />,0);">关闭</a>
 										</td>
 									</s:elseif>
 						           	<td>
-					            		<a target="blank" href="college/coop_manage/viewShortTermProject.action?id=<s:property value="id" />">查看</a>
+					            		<a target="blank" href="college/coop_manage/viewShortTermProject.action?number=<s:property value="number" />">查看</a>
 					            		<br>
-					            		<a href="college/coop_manage/add_short_term.jsp?pid=<s:property value="id" />">编辑</a>
+					            		<a href="college/coop_manage/add_short_term.jsp?pid=<s:property value="number" />">编辑</a>
 					            	</td>
 					            </tr>
 				            </s:iterator>
 				        </tbody>
 					</table> 
-					<div class="modal fade" id="myModal1" tabindex="-1" role="dialog" 
+					<div class="modal fade" number="myModal1" tabindex="-1" role="dialog"
 					   aria-labelledby="myModalLabel" aria-hidden="true">
 					   <div class="modal-dialog">
 					      <div class="modal-content">
@@ -101,14 +101,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					               data-dismiss="modal" aria-hidden="true">
 					                  &times;
 					            </button>
-					            <h4 class="modal-title" id="myModalLabel">导入选课Excel</h4>
+					            <h4 class="modal-title" number="myModalLabel">导入选课Excel</h4>
 					         </div>
 					         <div class="modal-body">
 				            	<form enctype="multipart/form-data" method="post">
 						         	<label>
 						         		请上传Excel文件，支持.xls,.xlsx
 						         	</label>
-								    <input id="xls" name="xls" type="file" class="file">
+								    <input number="xls" name="xls" type="file" class="file">
 								</form>
 					         </div>
 					         <div class="modal-footer">
@@ -151,18 +151,18 @@ $("#xls").on("fileuploaded", function (event, data) {
 	
 });
 
-function updateStatus(id,status){
+function updateStatus(number,status){
 	var request = createRequest();
 	if(request == null){
 		alert("Unable to create request");
 	}else{
-		var url = "college/updateStatus.action?id=" + id + "&status="+status;
+		var url = "college/updateStatus.action?number=" + number + "&status="+status;
 		request.open("GET", url + "&" + Math.random(), true);
 		request.onreadystatechange=function(){
 			if(request.readyState == 4){
 				if(request.status == 200){
 					var data= eval("(" + request.responseText + ")");				
-					var statusDiv = document.getElementById(id);
+					var statusDiv = document.getElementById(number);
 					//填充数据
 					var newStatus = data.status;
 					switch(newStatus){
@@ -172,9 +172,9 @@ function updateStatus(id,status){
 							while(node.nodeType != 1){
 								node = node.nextSibling;
 							}
-							node.innerHTML = "<a href='javascript:updateStatus("+id+",1);'>发布 </a>"
-							            		+ "<br><a href='javascript:updateStatus("+id+",2);'>可上传 </a>"
-							            		+ "<br><a href='javascript:updateStatus("+id+",3);'>可评分 </a> ";
+							node.innerHTML = "<a href='javascript:updateStatus("+number+",1);'>发布 </a>"
+							            		+ "<br><a href='javascript:updateStatus("+number+",2);'>可上传 </a>"
+							            		+ "<br><a href='javascript:updateStatus("+number+",3);'>可评分 </a> ";
 							break;
 						case 1:
 							statusDiv.innerHTML = "已发布";
@@ -182,7 +182,7 @@ function updateStatus(id,status){
 							while(node.nodeType != 1){
 								node = node.nextSibling;
 							}
-							node.innerHTML = "<a href='javascript:updateStatus("+id+",0);'>关闭</a>";
+							node.innerHTML = "<a href='javascript:updateStatus("+number+",0);'>关闭</a>";
 							break;
 						
 						case 2:
@@ -191,7 +191,7 @@ function updateStatus(id,status){
 							while(node.nodeType != 1){
 								node = node.nextSibling;
 							}
-							node.innerHTML = "<a href='javascript:updateStatus("+id+",0);'>关闭</a>";
+							node.innerHTML = "<a href='javascript:updateStatus("+number+",0);'>关闭</a>";
 							break;
 						case 3:
 							statusDiv.innerHTML = "可评分";
@@ -199,7 +199,7 @@ function updateStatus(id,status){
 							while(node.nodeType != 1){
 								node = node.nextSibling;
 							}
-							node.innerHTML = "<a href='javascript:updateStatus("+id+",0);'>关闭</a>";
+							node.innerHTML = "<a href='javascript:updateStatus("+number+",0);'>关闭</a>";
 							break;
 					}
 					

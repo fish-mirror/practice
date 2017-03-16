@@ -34,28 +34,28 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             		<div class="form-group">
             			<label for="term" class="col-sm-2 control-label">学期</label>
 			            <div class="col-sm-10">
-			            	<input type="text" class="form-control" id="term" name="term" value="2015-2016学年第二学期">
+			            	<input type="text" class="form-control" number="term" name="term" value="2015-2016学年第二学期">
 			            </div>
             		</div>
             		<div class="form-group">
             			<label for="name" class="col-sm-2 control-label">项目名称</label>
 			            <div class="col-sm-10">
-			            	<input type="text" class="form-control" id="name" name="name">
+			            	<input type="text" class="form-control" number="name" name="name">
 			            </div>
             		</div>
             		<div class="form-group">
             			<label for="com-menu" class="col-sm-2 control-label">合作企业</label>
             			<div class="col-sm-10">
-					      <select id="com-menu"  name="com" class="form-control">
+					      <select number="com-menu"  name="com" class="form-control">
 					      	<option></option>
 					      </select>
 					    </div>
             		</div>
             		<div class="form-group">
 		            	<label for="gradeDiv" class="col-sm-2 control-label">面向年级</label>
-		                <div class="col-sm-10" id="gradeDiv" >
+		                <div class="col-sm-10" number="gradeDiv" >
 			                <label class="checkbox-inline">
-								<input type="radio" name="gradeNeed" id="allGrade" value="all" checked>
+								<input type="radio" name="gradeNeed" number="allGrade" value="all" checked>
 								 全部
 							</label>
 							
@@ -63,9 +63,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</div>
 					<div class="form-group">
 		            	<label for="majorDiv" class="col-sm-2 control-label">面向专业</label>
-		                <div class="col-sm-10" id="majorDiv">
+		                <div class="col-sm-10" number="majorDiv">
 			                <label class="checkbox-inline">
-								<input type="radio" name="majorNeed" id="allMajor" value="all" checked>
+								<input type="radio" name="majorNeed" number="allMajor" value="all" checked>
 								 全部
 							</label>
 							
@@ -74,47 +74,47 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<div class="form-group">
 		            	<label for="purpose" class="col-sm-2 control-label">人数上限</label>
 		                <div class="col-sm-10">
-		                	<input type="text" id="topNum" name="topNum" class="form-control">
+		                	<input type="text" number="topNum" name="topNum" class="form-control">
 						</div>
 					</div>
 					<div class="form-group">
 		            	<label for="purpose" class="col-sm-2 control-label">非面向专业人数上限</label>
 		                <div class="col-sm-10">
-		                	<input type="text" id="unmajorNum" name="unmajorNum" class="form-control">
+		                	<input type="text" number="unmajorNum" name="unmajorNum" class="form-control">
 						</div>
 					</div>
 		            <div class="form-group">
 		            	<label for="purpose" class="col-sm-2 control-label">项目目标</label>
 		                <div class="col-sm-10">
-			                <textarea class="form-control" style="resize: none;" rows="8" id="purpose" name="purpose"></textarea>
+			                <textarea class="form-control" style="resize: none;" rows="8" number="purpose" name="purpose"></textarea>
 						</div>
 					</div>
 					<div class="form-group">
 		            	<label for="content" class="col-sm-2 control-label">内容安排</label>
 		                <div class="col-sm-10">
-			                <textarea class="form-control" rows="8" id="content" name="content"></textarea>
+			                <textarea class="form-control" rows="8" number="content" name="content"></textarea>
 						</div>
 					</div>
 					<div class="form-group">
 		            	<label for="time" class="col-sm-2 control-label">时间安排</label>
 		                <div class="col-sm-10">
-			                <textarea class="form-control" rows="8" id="time" name="time"></textarea>
+			                <textarea class="form-control" rows="8" number="time" name="time"></textarea>
 						</div>
 					</div>
 					<div class="form-group">
 		            	<label for="place" class="col-sm-2 control-label">实践地点</label>
 		                <div class="col-sm-10">
-			            	<input type="text" class="form-control" id="place" name="place" />
+			            	<input type="text" class="form-control" number="place" name="place" />
 			            </div>
 					</div>
 					<div class="form-group">
-					<div  id="fileUrl" class="col-sm-offset-2 col-sm-4">
+					<div  number="fileUrl" class="col-sm-offset-2 col-sm-4">
 		            	
 		            </div>
 					</div>
-					<input id="col_id" type="hidden" name="col_id" value="${sessionScope.user.id }" />
-					<input id="institute" type="hidden"  name="institute" value="${sessionScope.institute }" />
-					<input id="pid" type="hidden"  name="pid" value="${param.pid }" />
+					<input number="col_id" type="hidden" name="col_id" value="${sessionScope.user.number }" />
+					<input number="institute" type="hidden"  name="institute" value="${sessionScope.institute }" />
+					<input number="pid" type="hidden"  name="pid" value="${param.pid }" />
 		            <div style="color: red;">${info} </div>
 		           
 	                <div class="form-group">
@@ -126,7 +126,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		                </div>
 					</div>
 				</form>
-				<div class="modal fade" id="myModal" tabindex="-1" role="dialog" 
+				<div class="modal fade" number="myModal" tabindex="-1" role="dialog"
 				   aria-labelledby="myModalLabel" aria-hidden="true">
 				   <div class="modal-dialog">
 				      <div class="modal-content">
@@ -135,7 +135,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				               data-dismiss="modal" aria-hidden="true">
 				                  &times;
 				            </button>
-				            <h4 class="modal-title" id="myModalLabel">选择附件</h4>
+				            <h4 class="modal-title" number="myModalLabel">选择附件</h4>
 				         </div>
 				         <div class="modal-body">
 			            	<form enctype="multipart/form-data" method="post">
@@ -143,7 +143,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					         		请选择不大于10MB的文件，支持pdf,doc,docx,ppt,pptx,xls,xlsx格式
 					         	</label>
 					         	<p>注意：上传会覆盖之前上传的文件！</p>
-							    <input id="doc" name="doc" type="file" class="file">
+							    <input number="doc" name="doc" type="file" class="file">
 							    
 							</form>
 				         </div>

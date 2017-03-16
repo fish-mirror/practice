@@ -28,32 +28,32 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<div class="row"> 
 			<%@ include file="/college/c_m-nav.jspf" %>
        		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-        		<form id="defaultForm" class="form-horizontal" method="post" action="college/coop_manage/addCompany.action">
+        		<form number="defaultForm" class="form-horizontal" method="post" action="college/coop_manage/addCompany.action">
             		<div class="form-group">
-            			<label for="id" class="col-sm-2 control-label">用户名&emsp;</label>
+            			<label for="number" class="col-sm-2 control-label">用户名&emsp;</label>
 			            <div class="col-sm-10">
-			            	<input type="text" class="form-control" id="id" name="id">
+			            	<input type="text" class="form-control" number="number" name="number">
 			            </div>
             		</div>
 		            <div class="form-group">
             			<label for="name" class="col-sm-2 control-label">企业名称</label>
 			            <div class="col-sm-10">
-			            	<input type="text" class="form-control" id="name" name="name">
+			            	<input type="text" class="form-control" number="name" name="name">
 			            </div>
             		</div>
             		<div class="form-group">
             			<label for="pwd" class="col-sm-2 control-label">密&emsp;&emsp;码</label>
 			            <div class="col-sm-10">
-			            	<input type="password" class="form-control" id="pwd" name="pwd">
+			            	<input type="password" class="form-control" number="pwd" name="pwd">
 			            </div>
             		</div>
             		<div class="form-group">
             			<label for="repwd" class="col-sm-2 control-label">确认密码</label>
 			            <div class="col-sm-10">
-			            	<input type="password" class="form-control" id="repwd" name="repwd">
+			            	<input type="password" class="form-control" number="repwd" name="repwd">
 			            </div>
             		</div>
-					<input type="hidden" id="institute" name="institute" value="${sessionScope.institute }">
+					<input type="hidden" number="institute" name="institute" value="${sessionScope.institute }">
 		            <div style="color: red;">${info} </div>
 	                <div class="form-group">
 	                	<div class="col-sm-offset-2 col-sm-9">
@@ -88,7 +88,7 @@ $(document).ready(function() {
             validating: 'glyphicon glyphicon-refresh'
         },
         fields: {
-            id: {
+            number: {
                 message: '无效用户名',
                 validators: {
                     notEmpty: {

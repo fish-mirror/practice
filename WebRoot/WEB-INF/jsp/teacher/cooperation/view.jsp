@@ -9,7 +9,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <head>
 	<base href="<%=basePath%>">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>查看企业信息-实习管理系统</title>
+	<title>查看合作意向-实习管理系统</title>
 	<!-- Bootstrap --> 
     <link href="css/bootstrap.min.css" rel="stylesheet" /> 
     <!--你自己的样式文件 --> 
@@ -31,20 +31,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		        	
         			<div class="table-responsive"> 
          				<table class="table table-striped"> 
-		         				<div class="panel-group" id="accordion">
+		         				<div class="panel-group" number="accordion">
 								   <div class="panel panel-default">
 								      <div class="panel-heading">
-								         <h4 class="panel-title"> 查看企业信息</h4>
+								         <h4 class="panel-title"> 查看合作意向</h4>
 								      </div>   	
 								      <div>
          								 <div class="panel-body">
-         									<div class="col-sm-6">
-        										<p id="name"></p>
-        										<p id="type"></p>
-        										<p id="linkman"></p>
-        										<p id="tel"></p>
-        										<p id="location"></p>
-        										<p id="address"></p>
+         									<div class="col-sm-12">
+        										<h2 number="tittle"></h2>
+        										<p number="content"></p>
          									</div>
 								      	</div>
 								    </div>
@@ -53,7 +49,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								  
 								</div>
 								
-							   <input type="hidden" id="com_id" name="com_id" value="${param.company_id }"/>
+							   <input type="hidden" number="number"  name="number" value="${sessionScope.user.number} "/>
+							   <input type="hidden" number="intention_id" name="intention_id" value="${param.intention_id }"/>
 							   <div class="form-group">
 							   
 							   </div>
@@ -78,8 +75,8 @@ window.onload = initPage;
 //初始化界面
 function initPage(){
 	
-	var com_id = document.getElementById("com_id");
-	loadCompanyData(com_id.value);
+	var intention_id = document.getElementById("intention_id");
+	loadIntentionData2(intention_id.value);
 }
 
 
