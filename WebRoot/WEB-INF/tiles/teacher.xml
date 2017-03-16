@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+        "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+        "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<tiles-definitions>
+    <!-- 教师主页 默认是学生管理页-->
+    <definition name="teacher.index" extends="layout.default">
+        <put-attribute name="header" type="template" value="/WEB-INF/jsp/include/nav.jsp"/>
+        <put-attribute name="nav" type="template" value="/WEB-INF/jsp/teacher/student/nav.jsp"/>
+        <put-attribute name="main" type="template" value="/WEB-INF/jsp/teacher/student/status_chart.jsp"/>
+    </definition>
+
+    <!-- 求职管理 首页 -->
+    <definition name="teacher.job" extends="teacher.index">
+        <put-attribute name="nav" type="template" value="/WEB-INF/jsp/teacher/job/nav.jsp"/>
+        <put-attribute name="main" type="template" value="/WEB-INF/jsp/teacher/job/list.jsp"/>
+    </definition>
+
+    <!--校企合作管理 首页 -->
+    <definition name="teacher.resume" extends="teacher.index">
+        <put-attribute name="nav" type="template" value="/WEB-INF/jsp/teacher/cooperation/nav.jsp"/>
+        <put-attribute name="main" type="template" value="/WEB-INF/jsp/teacher/cooperation/manage.jsp"/>
+    </definition>
+
+    <!-- 资讯管理 首页 -->
+    <definition name="teacher.practice" extends="teacher.index">
+        <put-attribute name="nav" type="template" value="/WEB-INF/jsp/teacher/news/nav.jsp"/>
+        <put-attribute name="main" type="template" value="/WEB-INF/jsp/teacher/news/list.jsp"/>
+    </definition>
+
+</tiles-definitions>
+

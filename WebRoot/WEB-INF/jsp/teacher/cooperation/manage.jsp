@@ -9,7 +9,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <head>
 	<base href="<%=basePath%>">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>合作企业管理-实习管理系统</title>
+	<title>合作意向管理-实习管理系统</title>
 	<!-- Bootstrap --> 
     <link href="css/bootstrap.min.css" rel="stylesheet" /> 
     <!--你自己的样式文件 --> 
@@ -28,26 +28,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<div class="row"> 
 			<%@ include file="/college/c_m-nav.jspf" %>
        		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main"> 
-			    <ul id="select_list" class="nav nav-pills"> 
-          			<li id="coop" class="active"><a href="javascript:;" onclick="loadCoopList()">合作企业</a></li> 
-			        <li id="all" ><a href="javascript:;" onclick="loadCoopList('all')">全部</a></li> 
-			       
-          			<div style="float:right">
-			            <form class="navbar-left navbar-form" > 
-			                <input id="num" type="text" class="form-control list-search" placeholder="搜索企业" /> 
-			                <input type="button" class="btn" value="搜索" />
-			            </form> 
-		            </div>
-         		</ul> 
+			    <input type="button" class="btn btn-primary" 
+			    onclick="location.href='publish.jsp'"
+			    value="发布合作意向">
 				<div class="table-responsive"> 
-					<table id="companyList" class="table table-striped"> 
-		         		<div id="body">
-						       	还没有合作企业，赶紧查看全部企业吧
+					<table number="intentionList" class="table table-striped">
+		         		<div number="body">
+						       	还没有发布合作意向，赶紧发布一个吧
 				       			
 				       			
 				       		</div>
 					</table> 
 				</div> 
+				<input type="hidden" number="col_id" name="col_id" value="${sessionScope.user.number }" />
+				<input type="hidden" number="institute" name="institute" value="${sessionScope.institute }" />
         	</div> 
 		</div> 
 	</div> 
@@ -63,8 +57,11 @@ window.onload = initPage;
 //初始化界面
 function initPage(){
 	navStyle();
-	loadCoopList();
-
+	var institute = document.getElementById("institute");
+	if(institute!=null){
+	loadIntentionList(institute.value);
+	}
+	
 }
 </script>  
 </body>

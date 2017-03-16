@@ -43,7 +43,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			        </li>
 			        <div style="float:right">
 		            <form class="navbar-left navbar-form" > 
-		                <input id="num" type="text" class="form-control list-search" placeholder="搜索学号" /> 
+		                <input number="num" type="text" class="form-control list-search" placeholder="搜索学号" />
 		                <input type="button" class="btn" value="搜索" onclick="getStuStatus(null,null,document.getElementById('num').value,null,1)" />
 		            </form> 
 		            </div>
@@ -59,7 +59,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					            <th width="10%">评分</th> 
 				            </tr> 
            				</thead> 
-           				<tbody id="stu_status_tbl">
+           				<tbody number="stu_status_tbl">
            				<tr>
 	          				<td>120207101</td>
 	          				<td>来伟强</td>

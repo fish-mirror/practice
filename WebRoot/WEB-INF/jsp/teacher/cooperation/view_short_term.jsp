@@ -32,7 +32,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		        	
         			<div class="table-responsive"> 
          				<table class="table table-striped"> 
-		         				<div class="panel-group" id="accordion">
+		         				<div class="panel-group" number="accordion">
 								   <div class="panel panel-default">
 								      <div class="panel-heading">
 								         <h4 class="panel-title"> 查看短学期项目信息</h4>
@@ -61,7 +61,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								  
 								</div>
 								
-							   <input type="hidden" id="com_id" name="com_id" value="${param.company_id }"/>
+							   <input type="hidden" number="com_id" name="com_id" value="${param.company_id }"/>
 							   <div class="form-group">
 							   
 							   </div>

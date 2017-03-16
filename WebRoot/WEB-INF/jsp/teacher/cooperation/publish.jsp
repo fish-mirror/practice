@@ -32,18 +32,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             		<div class="form-group">
             			<label for="tittle" class="col-sm-2 control-label">标题</label>
 			            <div class="col-sm-10">
-			            	<input type="text" class="form-control" id="tittle" name="tittle">
+			            	<input type="text" class="form-control" number="tittle" name="tittle">
 			            </div>
             		</div>
 		            <div class="form-group">
 		            	<label for="content" class="col-sm-2 control-label">内容</label>
 		                <div class="col-sm-10">
-			                <textarea class="form-control" rows="8" id="content" name="content"></textarea>
+			                <textarea class="form-control" rows="8" number="content" name="content"></textarea>
 						</div>
 					</div>
-					<input type="hidden" id="intention_id" name="id" value="${param.intention_id }" />
-					<input type="hidden" id="col_id" name="col_id" value="${sessionScope.user.id }" />
-		            <input type="hidden" id="institute" name="institute" value="${sessionScope.institute }" />
+					<input type="hidden" number="intention_id" name="number" value="${param.intention_id }" />
+					<input type="hidden" number="col_id" name="col_id" value="${sessionScope.user.number }" />
+		            <input type="hidden" number="institute" name="institute" value="${sessionScope.institute }" />
         			<div style="color: red;">${info} </div>
 	                <div class="form-group">
 	                	<div class="col-sm-offset-2 col-sm-9">
