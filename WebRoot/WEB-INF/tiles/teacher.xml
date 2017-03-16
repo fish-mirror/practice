@@ -19,7 +19,7 @@
     <!--校企合作管理 首页 -->
     <definition name="teacher.resume" extends="teacher.index">
         <put-attribute name="nav" type="template" value="/WEB-INF/jsp/teacher/cooperation/nav.jsp"/>
-        <put-attribute name="main" type="template" value="/WEB-INF/jsp/teacher/cooperation/manage.jsp"/>
+        <put-attribute name="main" type="template" value="/WEB-INF/jsp/teacher/cooperation/manage_cooperation.jsp"/>
     </definition>
 
     <!-- 资讯管理 首页 -->
