@@ -67,7 +67,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				         </s:iterator>
 				    </s:if>
 				    <s:else>
-	         			<div id="body">还没有参与短学期实习项目！</div>
+	         			<div number="body">还没有参与短学期实习项目！</div>
 	         		</s:else>
 				</div> 
         	</div> 
