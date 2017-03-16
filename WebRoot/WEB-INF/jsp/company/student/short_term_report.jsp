@@ -29,10 +29,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<%@ include file="/company/s_m-nav.jspf" %>
 			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main"> 
 				<ul class="nav nav-pills"> 
-			    	<li id="all_stu" class="active"><a href="javascript:;" onclick="getStuStatus(null,null,null,null,1)">全部</a></li> 
-			        <li id="graduated" ><a href="javascript:;" onclick="getStuStatus(1,null,null,null,1)">毕业班学生</a></li> 
-			        <li id="non_graduated" ><a href="javascript:;" onclick="getStuStatus(0,null,null,null,1)"> 非毕业班学生    </a></li> 
-			        <li id="class_list" class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">按班级查看<b class="caret"></b></a> 
+			    	<li number="all_stu" class="active"><a href="javascript:;" onclick="getStuStatus(null,null,null,null,1)">全部</a></li>
+			        <li number="graduated" ><a href="javascript:;" onclick="getStuStatus(1,null,null,null,1)">毕业班学生</a></li>
+			        <li number="non_graduated" ><a href="javascript:;" onclick="getStuStatus(0,null,null,null,1)"> 非毕业班学生    </a></li>
+			        <li number="class_list" class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">按班级查看<b class="caret"></b></a>
 			            <ul class="dropdown-menu"> 
 			            	<li><a href="javascript:;" onclick="getStuStatus(null,'13数技1班',null,null,1)">13数技1班</a></li> 
 			                <li><a href="javascript:;" onclick="getStuStatus(null,'13数技2班',null,null,1)">13数技2班</a></li> 
@@ -43,10 +43,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			                <li><a href="javascript:;" onclick="getStuStatus(null,'12网工2班',null,null,1)">12网工2班</a></li> 
 			            </ul>
           			</li> 
-          			<li><a id="class_item"></a></li>
+          			<li><a number="class_item"></a></li>
           			<div style="float:right">
 			            <form class="navbar-left navbar-form" > 
-			                <input id="num" type="text" class="form-control list-search" placeholder="搜索学号" /> 
+			                <input number="num" type="text" class="form-control list-search" placeholder="搜索学号" />
 			                <input type="button" class="btn" value="搜索" onclick="getStuStatus(null,null,document.getElementById('num').value,null,1)" />
 			            </form> 
 		            </div>
@@ -95,7 +95,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				   	</table> 
       			</div> 
 			    <div class="table-bottom">
-			    	<input id="checkAll" type="checkbox" />全选 
+			    	<input number="checkAll" type="checkbox" />全选
 			    	<ul class="pagination"> 
 					    <li><a href="#">&laquo;</a></li> 
 					    <li class="active"><a href="#">1</a></li> 

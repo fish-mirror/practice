@@ -28,52 +28,52 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<div class="row"> 
 			<%@ include file="/company/j_m-nav.jspf" %>
        		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-          		<form id="jobFrom" class="form-horizontal" method="post" action="company/job_manage/addJob.action">
+          		<form number="jobFrom" class="form-horizontal" method="post" action="company/job_manage/addJob.action">
 		            <div class="form-group">
 		              	<label for="name" class="col-sm-2 control-label">职位名称</label>
 		              	<div class="col-sm-9">
-		              		<input type="text" class="form-control" id="name" name="name">
+		              		<input type="text" class="form-control" number="name" name="name">
 		              	</div>
 		            </div>
 		           <div class="form-group">
 		              	<label for="desc" class="col-sm-2 control-label">职位描述</label>
 		              	<div class="col-sm-9">
-				        	<textarea class="form-control" rows="3" id="desc" name="desc"></textarea>
+				        	<textarea class="form-control" rows="3" number="desc" name="desc"></textarea>
 				        </div>
 		            </div>
 		            <div class="form-group">
 				        <label for="need" class="col-sm-2 control-label">职位要求</label>
 				        <div class="col-sm-9">
-				        	<textarea class="form-control" rows="3" id="need" name="need"></textarea>
+				        	<textarea class="form-control" rows="3" number="need" name="need"></textarea>
 				        </div>
 			        </div>
 		            <div class="form-group">
 		                <label for="time" class="col-sm-2 control-label">时间要求</label>
 		                <div class="col-sm-9">
-				        	<textarea class="form-control" rows="3" id="time" name="time"></textarea>
+				        	<textarea class="form-control" rows="3" number="time" name="time"></textarea>
 				        </div>
 		           	</div>
 		           	<div class="form-group">
 		                <label for="time" class="col-sm-2 control-label">招聘人数</label>
 		                <div class="col-sm-9">
-		                	<input type="text" class="form-control" id="need_num" name="need_num">
+		                	<input type="text" class="form-control" number="need_num" name="need_num">
 		                </div>
 		           	</div>
 			        <div class="form-group">
 				        <label for="" class="col-sm-2 control-label">工作地点</label>
 				        <div class="col-sm-9">
 				        	<div class="form-group col-sm-3">
-	            				<select id="selProvince" name="province" class="form-control" > 
+	            				<select number="selProvince" name="province" class="form-control" >
 							        <option value="">--省份--</option> 
 							    </select> 
 						    </div>
 						    <div class="form-group col-sm-3">
-							    <select id="selCity" name="city" class="form-control col-sm-4"> 
+							    <select number="selCity" name="city" class="form-control col-sm-4">
 							        <option value="">--城市--</option> 
 							    </select> 
 							</div>
 						    <div class="form-group col-sm-6">
-							    <input type="text" class="form-control" id="place" name="place">
+							    <input type="text" class="form-control" number="place" name="place">
 		                
 						    </div>
 						    
@@ -108,7 +108,7 @@ function initPage(){
 $(function () { 
  
      $.each(province, function (k, p) {  
-         var option = "<option value='" +  p.ProName  + "' id='"+p.ProID+"'>" + p.ProName + "</option>"; 
+         var option = "<option value='" +  p.ProName  + "' number='"+p.ProID+"'>" + p.ProName + "</option>";
          $("#selProvince").append(option); 
      }); 
        
