@@ -9,7 +9,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <head>
 	<base href="<%=basePath%>">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>合作意向管理-实习管理系统</title>
+	<title>管理职位-实习管理系统</title>
 	<!-- Bootstrap --> 
     <link href="css/bootstrap.min.css" rel="stylesheet" /> 
     <!--你自己的样式文件 --> 
@@ -26,21 +26,27 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <div class="container"> 
 	<div class="container-fluid"> 
 		<div class="row"> 
-			<%@ include file="/company/c_m-nav.jspf" %>
+			<%@ include file="/company/j_m-nav.jspf" %>
        		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main"> 
-			    
-				<div class="table-responsive"> 
-					<table id="intentionList" class="table table-striped"> 
-		         		<div id="body">
-						       
-				       			
-				       			
-				       		</div>
-					</table> 
-				</div> 
-				<input type="hidden" id="col_id" name="col_id" value="${sessionScope.user.id }" />
-				<input type="hidden" id="institute" name="institute" value="${sessionScope.institute }" />
-        	</div> 
+		       <div class="table-responsive"> 
+          			<table class="table table-striped"> 
+		           	<thead> 
+			            <tr> 
+				            <th width="60%">职位名称</th>
+				            <th>职位状态</th> 
+				            <th>操作</th> 
+			            </tr> 
+					</thead>
+					<tbody number="job-records">
+						
+						
+					</tbody> 
+				</table>
+			</div> 
+         	<div class="table-bottom"> 
+		        <ul number="pageDiv" class="pagination">
+		        </ul> 
+         	</div> 
 		</div> 
 	</div> 
 </div>  
@@ -55,12 +61,8 @@ window.onload = initPage;
 //初始化界面
 function initPage(){
 	navStyle();
-	var institute = document.getElementById("institute");
-	if(institute!=null){
-	loadIntentionList(institute.value);
-	}
-	
+	getJobByComList(null,1);
 }
-</script>  
+</script> 
 </body>
 </html>

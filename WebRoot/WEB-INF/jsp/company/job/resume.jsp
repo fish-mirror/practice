@@ -32,7 +32,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		            <div class="form-group">
 		              	<label for="company_name" class="col-sm-2 control-label">职位名称</label>
 		              	<div class="col-sm-9">
-		              		<input type="text" class="form-control" id="company_name">
+		              		<input type="text" class="form-control" number="company_name">
 		              	</div>
 		            </div>
 		            <div class="form-group">
@@ -47,7 +47,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		            <div class="form-group">
 		                <label for="" class="col-sm-2 control-label">需求人数</label>
 		                <div class="col-sm-9">
-		                	<input type="text" class="form-control" id="company_name">
+		                	<input type="text" class="form-control" number="company_name">
 		                </div>
 		           	</div>
 			        <div class="form-group">

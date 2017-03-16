@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+        "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+        "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<tiles-definitions>
+    <!-- 教师主页 默认是学生管理页-->
+    <definition name="company.index" extends="layout.default">
+        <put-attribute name="header" type="template" value="/WEB-INF/jsp/include/nav.jsp"/>
+        <put-attribute name="nav" type="template" value="/WEB-INF/jsp/company/student/nav.jsp"/>
+        <put-attribute name="main" type="template" value="/WEB-INF/jsp/company/student/info_view.jsp"/>
+    </definition>
+
+    <!-- 求职管理 首页 -->
+    <definition name="company.job" extends="company.index">
+        <put-attribute name="nav" type="template" value="/WEB-INF/jsp/company/job/nav.jsp"/>
+        <put-attribute name="main" type="template" value="/WEB-INF/jsp/company/job/list.jsp"/>
+    </definition>
+
+    <!--校企合作管理 首页 -->
+    <definition name="company.resume" extends="company.index">
+        <put-attribute name="nav" type="template" value="/WEB-INF/jsp/company/cooperation/nav.jsp"/>
+        <put-attribute name="main" type="template" value="/WEB-INF/jsp/company/cooperation/intention_list.jsp"/>
+    </definition>
+
+</tiles-definitions>
+
