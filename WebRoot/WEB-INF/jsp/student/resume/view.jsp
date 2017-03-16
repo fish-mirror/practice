@@ -31,7 +31,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		        	
         			<div class="table-responsive"> 
          				<table class="table table-striped"> 
-		         				<div class="panel-group" id="accordion">
+		         				<div class="panel-group" number="accordion">
 								   <div class="panel panel-default">
 								      <div class="panel-heading">
 								         <h4 class="panel-title"> 我的简历</h4>
@@ -40,24 +40,24 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
          								 <div class="panel-body">
          									<div class="col-sm-12">
 	         									<div class="col-sm-8">
-	         										<div class="col-sm-6"><p id="name"></p></div>
-	         										<div class="col-sm-6"><p id="sex"></p></div>
+	         										<div class="col-sm-6"><p number="name"></p></div>
+	         										<div class="col-sm-6"><p number="sex"></p></div>
 	         										<div class="col-sm-6"><p>毕业院校：霍格沃茨学院</p></div>
-	         										<div class="col-sm-6"><p id="graduate_time"></p></div>
-	         										<div class="col-sm-6"><p id="institute"></p></div>
-	         										<div class="col-sm-6"><p id="major"></p></div>
-	         										<div class="col-sm-6"><p id="birth"></p></div>
-	         										<div class="col-sm-6"><p id="nation"></p></div>
-	         										<div class="col-sm-6"><p id="height"></p></div>
-	         										<div class="col-sm-6"><p id="weight"></p></div>
-	         										<div class="col-sm-6"><p id="tel"></p></div>
-	         										<div class="col-sm-6"><p id="email"></p></div>
-	         										<div class="col-sm-6"><p id="politics"></p></div>
-	         										<div class="col-sm-6"><p id="address"></p></div>
+	         										<div class="col-sm-6"><p number="graduate_time"></p></div>
+	         										<div class="col-sm-6"><p number="institute"></p></div>
+	         										<div class="col-sm-6"><p number="major"></p></div>
+	         										<div class="col-sm-6"><p number="birth"></p></div>
+	         										<div class="col-sm-6"><p number="nation"></p></div>
+	         										<div class="col-sm-6"><p number="height"></p></div>
+	         										<div class="col-sm-6"><p number="weight"></p></div>
+	         										<div class="col-sm-6"><p number="tel"></p></div>
+	         										<div class="col-sm-6"><p number="email"></p></div>
+	         										<div class="col-sm-6"><p number="politics"></p></div>
+	         										<div class="col-sm-6"><p number="address"></p></div>
 	         									
 	         									</div>
 	         									<div class="col-sm-4">
-	         										<img id="head" style="width:150px" 
+	         										<img number="head" style="width:150px"
 											        	src="/practice/image/default-head.png"  
 											        	class="img-thumbnail" />
 	         									</div>
@@ -65,23 +65,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
          									<div class="col-sm-12"><br /><br /></div>
          									<div class="col-sm-12">
 	         									<div class="col-sm-8">
-	         										<div  id="major_class" name="major_class">
+	         										<div  number="major_class" name="major_class">
 		         										<h2>主修课程</h2>
 		         										<p></p>
 	         										</div>	
-	         										<div id="school_exp" name="school_exp">
+	         										<div number="school_exp" name="school_exp">
 		         										<h2>校园经历</h2>
 		         										<p></p>
 		         									</div>	
-		         									<div id="practice_exp" name="practice_exp">
+		         									<div number="practice_exp" name="practice_exp">
 		         										<h2>实习经历</h2>
 		         										<p></p>
 		         									</div>	
-		         									<div id="certificate" name="certificate">
+		         									<div number="certificate" name="certificate">
 		         										<h2>获奖以及证书</h2>
 		         										<p></p>
 		         									</div>
-		         									<div id="self_comment" name="self_comment">
+		         									<div number="self_comment" name="self_comment">
 		         										<h2>自我评价</h2>
 		         										<p></p>
 		         									</div>
@@ -95,8 +95,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								  
 								</div>
 								
-							   <input type="hidden" id="id"  name="id" value="${sessionScope.user.id} "/>
-							   <input type="hidden" id="resume_id" name="resume_id" value="${param.resume_id }"/>
+							   <input type="hidden" number="number"  name="number" value="${sessionScope.user.number} "/>
+							   <input type="hidden" number="resume_id" name="resume_id" value="${param.resume_id }"/>
 							   <div class="form-group">
 							   
 							   </div>
@@ -123,7 +123,7 @@ function initPage(){
 	
 	var resume_id = document.getElementById("resume_id");
 	loadResumeData2(resume_id.value);
-	getStuInfo2(document.getElementById("id").value);
+	getStuInfo2(document.getElementById("number").value);
 }
 
 

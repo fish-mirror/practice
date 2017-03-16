@@ -33,42 +33,42 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					    data-toggle="modal" data-target="#myModal"
 					    value="发表周记">
 			    </div>
-			    <div  id="weekly-records" >
+			    <div  number="weekly-records" >
 					
 					
                </div>
             </div> 
             <div class="table-bottom"> 
-		    	<ul id="pageDiv" class="pagination">
+		    	<ul number="pageDiv" class="pagination">
 				</ul>
 	        </div> 
 			
         </div>
 	</div>
 </div>        
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+<div class="modal fade" number="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-					<h4 class="modal-title" id="myModalLabel">发表周记</h4>
+					<h4 class="modal-title" number="myModalLabel">发表周记</h4>
 				</div>
 				<div class="modal-body">
-           			<form id="weekly-form" role="form" method="post" action="student/practice_manage/addPracticeData.action">
+           			<form number="weekly-form" role="form" method="post" action="student/practice_manage/addPracticeData.action">
         				
             			<div class="form-group">
             				<label>内容：</label>
-							<textarea id="content" name="content" class="form-control" rows="8"></textarea>
+							<textarea number="content" name="content" class="form-control" rows="8"></textarea>
             			</div>
             			<div class="form-group" >
             				<label class="col-sm-2 control-label" >位置</label>
             				<div class="form-group">
-	            				<select id="selProvince" name="province" class="form-control" > 
+	            				<select number="selProvince" name="province" class="form-control" >
 							        <option value="">--请选择省份--</option> 
 							    </select> 
 						    </div>
 						    <div class="form-group">
-							    <select id="selCity" name="city" class="form-control col-sm-4"> 
+							    <select number="selCity" name="city" class="form-control col-sm-4">
 							        <option value="">--请选择城市--</option> 
 							    </select> 
 						    </div>
@@ -101,7 +101,7 @@ function initPage(){
 $(function () { 
  
      $.each(province, function (k, p) {  
-         var option = "<option value='" +  p.ProName  + "' id='"+p.ProID+"'>" + p.ProName + "</option>"; 
+         var option = "<option value='" +  p.ProName  + "' number='"+p.ProID+"'>" + p.ProName + "</option>";
          $("#selProvince").append(option); 
      }); 
        

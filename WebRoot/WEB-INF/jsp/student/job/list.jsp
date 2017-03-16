@@ -9,7 +9,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <head>
 	<base href="<%=basePath%>">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>简历管理-实习管理系统</title>
+	<title>职位信息查询-实习管理系统</title>
 	<!-- Bootstrap --> 
     <link href="css/bootstrap.min.css" rel="stylesheet" /> 
     <!--你自己的样式文件 --> 
@@ -26,25 +26,29 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <div class="container"> 
 	<div class="container-fluid"> 
 		<div class="row"> 
-			<%@ include file="/student/r_m-nav.jspf" %>
+			<%@ include file="/student/j_m-nav.jspf" %>
        		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main"> 
-		        <h2>我的简历</h2> 
-        			<div class="table-responsive"> 
-         				<table id="resumeList" class="table table-striped"> 
-         				
-							<div id="body">
-						       	还没有添加自己的简历，赶紧动手写一个吧
-				       			
-				       			
-				       		</div>
-				       		
+		       
+         		<div class="table-responsive"> 
+          			<table class="table table-striped"> 
+		           	<thead> 
+			            <tr> 
+				            <th width="40%">职位名称</th> 
+				            <th>发布方</th> 
+				            <th>工作地点</th> 
+				            <th>职位状态</th> 
+			            </tr> 
+					</thead>
+					<tbody number="job-records">
 						
-					</table> 
-					<input type="button" class="btn btn-primary" value="添加" onclick="gotoEdit()"/>
-					<input type="hidden" id="stu_id" name="stu_id" value="${sessionScope.user.id}"/>
-				</div> 
-         		
-        	</div> 
+						
+					</tbody> 
+				</table>
+			</div> 
+         	<div class="table-bottom"> 
+		        <ul number="pageDiv" class="pagination">
+		        </ul> 
+         	</div> 
 		</div> 
 	</div> 
 </div>  
@@ -52,19 +56,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="js/jquery.min.js"></script> 
 <!-- 包括所有bootstrap的js插件或者可以根据需要使用的js插件调用　--> 
 <script src="js/bootstrap.min.js"></script> 
-<script src="js/data.js"></script> 
-<script>
+<script src="js/data.js"></script>  
+<script type="text/javascript">
 window.onload = initPage;
 
 //初始化界面
 function initPage(){
 	navStyle();
-	var stuId = document.getElementById("stu_id");
-	if(stuId!=null){
-	loadResumeList(stuId.value);
-	}
-	
+	getJobRecriutList(null,1);
 }
-</script>
+</script> 
 </body>
 </html>

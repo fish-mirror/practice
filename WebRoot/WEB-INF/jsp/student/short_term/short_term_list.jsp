@@ -32,7 +32,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			   
 				<div class="table-responsive"> 
 					<s:if test="stps!=null">
-						<table id="shortTermList" class="table table-striped"> 
+						<table number="shortTermList" class="table table-striped">
 			         		<thead> 
 						        <tr>  
 							        <th>短学期项目名称</th> 
@@ -46,8 +46,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					        </thead> 
 	           				<tbody> 
 	           					<s:iterator value="stps">
-		           					<tr id="<s:property value="id" />">
-			           					<td><a href="student/short_term_manage/details.jsp?id=<s:property value="id" />"><s:property value="name" /></a></td>
+		           					<tr number="<s:property value="number" />">
+			           					<td><a href="student/short_term_manage/details.jsp?number=<s:property value="number" />"><s:property value="name" /></a></td>
 			           					<td><s:property value="company.name" /></td>
 			           					<td><s:property value="gradeNeed" /></td>
 			           					<td><s:property value="majorNeed" /></td>
@@ -58,7 +58,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			           					<td>
 				           					<span><s:property value="selectedNum" /></span>/<span><s:property value="topNum" /></span>
 			           					</td>
-			           					<td><a href="javascript:validation('<s:property value="id" />');">选择</a></td>
+			           					<td><a href="javascript:validation('<s:property value="number" />');">选择</a></td>
 		           					</tr>
 	           					</s:iterator>
 	           					
@@ -72,7 +72,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</div> 
 				<div  style="height:100px"></div>
 				<div class="table-responsive">
-					<table id="stp_selected" class="table table-striped"> 
+					<table number="stp_selected" class="table table-striped">
 						<s:if test="selected!=null">
 							<thead>
 								<tr>
@@ -89,7 +89,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<td><s:property value="selected.shortTermProject.name" /></td>
 									<td><s:property value="selected.shortTermProject.company.name" /></td>
 									<td><s:property value="selected.shortTermProject.place" /></td>
-									<td><a href="javascript:cancelShortTermProject(<s:property value="selected.id" />)">取消</a></td>
+									<td><a href="javascript:cancelShortTermProject(<s:property value="selected.number" />)">取消</a></td>
 								</tr>
 							</tbody>
 						</s:if>

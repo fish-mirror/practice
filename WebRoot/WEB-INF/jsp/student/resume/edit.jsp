@@ -34,7 +34,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
          				<table class="table table-striped"> 
 	         				<form class="form-horizontal" role="form" method="post" action="student/resume/saveResume.action"> 
 	         					<!-- 基本信息折叠样式 -->
-		         				<div class="panel-group" id="accordion">
+		         				<div class="panel-group" number="accordion">
 								   <div class="panel panel-default">
 								      <div class="panel-heading">
 								         <h4 class="panel-title">
@@ -51,28 +51,28 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								      </h4>
 								    </div>
 								    <div calss="col-sm-12"><div style="color: red;">${info} </div></div>
-								    <div id="collapseOne" class="panel-collapse collapse">
+								    <div number="collapseOne" class="panel-collapse collapse">
          								<div class="panel-body">
          									<div class="col-sm-12">
 	         									<div class="col-sm-8">
-	         										<div class="col-sm-6"><p id="name"></p></div>
-	         										<div class="col-sm-6"><p id="sex"></p></div>
+	         										<div class="col-sm-6"><p number="name"></p></div>
+	         										<div class="col-sm-6"><p number="sex"></p></div>
 	         										<div class="col-sm-6"><p>毕业院校：霍格沃茨学院</p></div>
-	         										<div class="col-sm-6"><p id="graduate_time"></p></div>
-	         										<div class="col-sm-6"><p id="institute"></p></div>
-	         										<div class="col-sm-6"><p id="major"></p></div>
-	         										<div class="col-sm-6"><p id="birth"></p></div>
-	         										<div class="col-sm-6"><p id="nation"></p></div>
-	         										<div class="col-sm-6"><p id="height"></p></div>
-	         										<div class="col-sm-6"><p id="weight"></p></div>
-	         										<div class="col-sm-6"><p id="tel"></p></div>
-	         										<div class="col-sm-6"><p id="email"></p></div>
-	         										<div class="col-sm-6"><p id="politics"></p></div>
-	         										<div class="col-sm-6"><p id="address"></p></div>
+	         										<div class="col-sm-6"><p number="graduate_time"></p></div>
+	         										<div class="col-sm-6"><p number="institute"></p></div>
+	         										<div class="col-sm-6"><p number="major"></p></div>
+	         										<div class="col-sm-6"><p number="birth"></p></div>
+	         										<div class="col-sm-6"><p number="nation"></p></div>
+	         										<div class="col-sm-6"><p number="height"></p></div>
+	         										<div class="col-sm-6"><p number="weight"></p></div>
+	         										<div class="col-sm-6"><p number="tel"></p></div>
+	         										<div class="col-sm-6"><p number="email"></p></div>
+	         										<div class="col-sm-6"><p number="politics"></p></div>
+	         										<div class="col-sm-6"><p number="address"></p></div>
 	         									
 	         									</div>
 	         									<div class="col-sm-4">
-	         										<img id="head" style="width:150px" 
+	         										<img number="head" style="width:150px"
 											        	src="/practice/image/default-head.png"  
 											        	class="img-thumbnail" />
 	         									</div>
@@ -88,9 +88,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								        </a>
 								      </h4>
 								    </div>
-								    <div id="collapseTwo">
+								    <div number="collapseTwo">
 								      <div class="panel-body">
-								        <textarea class="form-control" rows="8" id="major_class" name="major_class"></textarea>
+								        <textarea class="form-control" rows="8" number="major_class" name="major_class"></textarea>
 								      </div>
 								    </div>
 								  </div>
@@ -102,9 +102,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								        </a>
 								      </h4>
 								    </div>
-								    <div id="collapseThree" >
+								    <div number="collapseThree" >
 								      <div class="panel-body">
-								       <textarea class="form-control" rows="8" id="school_exp" name="school_exp"></textarea>
+								       <textarea class="form-control" rows="8" number="school_exp" name="school_exp"></textarea>
 								      </div>
 								    </div>
 								  </div>
@@ -118,9 +118,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								        </a>
 								      </h4>
 								    </div>
-								    <div id="collapseFour" >
+								    <div number="collapseFour" >
 								      <div class="panel-body">
-								        <textarea class="form-control" rows="8" id="practice_exp" name="practice_exp"></textarea>
+								        <textarea class="form-control" rows="8" number="practice_exp" name="practice_exp"></textarea>
 								      </div>
 								    </div>
 								  </div>
@@ -133,9 +133,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								        </a>
 								      </h4>
 								    </div>
-								    <div id="collapseFive" >
+								    <div number="collapseFive" >
 								      <div class="panel-body">
-								        <textarea class="form-control" rows="8" id="certificate" name="certificate"></textarea>
+								        <textarea class="form-control" rows="8" number="certificate" name="certificate"></textarea>
 								      </div>
 								    </div>
 								  </div>
@@ -148,9 +148,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								        </a>
 								      </h4>
 								    </div>
-								    <div id="collapseSix">
+								    <div number="collapseSix">
 								      <div class="panel-body">
-								       <textarea class="form-control" rows="8" id="self_comment" name="self_comment"></textarea>
+								       <textarea class="form-control" rows="8" number="self_comment" name="self_comment"></textarea>
 								      </div>
 								    </div>
 								  </div>
@@ -163,16 +163,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								        </a>
 								      </h4>
 								    </div>
-								    <div id="collapseSeven">
+								    <div number="collapseSeven">
 								      <div class="panel-body">
-								       <input type="text" class="form-control" id="tittle" name="tittle" />
+								       <input type="text" class="form-control" number="tittle" name="tittle" />
 								      </div>
 								    </div>
 								  </div>
 								</div>
 								
-							   <input type="hidden" id="id"  name="id" value="${sessionScope.user.id} "/>
-							   <input type="hidden" id="resume_id" name="resume_id" value="${param.resume_id }"/>
+							   <input type="hidden" number="number"  name="number" value="${sessionScope.user.number} "/>
+							   <input type="hidden" number="resume_id" name="resume_id" value="${param.resume_id }"/>
 							   <div class="form-group">
 							      <div class="col-sm-10">
 							         <input type="submit" class="btn btn-primary" value="保&emsp;存" />
@@ -199,7 +199,7 @@ window.onload = initPage;
 //初始化界面
 function initPage(){
 	navStyle();
-	getStuInfo2(document.getElementById("id").value);
+	getStuInfo2(document.getElementById("number").value);
 	var resume_id = document.getElementById("resume_id");
 	if(resume_id.value != null && resume_id.value != ""){
 		loadResumeData(resume_id.value);

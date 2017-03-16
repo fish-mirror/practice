@@ -45,38 +45,38 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								    	<div class="form-group col-sm-6">
 									    	<label  class="col-sm-4 control-label">姓 &emsp;&emsp;名</label>
 									    	<div class="col-sm-8">
-									         	<input type="text" class="form-control" id="name"  disabled>
+									         	<input type="text" class="form-control" number="name"  disabled>
 									      	</div>
 									    </div>
 									    <div class="form-group col-sm-6">
 									    	<label  class="col-sm-4 control-label">性 &emsp;&emsp;别</label>
 									    	<div class="col-sm-8">
-									         	<input type="text" class="form-control" id="sex"  disabled>
+									         	<input type="text" class="form-control" number="sex"  disabled>
 									      	</div>
 									    </div>
 								    </div>
 									<div class="form-group col-sm-12">
 								    	<label  class="col-sm-4 control-label">毕业院校</label>
 								    	<div class="col-sm-8">
-								         	<input type="text" class="form-control" id="school"  value="霍格沃茨学院" disabled>
+								         	<input type="text" class="form-control" number="school"  value="霍格沃茨学院" disabled>
 								      	</div>
 								    </div>
 									<div class="form-group col-sm-12">
 								    	<label  class="col-sm-4 control-label">学 &emsp;&emsp;院</label>
 								    	<div class="col-sm-8">
-								         	<input type="text" class="form-control" id="institute"  disabled>
+								         	<input type="text" class="form-control" number="institute"  disabled>
 								      	</div>
 								    </div>
 									<div class="form-group col-sm-12">
 								    	<label  class="col-sm-4 control-label">专 &emsp;&emsp;业</label>
 								    	<div class="col-sm-8">
-								         	<input type="text" class="form-control" id="major"  disabled>
+								         	<input type="text" class="form-control" number="major"  disabled>
 								      	</div>
 								   	</div>
 							    </div>
 								<div class="col-sm-5">
 									<a href="javascript:;"  data-toggle="modal"  data-target="#myModal">
-							        	<img id="head" style="width:150px" 
+							        	<img number="head" style="width:150px"
 							        	src=""  
 							        	class="img-thumbnail" 
 							        	alt="点击上传/更改照片" />
@@ -90,14 +90,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								<div class="form-group col-sm-6">
 							    	<label  class="col-sm-4 control-label">出生日期</label>
 							    	<div class="col-sm-8">
-							         	<input type="text" class="form-control" id="birth" name="birth" 
+							         	<input type="text" class="form-control" number="birth" name="birth"
 							            	placeholder="请输入yyyy-mm-dd格式">
 							      	</div>
 								</div>
 								<div class="form-group col-sm-6">
 							    	<label  class="col-sm-4 control-label">民&emsp;&emsp;族</label>
 							    	<div class="col-sm-8">
-							         	<input type="text" class="form-control" id="nation" name="nation"
+							         	<input type="text" class="form-control" number="nation" name="nation"
 							            	placeholder="请输入民族">
 							      	</div>
 								</div>
@@ -105,44 +105,44 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								<div class="form-group col-sm-6">
 							    	<label  class="col-sm-4 control-label">身&emsp;&emsp;高</label>
 							    	<div class="col-sm-8">
-							         	<input type="text" class="form-control" id="height" name="height"
+							         	<input type="text" class="form-control" number="height" name="height"
 							            	placeholder="请输入身高（例163.5）">
 							      	</div>
 								</div>
 								<div class="form-group col-sm-6">
 							    	<label  class="col-sm-4 control-label">体&emsp;&emsp;重</label>
 							    	<div class="col-sm-8">
-							         	<input type="text" class="form-control" id="weight" name="weight"
+							         	<input type="text" class="form-control" number="weight" name="weight"
 							            	placeholder="请输入体重（例50）">
 							      	</div>
 								</div>
 								<div class="form-group col-sm-6">
 							    	<label  class="col-sm-4 control-label">电&emsp;&emsp;话</label>
 							    	<div class="col-sm-8">
-							         	<input type="text" class="form-control" id="tel" name="tel"
+							         	<input type="text" class="form-control" number="tel" name="tel"
 							            	placeholder="请输入联系电话">
 							      	</div>
 								</div>
 								<div class="form-group col-sm-6">
 							    	<label  class="col-sm-4 control-label">邮&emsp;&emsp;箱</label>
 							    	<div class="col-sm-8">
-							         	<input type="text" class="form-control" id="email" name="email"
+							         	<input type="text" class="form-control" number="email" name="email"
 							            	placeholder="请输入联系邮箱">
 							      	</div>
 								</div>
 								<div class="form-group col-sm-6">
 							    	<label  class="col-sm-4 control-label">政治面貌</label>
 							    	<div class="col-sm-8">
-							         	<input type="text" class="form-control" id="politics" name="politics">
+							         	<input type="text" class="form-control" number="politics" name="politics">
 							      	</div>
 								</div>
 								<div class="form-group col-sm-6">
 							    	<label  class="col-sm-4 control-label">住&emsp;&emsp;址</label>
 							    	<div class="col-sm-8">
-							         	<input type="text" class="form-control" id="address" name="address" >
+							         	<input type="text" class="form-control" number="address" name="address" >
 							      	</div>
 								</div>
-								<input type="hidden" id="id"  name="id" value="${sessionScope.user.id} "/>
+								<input type="hidden" number="number"  name="number" value="${sessionScope.user.number} "/>
 								
 								<div class="form-group">
 							      <div class="col-sm-offset-2 col-sm-10">
@@ -154,7 +154,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				    		
 					</table> 
 				</div> 
-         		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" 
+         		<div class="modal fade" number="myModal" tabindex="-1" role="dialog"
 				   aria-labelledby="myModalLabel" aria-hidden="true">
 				   <div class="modal-dialog">
 				      <div class="modal-content">
@@ -163,7 +163,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				               data-dismiss="modal" aria-hidden="true">
 				                  &times;
 				            </button>
-				            <h4 class="modal-title" id="myModalLabel">选择照片</h4>
+				            <h4 class="modal-title" number="myModalLabel">选择照片</h4>
 				         </div>
 				         <div class="modal-body">
 			            	<form enctype="multipart/form-data">
@@ -171,7 +171,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					         		请选择不大于100KB的图片，支持jpg,png,gif格式
 					         	</label>
 					         	<span>注意：上传会覆盖之前已存在的图片！</span>
-							    <input id="img" name="img" type="file" class="file">
+							    <input number="img" name="img" type="file" class="file">
 							</form>
 				         </div>
 				         <div class="modal-footer">
@@ -210,7 +210,7 @@ $("#img").on("fileuploaded", function (event, data) {
 //初始化界面
 function initPage(){
 	navStyle();
-	getStuInfo(document.getElementById("id").value);
+	getStuInfo(document.getElementById("number").value);
 
 }
 </script>
