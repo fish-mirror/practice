@@ -3,16 +3,20 @@
         "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
         "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
 <tiles-definitions>
+    <!-- 默认排版 -->
     <definition name="layout.default" template="/WEB-INF/jsp/layout/default.jsp">
         <put-attribute name="header" type="template" value="/WEB-INF/jsp/include/header.jsp"/>
         <put-attribute name="main" type="template" value=""/>
         <put-attribute name="footer" type="template" value="/WEB-INF/jsp/include/footer.jsp"/>
     </definition>
-    <definition name="layout.admin" template="/WEB-INF/jsp/layout/admin.jsp">
-        <put-attribute name="title" type="string" value="后台管理"/>
-        <put-attribute name="header" type="template" value="/WEB-INF/jsp/admin/header.jsp"/>
-        <put-attribute name="menu" type="template" value="/WEB-INF/jsp/admin/menu.jsp"/>
-        <put-attribute name="body" type="template" value=""/>
+
+    <!-- 登录页 -->
+    <definition name="accoount.login" template="/WEB-INF/jsp/layout/account.jsp">
+        <put-attribute name="main" type="template" value="/WEB-INF/jsp/account/login.jsp"/>
+    </definition>
+    <!-- 注册页 -->
+    <definition name="accoount.register" template="/WEB-INF/jsp/layout/account.jsp">
+        <put-attribute name="main" type="template" value="/WEB-INF/jsp/account/register.jsp"/>
     </definition>
 </tiles-definitions>
 

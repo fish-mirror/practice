@@ -3,7 +3,7 @@
         "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
         "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
 <tiles-definitions>
-    <!-- 教师主页 默认是学生管理页-->
+    <!-- 企业主页 默认是学生管理页-->
     <definition name="company.index" extends="layout.default">
         <put-attribute name="header" type="template" value="/WEB-INF/jsp/include/nav.jsp"/>
         <put-attribute name="nav" type="template" value="/WEB-INF/jsp/company/student/nav.jsp"/>

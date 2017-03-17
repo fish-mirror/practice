@@ -12,8 +12,8 @@
 
     <!-- 求职管理 首页 -->
     <definition name="student.job" extends="student.index">
-        <put-attribute name="nav" type="template" value="/WEB-INF/jsp/student/job_manage/nav.jsp"/>
-        <put-attribute name="main" type="template" value="/WEB-INF/jsp/student/job_manage/personal.jsp"/>
+        <put-attribute name="nav" type="template" value="/WEB-INF/jsp/student/job/nav.jsp"/>
+        <put-attribute name="main" type="template" value="/WEB-INF/jsp/student/job/personal.jsp"/>
     </definition>
 
     <!-- 简历管理 首页 -->
@@ -24,14 +24,14 @@
 
     <!-- 实习管理 首页 -->
     <definition name="student.practice" extends="student.index">
-        <put-attribute name="nav" type="template" value="/WEB-INF/jsp/student/practice_manage/nav.jsp"/>
-        <put-attribute name="main" type="template" value="/WEB-INF/jsp/student/practice_manage/weekly.jsp"/>
+        <put-attribute name="nav" type="template" value="/WEB-INF/jsp/student/practice/nav.jsp"/>
+        <put-attribute name="main" type="template" value="/WEB-INF/jsp/student/practice/weekly.jsp"/>
     </definition>
 
     <!-- 短学期管理 首页 -->
     <definition name="student.short" extends="student.index">
-        <put-attribute name="nav" type="template" value="/WEB-INF/jsp/student/short_term_manage/nav.jsp"/>
-        <put-attribute name="main" type="template" value="/WEB-INF/jsp/student/short_term_manage/weekly.jsp"/>
+        <put-attribute name="nav" type="template" value="/WEB-INF/jsp/student/short_term/nav.jsp"/>
+        <put-attribute name="main" type="template" value="/WEB-INF/jsp/student/short_term/weekly.jsp"/>
     </definition>
 </tiles-definitions>
 
