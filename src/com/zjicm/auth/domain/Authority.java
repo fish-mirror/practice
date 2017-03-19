@@ -1,67 +1,78 @@
 package com.zjicm.auth.domain;
 
+
 import com.zjicm.common.lang.sql.domain.CanonicalDomain;
 
 import javax.persistence.*;
 import java.util.Date;
 
 /**
- * 用户数据域对象
+ * 权限数据域
  */
 @Entity
-@Table(name = "user_info")
-public class User implements CanonicalDomain<Integer> {
+@Table(name = "authority")
+public class Authority implements CanonicalDomain<Integer> {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    private String number;
-    private String password;
-    private int roleId;
+    private int userId;
+    private int authority;
+    private int creator;
+    private int modifier;
     @Column(updatable = false)
     private Date createTime;                            // 创建时间
     private Date modifyTime;                            // 修改时间
 
 
-    public User() {
+    public Authority() {
     }
 
-
-    @Override
-    public void prepare() {
-
-    }
 
     @Override
     public Integer getId() {
         return id;
     }
 
+    @Override
+    public void prepare() {
+
+    }
+
     public void setId(Integer id) {
         this.id = id;
     }
 
-    public String getNumber() {
-        return number;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setNumber(String number) {
-        this.number = number;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
-    public String getPassword() {
-        return password;
+    public int getAuthority() {
+        return authority;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setAuthority(int authority) {
+        this.authority = authority;
     }
 
-    public int getRoleId() {
-        return roleId;
+    public int getCreator() {
+        return creator;
     }
 
-    public void setRoleId(int roleId) {
-        this.roleId = roleId;
+    public void setCreator(int creator) {
+        this.creator = creator;
+    }
+
+    public int getModifier() {
+        return modifier;
+    }
+
+    public void setModifier(int modifier) {
+        this.modifier = modifier;
     }
 
     @Override
