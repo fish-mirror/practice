@@ -1,7 +1,9 @@
 package com.zjicm.common.web;
 
+import com.zjicm.auth.domain.Authority;
 import com.zjicm.auth.domain.User;
 import com.zjicm.auth.enums.Role;
+import com.zjicm.auth.service.AuthorityService;
 import com.zjicm.auth.service.UserService;
 import com.zjicm.cache.consts.CacheConsts;
 import com.zjicm.cache.servive.CacheService;
@@ -16,12 +18,15 @@ import com.zjicm.student.domain.Student;
 import com.zjicm.student.service.StudentService;
 import com.zjicm.teacher.domain.Teacher;
 import com.zjicm.teacher.service.TeacherService;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
+import java.util.Set;
 
 /**
  * 基类统一控制器
@@ -29,14 +34,16 @@ import javax.servlet.http.HttpServletResponse;
  * Created by yujing on 2017/3/8.
  */
 public class RootController {
-    protected final static String VIEW_LOGIN = "view.login";
+    protected final static String VIEW_LOGIN = "accoount.login";
     protected final static String VIEW_INDEX = "view.index";
-    protected final static String VIEW_STUDENT_INDEX = "view.student.index";
-    protected final static String VIEW_TEACHER_INDEX = "view.teacher.index";
-    protected final static String VIEW_COMPANY_INDEX = "view.company.index";
+    protected final static String VIEW_STUDENT_INDEX = "student.index";
+    protected final static String VIEW_TEACHER_INDEX = "teacher.index";
+    protected final static String VIEW_COMPANY_INDEX = "company.index";
 
     @Autowired
     protected UserService userService;
+    @Autowired
+    protected AuthorityService authorityService;
     @Autowired
     protected StudentService studentService;
     @Autowired
@@ -76,6 +83,7 @@ public class RootController {
         Role role = Role.is(user.getRoleId());
         if (role == null) return null;
 
+
         switch (role) {
             case teacher:
                 Teacher teacher = teacherService.getByNum(user.getNumber());
@@ -95,6 +103,8 @@ public class RootController {
             default:
                 return null;
         }
+        Set<Integer> authorities = authorityService.getAuthorities(userId);
+        if (CollectionUtils.isNotEmpty(authorities)) userSession.setAuthorities(authorities);
         return userSession;
     }
 
