@@ -2,14 +2,9 @@ package com.zjicm.resume.dao;
 
 import java.util.List;
 
-import com.zjicm.entity.Resume;
+import com.zjicm.common.lang.sql.dao.BaseDAO;
+import com.zjicm.resume.domain.Resume;
 
-public interface ResumeDao {
+public interface ResumeDao extends BaseDAO<Resume, Integer> {
 
-	public void save(Resume r);
-	public void update(Resume r);
-	public Resume get(int id);
-	public List<Resume> getList(String stuId);
-	public void delete(int id);
-	
 }
