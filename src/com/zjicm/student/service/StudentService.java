@@ -9,6 +9,11 @@ import com.zjicm.student.domain.Student;
 
 public interface StudentService {
 
+    void save(Student stu);
+
+    Student get(Integer id);
+
+    Student getByNum(String number);
 
     /**
      * 查看学生的分页信息
@@ -34,26 +39,6 @@ public interface StudentService {
 
     //获得学院的状态分布
     Map<String, StatusDTO> getStatus(String institute);
-
-    //更新学生个人信息
-    boolean updateStuImg(String id, String url);
-
-    //更新学生信息
-    void updateStu(Student stu);
-
-    //获得一个学生信息
-    Student getStu(String id);
-
-    void save(Student stu);
-
-    Student get(String id);
-
-    //更新学生信息
-    void update(Student stu);
-
-    void updateImgUrl(String id, String url);
-
-    List<Student> find(int offset, int length);
 
     List<Student> findByClassName(String classname, int offset, int length);
 

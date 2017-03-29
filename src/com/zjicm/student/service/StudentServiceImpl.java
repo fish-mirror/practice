@@ -17,6 +17,21 @@ public class StudentServiceImpl implements StudentService {
     private StudentDao studentDao;
 
     @Override
+    public void save(Student student) {
+        studentDao.save(student);
+    }
+
+    @Override
+    public Student get(Integer id) {
+        return studentDao.getById(id);
+    }
+
+    @Override
+    public Student getByNum(String number) {
+        return studentDao.getByField("number", number);
+    }
+
+    @Override
     public Page pageForStudentInfo(Short graduate, String classname, String num, int pageSize, int page) {
         return null;
     }
@@ -33,46 +48,6 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Map<String, StatusDTO> getStatus(String institute) {
-        return null;
-    }
-
-    @Override
-    public boolean updateStuImg(String id, String url) {
-        return false;
-    }
-
-    @Override
-    public void updateStu(Student stu) {
-
-    }
-
-    @Override
-    public Student getStu(String id) {
-        return null;
-    }
-
-    @Override
-    public void save(Student stu) {
-
-    }
-
-    @Override
-    public Student get(String id) {
-        return null;
-    }
-
-    @Override
-    public void update(Student stu) {
-
-    }
-
-    @Override
-    public void updateImgUrl(String id, String url) {
-
-    }
-
-    @Override
-    public List<Student> find(int offset, int length) {
         return null;
     }
 
@@ -130,7 +105,6 @@ public class StudentServiceImpl implements StudentService {
     public List<Student> findInInstituteStatus(String institute, short status) {
         return null;
     }
-
 
 //    public Page pageForStudentInfo(Short graduate, String classname, String num, int pageSize, int page) {
 //

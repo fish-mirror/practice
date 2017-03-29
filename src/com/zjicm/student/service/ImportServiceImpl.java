@@ -5,8 +5,8 @@ import java.io.FileInputStream;
 
 import com.zjicm.shortterm.dao.ShortTermProjectDao;
 import com.zjicm.shortterm.dao.ShortTermReportDao;
-import com.zjicm.entity.Student;
-import com.zjicm.entity.User;
+import com.zjicm.student.domain.Student;
+import com.zjicm.auth.domain.User;
 import com.zjicm.shortterm.service.ShortTermService;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
@@ -20,8 +20,7 @@ import com.zjicm.student.dao.StudentDao;
 import com.zjicm.auth.dao.UserDao;
 import com.zjicm.entity.ShortTermProject;
 
-@Component
-public class ImportService implements IImportService {
+public class ImportServiceImpl implements IImportService {
 
 
     @Autowired
@@ -68,7 +67,7 @@ public class ImportService implements IImportService {
                     cell.setCellType(HSSFCell.CELL_TYPE_STRING);
                     String str = cell.getStringCellValue();
 
-                    User dataUser = new User(str, str, (short) 2);
+                //    User dataUser = new User(str, str, (short) 2);
 
                     
                    /* 
@@ -83,19 +82,19 @@ public class ImportService implements IImportService {
                     */
 
 
-                    dataStu.setId(cell.getStringCellValue());
+                    dataStu.setNumber(cell.getStringCellValue());
                     dataStu.setName(row.getCell(3).getStringCellValue());
                     dataStu.setSex(row.getCell(4).getStringCellValue());
                     dataStu.setClassname(row.getCell(1).getStringCellValue());
                     dataStu.setImgUrl("/practice/image/default-head.png");
                     System.out.println(dataStu);
-                    if (dataStu.getId() == null || dataStu.getId().equals("")) {
+                    if (dataStu.getNumber() == null || dataStu.getNumber().equals("")) {
                         if (info.indexOf("success") != -1) {
                             info = new StringBuilder(dataStu.getName() + "添加失败！学号为空！<br>");
                         }
                         info.append(dataStu.getName() + "添加失败！学号为空！<br>");
                     } else {
-                        userDao.save(dataUser);
+//                        userDao.save(dataUser);
                         studentDao.save(dataStu);
                     }
 
@@ -142,17 +141,17 @@ public class ImportService implements IImportService {
                     String stuId = cell.getStringCellValue();
                     //专业
                     String major = row.getCell(1).getStringCellValue();
-                    User u = userDao.getById(stuId);
-                    if (u == null) {
-                        User user = new User(stuId, stuId, (short) 2);
-                        userDao.save(user);
-
-                        Student stu = new Student(stuId);
-                        stu.setName(row.getCell(4).getStringCellValue());
-                        stu.setClassname(row.getCell(2).getStringCellValue());
-                        stu.setImgUrl("/practice/image/default-head.png");
-                        studentDao.save(stu);
-                    }
+//                    User u = userDao.getById(stuId);
+//                    if (u == null) {
+//                        User user = new User(stuId, stuId, (short) 2);
+//                        userDao.save(user);
+//
+//                        Student stu = new Student(stuId);
+//                        stu.setName(row.getCell(4).getStringCellValue());
+//                        stu.setClassname(row.getCell(2).getStringCellValue());
+//                        stu.setImgUrl("/practice/image/default-head.png");
+//                        studentDao.save(stu);
+//                    }
                     //项目序号
                     cell = row.getCell(5);
                     String pname = cell.getStringCellValue();
