@@ -1,6 +1,7 @@
 package com.zjicm.student.service;
 
 import java.io.File;
+@Deprecated
 public interface IImportService {
 	
 	
