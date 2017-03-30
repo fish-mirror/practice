@@ -1,38 +1,48 @@
 package com.zjicm.company.service;
 
-
-import java.util.List;
-
-import com.zjicm.dto.Page;
+import com.zjicm.common.lang.page.PageResult;
 import com.zjicm.company.domain.Company;
-import com.zjicm.auth.domain.User;
 
 public interface CompanyService {
 
-    void save(User u, Company com);
+    /**
+     * 添加／更新
+     *
+     * @param company
+     */
+    void save(Company company);
 
-    void saveAndCoop(User u, Company com, String colId);
+    /**
+     * 删除
+     *
+     * @param company
+     */
+    void delete(Company company);
 
-    List<Company> getCompanyList();
+    /**
+     * 通过编号获取企业信息
+     *
+     * @param number
+     * @return
+     */
+    Company getByNumber(String number);
 
-    List<Company> getCompanyList(String colId);
+    /**
+     * 获取企业信息
+     *
+     * @param id
+     * @return
+     */
+    Company get(Integer id);
 
-    Page pageForCompany(int pageSize, int page);
+    /**
+     * 分页获取企业列表
+     *
+     * @param institute 按学院
+     * @param page
+     * @param size
+     * @return
+     */
+    PageResult<Company> page(String institute, int page, int size);
 
-    Page pageForCompany(String colId, int pageSize, int page);
-
-    //更新企业用户的照片
-    boolean updateComImg(String id, String url);
-
-    //更新企业用户信息
-    void updateCompany(Company com);
-
-    //获得一个企业用户的信息
-    Company getCompany(String id);
-
-    void deleteCoop(Integer coopId);
-
-    void deleteCoop(String colId, String comId);
-
-    void addCoop(String colId, String comId);
 }

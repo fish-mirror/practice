@@ -1,185 +1,52 @@
 package com.zjicm.company.service;
 
-import java.util.List;
-
+import com.zjicm.common.lang.page.PageResult;
 import com.zjicm.company.dao.CompanyDao;
-import com.zjicm.dto.Page;
 import com.zjicm.company.domain.Company;
-import com.zjicm.auth.domain.User;
+import org.apache.commons.lang.StringUtils;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.zjicm.cooperation.dao.CooperateDao;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class CompanyServiceImpl implements CompanyService {
     @Autowired
     private CompanyDao companyDao;
-    @Autowired
-    private CooperateDao cooperateDao;
 
     @Override
-    public void save(User u, Company com) {
-
+    public void save(Company company) {
+        if (company == null) return;
+        companyDao.save(company);
     }
 
     @Override
-    public void saveAndCoop(User u, Company com, String colId) {
-
+    public void delete(Company company) {
+        if (company == null) return;
+        companyDao.delete(company);
     }
 
     @Override
-    public List<Company> getCompanyList() {
-        return null;
+    public Company getByNumber(String number) {
+        if (StringUtils.isBlank(number)) return null;
+        return companyDao.getByField("number", number);
     }
 
     @Override
-    public List<Company> getCompanyList(String colId) {
-        return null;
+    public Company get(Integer id) {
+        if (id <= 0) return null;
+        return companyDao.getById(id);
     }
 
     @Override
-    public Page pageForCompany(int pageSize, int page) {
-        return null;
+    public PageResult<Company> page(String institute, int page, int size) {
+        List<Criterion> criterionList = new ArrayList<>(1);
+
+        if (StringUtils.isNotBlank(institute)) criterionList.add(Restrictions.eq("institue", institute));
+
+        return companyDao.getPageResult(criterionList, null, page, size);
     }
-
-    @Override
-    public Page pageForCompany(String colId, int pageSize, int page) {
-        return null;
-    }
-
-    @Override
-    public boolean updateComImg(String id, String url) {
-        return false;
-    }
-
-    @Override
-    public void updateCompany(Company com) {
-
-    }
-
-    @Override
-    public Company getCompany(String id) {
-        return null;
-    }
-
-    @Override
-    public void deleteCoop(Integer coopId) {
-
-    }
-
-    @Override
-    public void deleteCoop(String colId, String comId) {
-
-    }
-
-    @Override
-    public void addCoop(String colId, String comId) {
-
-    }
-
-
-//    @Override
-//    public List<Company> getCompanyList() {
-//
-//        return companyDao.find();
-//    }
-//
-//    @Override
-//    public List<Company> getCompanyList(String colId) {
-//
-//        return companyDao.find(colId);
-//    }
-//
-//    @Override
-//    public Page pageForCompany(int pageSize, int page) {
-//        int count = companyDao.count();
-//        count = companyDao.count();
-//        int totalPage = Page.countTotalPage(pageSize, count);
-//        int offset = Page.countOffset(pageSize, page);
-//        int length = pageSize;
-//        int currentPage = Page.countCurrentPage(page);
-//
-//        List<Company> list = companyDao.find(offset, length);
-//
-//        Page p = new Page();
-//        p.setPageSize(pageSize);
-//        p.setCurrentPage(currentPage);
-//        p.setAllRow(count);
-//        p.setTotalPage(totalPage);
-//        p.setList(list);
-//        p.init();
-//
-//        return p;
-//    }
-//
-//    @Override
-//    public Page pageForCompany(String colId, int pageSize, int page) {
-//        int count = companyDao.count(colId);
-//        count = companyDao.count();
-//        int totalPage = Page.countTotalPage(pageSize, count);
-//        int offset = Page.countOffset(pageSize, page);
-//        int length = pageSize;
-//        int currentPage = Page.countCurrentPage(page);
-//
-//        List<Company> list = companyDao.find(offset, length);
-//
-//        Page p = new Page();
-//        p.setPageSize(pageSize);
-//        p.setCurrentPage(currentPage);
-//        p.setAllRow(count);
-//        p.setTotalPage(totalPage);
-//        p.setList(list);
-//        p.init();
-//
-//        return p;
-//    }
-//
-//    @Override
-//    public boolean updateComImg(String id, String url) {
-//        try {
-//            companyDao.updateImgUrl(id, url);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return false;
-//        }
-//        return true;
-//    }
-//
-//    @Override
-//    public void updateCompany(Company Col) {
-//        companyDao.update(Col);
-//    }
-//
-//    @Override
-//    public Company getCompany(String id) {
-//        return companyDao.get(id);
-//    }
-//
-//    @Override
-//    public void save(User u, Company com) {
-//        companyDao.save(u, com);
-//    }
-//
-//    @Override
-//    public void saveAndCoop(User u, Company com, String colId) {
-//        this.save(u, com);
-//        cooperateDao.save(new Cooperate(colId, com.getId()));
-//    }
-//
-//    @Override
-//    public void deleteCoop(Integer coopId) {
-//        cooperateDao.delete(new Cooperate(coopId));
-//    }
-//
-//    @Override
-//    public void deleteCoop(String colId, String comId) {
-//        cooperateDao.delete(colId, comId);
-//    }
-//
-//    @Override
-//    public void addCoop(String colId, String comId) {
-//        cooperateDao.save(new Cooperate(colId, comId));
-//
-//    }
 }
