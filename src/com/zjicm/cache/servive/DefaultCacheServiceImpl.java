@@ -1,6 +1,7 @@
 package com.zjicm.cache.servive;
 
 import org.apache.commons.collections.MapUtils;
+import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -11,6 +12,7 @@ import java.util.Map;
  *
  * Created by yujing on 2017/3/11.
  */
+@Service
 public class DefaultCacheServiceImpl implements CacheService {
     public final static Map<String, Map<String, Serializable>> storageMap = new HashMap<>();
 
