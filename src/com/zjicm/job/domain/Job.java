@@ -15,9 +15,9 @@ import java.util.Date;
 public class Job implements CanonicalDomain<Integer> {
 
     private Integer id;
-    private int companyId;
+    private String userNumber;
     private String name;
-    private String desc;
+    private String description;
     private String need;
     private String time;
     private String province;
@@ -25,7 +25,10 @@ public class Job implements CanonicalDomain<Integer> {
     private String place;
     private Integer needNum;
     private Integer haveNum;
-    private short status;
+    private int status;
+    @Column(updatable = false)
+    private int creator;
+    private int modifier;
     @Column(updatable = false)
     private Date createTime;                            // 创建时间
     private Date modifyTime;                            // 修改时间
@@ -49,13 +52,15 @@ public class Job implements CanonicalDomain<Integer> {
         this.id = id;
     }
 
-    public int getCompanyId() {
-        return companyId;
+    public String getUserNumber() {
+        return userNumber;
     }
 
-    public void setCompanyId(int companyId) {
-        this.companyId = companyId;
+    public void setUserNumber(String userNumber) {
+        this.userNumber = userNumber;
     }
+
+
 
     public String getName() {
         return this.name;
@@ -65,14 +70,13 @@ public class Job implements CanonicalDomain<Integer> {
         this.name = name;
     }
 
-    public String getDesc() {
-        return this.desc;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setDescription(String description) {
+        this.description = description;
     }
-
     public String getNeed() {
         return this.need;
     }
@@ -129,12 +133,28 @@ public class Job implements CanonicalDomain<Integer> {
         this.haveNum = haveNum;
     }
 
-    public short getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(short status) {
+    public void setStatus(int status) {
         this.status = status;
+    }
+
+    public int getCreator() {
+        return creator;
+    }
+
+    public void setCreator(int creator) {
+        this.creator = creator;
+    }
+
+    public int getModifier() {
+        return modifier;
+    }
+
+    public void setModifier(int modifier) {
+        this.modifier = modifier;
     }
 
     @Override
