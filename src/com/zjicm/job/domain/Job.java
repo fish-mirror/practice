@@ -2,9 +2,7 @@ package com.zjicm.job.domain;
 
 import com.zjicm.common.lang.sql.domain.CanonicalDomain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 
 /**
@@ -14,6 +12,8 @@ import java.util.Date;
 @Table(name = "job")
 public class Job implements CanonicalDomain<Integer> {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String userNumber;
     private String name;
@@ -38,7 +38,6 @@ public class Job implements CanonicalDomain<Integer> {
     }
 
 
-
     public Integer getId() {
         return this.id;
     }
@@ -61,7 +60,6 @@ public class Job implements CanonicalDomain<Integer> {
     }
 
 
-
     public String getName() {
         return this.name;
     }
@@ -77,6 +75,7 @@ public class Job implements CanonicalDomain<Integer> {
     public void setDescription(String description) {
         this.description = description;
     }
+
     public String getNeed() {
         return this.need;
     }
