@@ -16,8 +16,8 @@ public class Resume implements CanonicalDomain<Integer> {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    private String stuId;
-    private String tittle;
+    private String studentNumber;
+    private String title;
     private String majorClass;
     private String schoolExp;
     private String practiceExp;
@@ -25,6 +25,9 @@ public class Resume implements CanonicalDomain<Integer> {
     private String selfComment;
     private String worksUrl;
     private String resumeUrl;
+    @Column(updatable = false)
+    private int creator;
+    private int modifier;
     @Column(updatable = false)
     private Date createTime;                            // 创建时间
     private Date modifyTime;                            // 修改时间
@@ -48,23 +51,23 @@ public class Resume implements CanonicalDomain<Integer> {
     }
 
 
-    public String getStuId() {
-        return stuId;
+    public String getStudentNumber() {
+        return studentNumber;
     }
 
 
-    public String getTittle() {
-        return tittle;
+    public String getTitle() {
+        return title;
     }
 
 
-    public void setTittle(String tittle) {
-        this.tittle = tittle;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
 
-    public void setStuId(String stuId) {
-        this.stuId = stuId;
+    public void setStudentNumber(String studentNumber) {
+        this.studentNumber = studentNumber;
     }
 
 
@@ -122,6 +125,22 @@ public class Resume implements CanonicalDomain<Integer> {
 
     public void setResumeUrl(String resumeUrl) {
         this.resumeUrl = resumeUrl;
+    }
+
+    public int getCreator() {
+        return creator;
+    }
+
+    public void setCreator(int creator) {
+        this.creator = creator;
+    }
+
+    public int getModifier() {
+        return modifier;
+    }
+
+    public void setModifier(int modifier) {
+        this.modifier = modifier;
     }
 
     @Override

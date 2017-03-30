@@ -28,6 +28,6 @@ public interface JobService {
 	 * @param size
 	 * @return
 	 */
-	PageResult<Job> page(int userId, int status, int page,int size);
+	PageResult<Job> page(String userNumber, int status, int page,int size);
 	
 }
