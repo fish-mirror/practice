@@ -1,27 +1,21 @@
 package com.zjicm.job.dao;
 
-import java.util.List;
 
-import com.zjicm.entity.Job;
+import com.zjicm.common.lang.sql.dao.BaseDAO;
+import com.zjicm.job.domain.Job;
 
-public interface JobDao {
+public interface JobDao extends BaseDAO<Job, Integer> {
 
-	public void save(Job j);
-	public void update(Job j);
-	public void updateStatus(Integer id,short status);
-	public void addNum(Integer id,Integer haveNum);
-	
-	public Job get(Integer id);
-	public List<Job> list(int offset, int length);
-	public List<Job> listByCom(String comId, int offset, int length);
-	//查看企业进行中的招聘
-	public List<Job> listStatus(int offset, int length);
-	public List<Job> listByComStatus(String comId, int offset, int length);
-	
-	public int count();
-	public int countByCom(String comId);
-	public int countStatus();
-	public int countByComStatus(String comId);
-	
-	
+
+//    void updateStatus(Integer id, short status);
+//
+//    void addNum(Integer id, Integer haveNum);
+//
+//    List<Job> listByCom(String comId, int offset, int length);
+//
+//    //查看企业进行中的招聘
+//    List<Job> listStatus(int offset, int length);
+//
+//    List<Job> listByComStatus(String comId, int offset, int length);
+
 }
