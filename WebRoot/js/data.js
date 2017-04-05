@@ -381,7 +381,7 @@ function loadResumeList(stu_id){
 				for(i = 0; i<len; i++){
 					var line = document.createElement("tr");
 					line.innerHTML = "<td width='70%'>" + resumes[i].tittle + "</td>" 
-									+ "<td>" + "<span><a target='_blank' href='student/resume/view.jsp?resume_id="+resumes[i].id+"'>查看</a>&emsp;</span>"
+									+ "<td>" + "<span><a target='_blank' href='student/resume/view_intention.jsp?resume_id="+resumes[i].id+"'>查看</a>&emsp;</span>"
 									+ "<span><a href='student/resume/edit.jsp?resume_id="+resumes[i].id+"'>编辑</a>&emsp;</span>"
 									 + "<span><a href='javascript:;' onclick='deleteResume("+resumes[i].id+",\""+resumes[i].stuId+"\")'>删除</a></span>"+ "</td>";
 					body.appendChild(line);
@@ -512,8 +512,8 @@ function loadIntentionList(institute){
 					var line = document.createElement("tr");
 					line.innerHTML = "<td>" + intentions[i].tittle + "</td>" 
 									+ "<td>" + intentions[i].date.toString().substring(0,10) + "</td>" 
-									+ "<td>" + "<span><a target='_blank' href='college/coop_manage/view.jsp?intention_id="+intentions[i].id+"'>查看</a>&emsp;</span>"
-									+ "<span><a href='college/coop_manage/publish.jsp?intention_id="+intentions[i].id+"'>编辑</a>&emsp;</span>"
+									+ "<td>" + "<span><a target='_blank' href='college/coop_manage/view_intention.jsp?intention_id="+intentions[i].id+"'>查看</a>&emsp;</span>"
+									+ "<span><a href='college/coop_manage/publish_intention.jsp?intention_id="+intentions[i].id+"'>编辑</a>&emsp;</span>"
 									 + "<span><a href='javascript:;' onclick='deleteIntention("+intentions[i].id+",\""+intentions[i].institute+"\")'>删除</a></span>"+ "</td>";
 					body.appendChild(line);
 				
@@ -671,12 +671,12 @@ function loadCoopList(flag){
 					if(flag == null){
 						line.innerHTML = "<td>" + companies[i].name + "</td>" 
 						+ "<td>" + companies[i].type + "</td>" 
-						+ "<td>" + "<span><a target='_blank' href='college/coop_manage/view_com.jsp?company_id="+companies[i].id+"'>查看</a>&emsp;</span>"
+						+ "<td>" + "<span><a target='_blank' href='college/coop_manage/view_company.jsp?company_id="+companies[i].id+"'>查看</a>&emsp;</span>"
 						 + "<span><a href='javascript:;' onclick='deleteCoop(\""+companies[i].id+"\")'>解除</a></span>"+ "</td>";
 					}else{
 						line.innerHTML = "<td>" + companies[i].name + "</td>" 
 						+ "<td>" + companies[i].type + "</td>" 
-						+ "<td>" + "<span><a target='_blank' href='college/coop_manage/view_com.jsp?company_id="+companies[i].id+"'>查看</a>&emsp;</span>"
+						+ "<td>" + "<span><a target='_blank' href='college/coop_manage/view_company.jsp?company_id="+companies[i].id+"'>查看</a>&emsp;</span>"
 						 + "<span><a href='javascript:;' onclick='addCoop(\""+companies[i].id+"\")'>添加</a></span>"+ "</td>";
 					}
 					
@@ -734,12 +734,12 @@ function loadCoopList2(){
 					if(institute!=null){
 						line.innerHTML = "<td>" + companies[i].name + "</td>" 
 						+ "<td>" + companies[i].type + "</td>" 
-						+ "<td>" + "<span><a target='_blank' href='college/coop_manage/view_com.jsp?company_id="+companies[i].id+"'>查看</a>&emsp;</span>"
+						+ "<td>" + "<span><a target='_blank' href='college/coop_manage/view_company.jsp?company_id="+companies[i].id+"'>查看</a>&emsp;</span>"
 						 + "<span><a href='javascript:;' onclick='deleteCoop(\""+companies[i].id+"\")'>解除</a></span>"+ "</td>";
 					}else{
 						line.innerHTML = "<td>" + companies[i].name + "</td>" 
 						+ "<td>" + companies[i].type + "</td>" 
-						+ "<td>" + "<span><a target='_blank' href='college/coop_manage/view_com.jsp?company_id="+companies[i].id+"'>查看</a>&emsp;</span>"
+						+ "<td>" + "<span><a target='_blank' href='college/coop_manage/view_company.jsp?company_id="+companies[i].id+"'>查看</a>&emsp;</span>"
 						 + "<span><a href='javascript:;' onclick='addCoop(\""+companies[i].id+"\")'>添加</a></span>"+ "</td>";
 					}
 					

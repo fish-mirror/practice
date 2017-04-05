@@ -59,9 +59,9 @@ window.onload = initPage;
 //初始化界面
 function initPage(){
 	navStyle();
-	var stuId = document.getElementById("stu_id");
-	if(stuId!=null){
-	loadResumeList(stuId.value);
+	var studentNumber = document.getElementById("stu_id");
+	if(studentNumber!=null){
+	loadResumeList(studentNumber.value);
 	}
 	
 }

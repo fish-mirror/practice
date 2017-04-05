@@ -4,9 +4,9 @@
 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
     <form class="form-horizontal" method="post" action="college/coop_manage/saveIntention.action">
         <div class="form-group">
-            <label for="tittle" class="col-sm-2 control-label">标题</label>
+            <label for="title" class="col-sm-2 control-label">标题</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" number="tittle" name="tittle">
+                <input type="text" class="form-control" number="title" name="title">
             </div>
         </div>
         <div class="form-group">

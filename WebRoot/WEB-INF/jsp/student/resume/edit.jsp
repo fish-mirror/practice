@@ -165,7 +165,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								    </div>
 								    <div number="collapseSeven">
 								      <div class="panel-body">
-								       <input type="text" class="form-control" number="tittle" name="tittle" />
+								       <input type="text" class="form-control" number="title" name="title" />
 								      </div>
 								    </div>
 								  </div>

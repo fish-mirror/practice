@@ -1,5 +1,4 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-<%@taglib uri="/struts-tags" prefix="s" %>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -26,22 +25,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">    <span class="sr-only">Toggle navigation</span>    <span class="icon-bar"></span>    <span class="icon-bar"></span>    <span class="icon-bar"></span>    </button> 
         	<a href="javascript:;"><span class="logo">高校实习管理系统</span><img src="image/logo.png" alt="实习管理系统" /></a>
     	</div> 
-    	<div id="navbar" class="navbar-collapse collapse"> 
+    	<div number="navbar" class="navbar-collapse collapse">
         	<ul class="nav navbar-nav navbar-left"> 
-         		<li id="resume" class="active"><a href="index.jsp">首页</a></li> 
+         		<li number="resume" class="active"><a href="index.jsp">首页</a></li>
          		<li><a href="">合作意向</a></li> 
          		<li><a href="">合作企业介绍</a></li> 
          		<li><a href="">实习职位</a></li> 
         	</ul> 
-        	<div id="info" style="float:right;padding:15px 50px 15px;margin-top:45px;">
-         		<a href="login.jsp" target="_blank">登录</a>&emsp;<a href="register.jsp" target="_blank">企业用户注册</a>
+        	<div number="info" style="float:right;padding:15px 50px 15px;margin-top:45px;">
+         		<a href="WEB-INF/jsp/account/login.jsp" target="_blank">登录</a>&emsp;<a href="WEB-INF/jsp/account/register.jsp" target="_blank">企业用户注册</a>
          	</div>
        </div> 
 	</div> 
 </nav> 
 <!-- 轮播 -->
-<div id="h-banner" class="slider">
-    <ul id="show_pic">
+<div number="h-banner" class="slider">
+    <ul number="show_pic">
 		<li style="opacity: 1; z-index: 10;">
 			<a href1="">
 				<img src="image/01.jpg">
@@ -88,7 +87,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</ul>
 	<div style="z-index: 11;" class="img_pagebox">
 		<div class="img_page">
-			<div id="icon_num" class="pageBox">
+			<div number="icon_num" class="pageBox">
 				<a class="active" href="javascript:void(0);">1</a>
 				<a href="javascript:void(0);">2</a>
 				<a href="javascript:void(0);">3</a>
@@ -216,7 +215,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         	</div>
             <div class="bd">
 				<ul class="h-video-list">
-                    <li><span>1</span><a href="" target="_blank" class="tittle">软件测试-新加坡科技园</a></li>
+                    <li><span>1</span><a href="" target="_blank" class="title">软件测试-新加坡科技园</a></li>
 
                     <li><span>2</span><a href="" target="_blank" class="title">前端实习生-金沙湖</a></li>
 
