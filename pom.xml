@@ -67,7 +67,7 @@
 
                     <!-- 增加资源配置目录 -->
                     <execution>
-                        <id>add-resource</id>
+                        <number>add-resource</number>
                         <phase>initialize</phase>
                         <goals>
                             <goal>add-resource</goal>
@@ -85,7 +85,7 @@
 
                     <!-- 增加源码目录 -->
                     <execution>
-                        <id>add-source</id>
+                        <number>add-source</number>
                         <phase>initialize</phase>
                         <goals>
                             <goal>add-source</goal>
@@ -1018,7 +1018,7 @@
 
     <repositories>
         <repository>
-            <id>nexus-releases</id>
+            <number>nexus-releases</number>
             <url>${nexus.releases.url}</url>
             <releases>
                 <enabled>true</enabled>
@@ -1028,7 +1028,7 @@
             </snapshots>
         </repository>
         <repository>
-            <id>nexus-snapshots</id>
+            <number>nexus-snapshots</number>
             <url>${nexus.snapshots.url}</url>
             <releases>
                 <enabled>false</enabled>

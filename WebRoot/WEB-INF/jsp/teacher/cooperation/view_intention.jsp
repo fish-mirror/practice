@@ -15,7 +15,7 @@
                     <div>
                         <div class="panel-body">
                             <div class="col-sm-12">
-                                <h2 number="tittle"></h2>
+                                <h2 number="title"></h2>
                                 <p number="content"></p>
                             </div>
                         </div>
