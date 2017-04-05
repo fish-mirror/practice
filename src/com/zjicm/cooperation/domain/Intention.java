@@ -5,6 +5,9 @@ import com.zjicm.common.lang.sql.domain.CanonicalDomain;
 import javax.persistence.*;
 import java.util.Date;
 
+/**
+ * 校企合作意愿数据域对象
+ */
 @Entity
 @Table(name = "intention")
 public class Intention implements CanonicalDomain<Integer> {
