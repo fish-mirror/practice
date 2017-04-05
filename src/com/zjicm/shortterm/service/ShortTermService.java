@@ -1,8 +1,8 @@
 package com.zjicm.shortterm.service;
 
-import com.zjicm.entity.ShortTermComment;
-import com.zjicm.entity.ShortTermProject;
-import com.zjicm.entity.ShortTermReport;
+import com.zjicm.shortterm.domain.ShortTermComment;
+import com.zjicm.shortterm.domain.ShortTermProject;
+import com.zjicm.shortterm.domain.ShortTermReport;
 import com.zjicm.shortterm.dao.ShortTermCommentDao;
 import com.zjicm.shortterm.dao.ShortTermProjectDao;
 import com.zjicm.shortterm.dao.ShortTermReportDao;

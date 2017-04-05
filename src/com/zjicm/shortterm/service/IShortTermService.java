@@ -2,9 +2,9 @@ package com.zjicm.shortterm.service;
 
 import java.util.List;
 
-import com.zjicm.entity.ShortTermComment;
-import com.zjicm.entity.ShortTermReport;
-import com.zjicm.entity.ShortTermProject;
+import com.zjicm.shortterm.domain.ShortTermComment;
+import com.zjicm.shortterm.domain.ShortTermReport;
+import com.zjicm.shortterm.domain.ShortTermProject;
 
 public interface IShortTermService {
 

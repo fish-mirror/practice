@@ -1,23 +1,8 @@
 package com.zjicm.shortterm.dao;
 
-import java.util.List;
+import com.zjicm.common.lang.sql.dao.BaseDAO;
+import com.zjicm.shortterm.domain.ShortTermComment;
 
-import com.zjicm.entity.ShortTermComment;
+public interface ShortTermCommentDao extends BaseDAO<ShortTermComment, Integer> {
 
-public interface ShortTermCommentDao {
-
-	public void add(ShortTermComment stc);
-	
-	public void update(ShortTermComment stc);
-	
-	public void delete(Integer id);
-	
-	public ShortTermComment get(Integer id);
-	
-	public List<ShortTermComment> getList(Integer rid);
-	public List<ShortTermComment> getList(String uid);
-	
-	public float getAverageGrade(Integer rid);
-	
-	
 }
