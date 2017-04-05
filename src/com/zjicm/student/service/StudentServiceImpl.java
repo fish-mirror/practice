@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.zjicm.student.dao.StudentDao;
-import com.zjicm.dto.Page;
-import com.zjicm.dto.StatusDTO;
 import com.zjicm.student.domain.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,10 +29,10 @@ public class StudentServiceImpl implements StudentService {
         return studentDao.getByField("number", number);
     }
 
-    @Override
-    public Page pageForStudentInfo(Short graduate, String classname, String num, int pageSize, int page) {
-        return null;
-    }
+//    @Override
+//    public Page pageForStudentInfo(Short graduate, String classname, String num, int pageSize, int page) {
+//        return null;
+//    }
 
     @Override
     public List<String> getClassList(String institute) {
@@ -46,10 +44,10 @@ public class StudentServiceImpl implements StudentService {
         return null;
     }
 
-    @Override
-    public Map<String, StatusDTO> getStatus(String institute) {
-        return null;
-    }
+//    @Override
+//    public Map<String, StatusDTO> getStatus(String institute) {
+//        return null;
+//    }
 
     @Override
     public List<Student> findByClassName(String classname, int offset, int length) {
@@ -130,7 +128,7 @@ public class StudentServiceImpl implements StudentService {
 //            list = studentDao.findByClassName(classname, offset, length);
 //        } else if (num != null) {
 //            list = new ArrayList(0);
-//            list.add(studentDao.get(num));
+//            list.save(studentDao.get(num));
 //        } else {
 //            list = studentDao.find(offset, length);
 //        }

@@ -14,11 +14,10 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
-import org.springframework.stereotype.Component;
 
 import com.zjicm.student.dao.StudentDao;
 import com.zjicm.auth.dao.UserDao;
-import com.zjicm.entity.ShortTermProject;
+import com.zjicm.shortterm.domain.ShortTermProject;
 
 public class ImportServiceImpl implements IImportService {
 
@@ -155,7 +154,7 @@ public class ImportServiceImpl implements IImportService {
                     //项目序号
                     cell = row.getCell(5);
                     String pname = cell.getStringCellValue();
-                    ShortTermProject stp = shortTermProjectDao.getId(pname);
+                    ShortTermProject stp = shortTermProjectDao.getByField("project_id", pname);
 
 
                     if (stuId == null || stuId.equals("")) {
