@@ -1,10 +1,7 @@
 package com.zjicm.student.service;
 
 import java.util.List;
-import java.util.Map;
 
-import com.zjicm.dto.Page;
-import com.zjicm.dto.StatusDTO;
 import com.zjicm.student.domain.Student;
 
 public interface StudentService {
@@ -25,7 +22,7 @@ public interface StudentService {
      * @param page
      * @return
      */
-    Page pageForStudentInfo(Short graduate, String classname, String num, int pageSize, int page);
+//    Page pageForStudentInfo(Short graduate, String classname, String num, int pageSize, int page);
 
     /**
      * 获得该学院的班级列表
@@ -38,7 +35,7 @@ public interface StudentService {
     List<String> getMajorList(String institute);
 
     //获得学院的状态分布
-    Map<String, StatusDTO> getStatus(String institute);
+//    Map<String, StatusDTO> getStatus(String institute);
 
     List<Student> findByClassName(String classname, int offset, int length);
 
