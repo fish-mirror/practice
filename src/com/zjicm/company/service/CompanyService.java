@@ -25,7 +25,7 @@ public interface CompanyService {
      * @param number
      * @return
      */
-    Company getByNumber(String number);
+    Company getByNum(String number);
 
     /**
      * 获取企业信息

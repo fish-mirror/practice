@@ -30,7 +30,7 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public Company getByNumber(String number) {
+    public Company getByNum(String number) {
         if (StringUtils.isBlank(number)) return null;
         return companyDao.getByField("number", number);
     }
