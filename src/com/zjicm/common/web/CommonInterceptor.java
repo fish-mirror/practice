@@ -1,7 +1,7 @@
 package com.zjicm.common.web;
 
 import com.zjicm.common.beans.UserSession;
-import com.zjicm.common.lang.consts.HttpConsts;
+import com.zjicm.common.lang.http.consts.HttpConsts;
 import com.zjicm.common.lang.cookie.CookieHandler;
 import com.zjicm.common.lang.util.UUIDUtil;
 import org.apache.commons.lang.StringUtils;

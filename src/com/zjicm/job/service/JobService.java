@@ -1,7 +1,6 @@
 package com.zjicm.job.service;
 
 import com.zjicm.common.lang.page.PageResult;
-import com.zjicm.dto.Page;
 import com.zjicm.job.domain.Job;
 
 public interface JobService {
@@ -22,7 +21,6 @@ public interface JobService {
 
 	/**
 	 * 查看职位列表
-	 * @param userId
 	 * @param status
 	 * @param page
 	 * @param size

@@ -1,7 +1,6 @@
 package com.zjicm.common.lang.sql;
 
-import com.dxy.base.util.StringUtil;
-import com.dxy.commons.sql.dao.PartitionContext;
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.EmptyInterceptor;
 
 public class TableRoutingInterceptor extends EmptyInterceptor {
@@ -16,7 +15,11 @@ public class TableRoutingInterceptor extends EmptyInterceptor {
     public String onPrepareStatement(String sql) {
         String stmt = super.onPrepareStatement(sql);
         String _table = PartitionContext.getTable();
-        if (StringUtil.isNotEmpty(table, _table, stmt) && !table.equals(_table) && stmt.indexOf(_table) == -1) {
+        if (StringUtils.isNotEmpty(table) &&
+            StringUtils.isNotEmpty(_table) &&
+            StringUtils.isNotEmpty(stmt) &&
+            !table.equals(_table) &&
+            !stmt.contains(_table)) {
             stmt = stmt.replaceAll(table, _table);
         }
         return stmt;

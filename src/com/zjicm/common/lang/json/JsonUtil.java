@@ -1,11 +1,15 @@
 package com.zjicm.common.lang.json;
 
-import com.dxy.commons.Server;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.io.JsonStringEncoder;
 import com.fasterxml.jackson.databind.*;
+import com.zjicm.common.Server;
+import com.zjicm.common.lang.consts.ArrayConsts;
+import com.zjicm.common.lang.consts.StringConsts;
+import com.zjicm.common.lang.util.Base64Util;
+import com.zjicm.common.lang.util.TimeUtil;
 import org.apache.commons.lang.StringUtils;
 
 import java.io.IOException;
@@ -13,7 +17,7 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.*;
 
-@SuppressWarnings("unchecked")
+
 public final class JsonUtil {
     private static final CustomObjectMapper OBJECT_MAPPER = new CustomObjectMapper();
 
@@ -105,7 +109,7 @@ public final class JsonUtil {
                         Map.Entry<String, JsonNode> field = fields.next();
                         if (field != null && StringUtils.isNotEmpty(field.getKey())) {
                             if (field.getValue() == null) {
-                                data.put(field.getKey(), ConstStrings.EMPTY);
+                                data.put(field.getKey(), StringConsts.EMPTY);
                             } else {
                                 String value = field.getValue().asText();
                                 if (StringUtils.isEmpty(value)) {
@@ -135,7 +139,7 @@ public final class JsonUtil {
             }
         }
 
-        return ConstStrings.EMPTY;
+        return StringConsts.EMPTY;
     }
 
     public static byte[] toBytes(Object obj) {
@@ -146,7 +150,7 @@ public final class JsonUtil {
                 e.printStackTrace();
             }
         }
-        return ConstArrays.EMPTY_PRIMITIVE_BYTE;
+        return ArrayConsts.EMPTY_BYTE;
     }
 
     public static void append(StringBuilder buff, String name, Object value, boolean quote, boolean startWithComma) {
@@ -196,7 +200,7 @@ public final class JsonUtil {
         public void serialize(String value, JsonGenerator gen, SerializerProvider provider) throws
                                                                                             IOException,
                                                                                             JsonProcessingException {
-            gen.writeString(URLEncoder.encode(StringUtils.nullToEmpty(value), Server.CHARSET));
+            gen.writeString(URLEncoder.encode(StringUtils.defaultString(value), Server.CHARSET));
         }
     }
 

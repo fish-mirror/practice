@@ -1,6 +1,5 @@
 package com.zjicm.api.view.auth;
 
-import com.dxy.base.util.CollectionUtil;
 import com.zjicm.auth.beans.LoginView;
 import com.zjicm.auth.domain.User;
 import com.zjicm.common.beans.UserSession;
@@ -8,6 +7,7 @@ import com.zjicm.common.lang.json.JsonDataHolder;
 import com.zjicm.common.lang.json.JsonErrorInfo;
 import com.zjicm.common.lang.json.MsgType;
 import com.zjicm.common.web.RootController;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -48,7 +48,7 @@ public class AuthAccountApi extends RootController {
         List<JsonErrorInfo> errorInfos = new ArrayList<>();
         jsonDataHolder.packErrorsFromResult(400, "验证失败", errorInfos, results);
 
-        if (CollectionUtil.isNotEmpty(errorInfos)) return jsonDataHolder;
+        if (CollectionUtils.isNotEmpty(errorInfos)) return jsonDataHolder;
 
         User user = userService.search(loginView.getAccount(), loginView.getPassword());
 

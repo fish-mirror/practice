@@ -1,7 +1,7 @@
 package com.zjicm.common.lang.sql;
 
-import com.dxy.base.consts.StringConsts;
-import com.dxy.base.util.NumberUtil;
+import com.zjicm.common.lang.consts.StringConsts;
+import com.zjicm.common.lang.util.NumberUtil;
 
 public final class PartitionContext {
     private static final ThreadLocal<Integer> DATABASE = new ThreadLocal<Integer>();

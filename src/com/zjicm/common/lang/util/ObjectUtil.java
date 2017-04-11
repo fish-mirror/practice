@@ -1,18 +1,12 @@
 package com.zjicm.common.lang.util;
 
-import com.dxy.base.Consumer;
-import com.dxy.base.Function;
-import com.dxy.base.Predicate;
-import com.dxy.base.beans.Pair;
-import com.dxy.base.consts.StringConsts;
-import com.dxy.base.util.ArrayUtil;
-import com.dxy.base.util.CollectionUtil;
-import com.dxy.base.util.HashUtil;
-import com.dxy.base.util.StringUtil;
-import com.dxy.commons.code.Base64Util;
-import com.dxy.commons.io.CloseUtil;
+import com.zjicm.common.lang.consts.StringConsts;
+import com.zjicm.common.lang.io.CloseUtil;
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.collections.MapUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
@@ -26,6 +20,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 public final class ObjectUtil {
     public static <T> T nullToDefault(T value, T def) {
@@ -38,7 +34,7 @@ public final class ObjectUtil {
      * @return
      */
     public static boolean isNotNull(Object... objs) {
-        if (ArrayUtil.isNotEmpty(objs)) {
+        if (ArrayUtils.isNotEmpty(objs)) {
             for (Object obj : objs) {
                 if (obj == null) {
                     return false;
@@ -142,7 +138,7 @@ public final class ObjectUtil {
     public static String toString(Object obj) {
         if (obj != null) {
             byte[] bytes = toBytes(obj);
-            if (ArrayUtil.isNotEmpty(bytes)) {
+            if (ArrayUtils.isNotEmpty(bytes)) {
                 return new String(Base64.encodeBase64String(bytes));
             }
         }
@@ -170,7 +166,7 @@ public final class ObjectUtil {
     }
 
     public static <T> T toObject(byte[] bytes){
-        if(ArrayUtil.isNotEmpty(bytes)){
+        if(ArrayUtils.isNotEmpty(bytes)){
             ObjectInputStream oi = null;
             try{
                 oi = new ObjectInputStream(new ByteArrayInputStream(bytes));
@@ -188,14 +184,14 @@ public final class ObjectUtil {
     }
 
     public static <T> T toObject(String str){
-        if(StringUtil.isNotEmpty(str)){
+        if(StringUtils.isNotEmpty(str)){
             return toObject(Base64.decodeBase64(str));
         }
 
         return null;
     }
     public static <T> T toObject(Class<T> clazz,Map<?,?> map){
-        if(clazz != null && CollectionUtil.isNotEmpty(map)){
+        if(clazz != null && MapUtils.isNotEmpty(map)){
             T obj = (T) BeanUtils.instantiateClass(clazz);
             if(obj != null){
                 BeanWrapper beanWrapper = new BeanWrapperImpl(obj);
@@ -208,7 +204,7 @@ public final class ObjectUtil {
     }
 
     public static boolean hasField(Class<?> clazz, String name) {
-        if (clazz != null && StringUtil.isNotEmpty(name)) {
+        if (clazz != null && StringUtils.isNotEmpty(name)) {
             try {
                 return clazz.getDeclaredField(name) != null;
             } catch (Throwable e) {
@@ -218,7 +214,7 @@ public final class ObjectUtil {
     }
 
     public static Object getFieldValue(Object object, String name) {
-        if (object != null && StringUtil.isNotEmpty(name)) {
+        if (object != null && StringUtils.isNotEmpty(name)) {
             try {
                 Field field = getClassField(object.getClass(), name);
                 if (field != null) {
@@ -233,7 +229,7 @@ public final class ObjectUtil {
     }
 
     public static boolean setFieldValue(Object object, String name, Object value) {
-        if (object != null && StringUtil.isNotEmpty(name)) {
+        if (object != null && StringUtils.isNotEmpty(name)) {
             try {
                 Field field = getClassField(object.getClass(), name);
                 if (field != null) {
@@ -253,7 +249,7 @@ public final class ObjectUtil {
 
     public static Field getClassField(Class<?> clazz, String name) {
         Field[] fields = clazz.getDeclaredFields();
-        if (ArrayUtil.isNotEmpty(fields)) {
+        if (ArrayUtils.isNotEmpty(fields)) {
             for (Field field : fields) {
                 if (field.getName().equals(name)) {
                     return field;// define in this class
@@ -268,127 +264,13 @@ public final class ObjectUtil {
         return null;
     }
 
-    public static void iterate(Object obj, Consumer<Pair<String, Object>> consumer) {
-        if (obj != null && consumer != null) {
-            iterate(obj.getClass(), obj, consumer);
-        }
-    }
-
-    public static void iterate(Class<?> clazz, Object obj, Consumer<Pair<String, Object>> consumer) {
-        if (clazz != null && !clazz.equals(Object.class)) {
-            Field[] fields = clazz.getDeclaredFields();
-            if (ArrayUtil.isNotEmpty(fields)) {
-                for (Field field : fields) {
-                    field.setAccessible(true);
-                    if (!Modifier.isStatic(field.getModifiers())) {
-                        Pair<String, Object> pair;
-                        try {
-                            pair = new Pair<String, Object>(field.getName(), field.get(obj));
-                            consumer.accept(pair);
-                        } catch (Throwable e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            }
-
-            clazz = clazz.getSuperclass();
-            if (clazz != null) {
-                iterate(clazz, obj, consumer);
-            }
-        }
-    }
-
-    public static Object setEqualFieldsToNull(Object dist,
-                                              Object orig,
-                                              Predicate<String> predicate,
-                                              Class<?>... classes) {
-        if (dist != null && orig != null && ArrayUtil.isNotEmpty(classes)) {
-            for (Class<?> clazz : classes) {
-                if (clazz != null) {
-                    Field[] fields = clazz.getDeclaredFields();
-                    if (ArrayUtil.isNotEmpty(fields)) {
-                        for (Field field : fields) {
-                            if (field != null) {
-                                try {
-                                    if (predicate == null || predicate.test(field.getName())) {
-                                        Field of = getClassField(orig.getClass(), field.getName());
-                                        if (of != null) {
-                                            Field df = getClassField(dist.getClass(), field.getName());
-                                            if (df != null) {
-                                                of.setAccessible(true);
-                                                df.setAccessible(true);
-                                                Object ov = of.get(orig);
-                                                Object dv = df.get(dist);
-                                                if (dv != null) {
-                                                    if (ov != null && ov.equals(dv)) {
-                                                        df.set(dist, null);
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                } catch (Throwable e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return dist;
-    }
-
-    public static boolean equals(Object dist, Object orig, Predicate<String> predicate, Class<?>... classes) {
-        if (dist != null && orig != null && ArrayUtil.isNotEmpty(classes)) {
-            for (Class<?> clazz : classes) {
-                if (clazz != null) {
-                    Field[] fields = clazz.getDeclaredFields();
-                    if (ArrayUtil.isNotEmpty(fields)) {
-                        for (Field field : fields) {
-                            if (field != null) {
-                                try {
-                                    if (predicate == null || predicate.test(field.getName())) {
-                                        Field of = getClassField(orig.getClass(), field.getName());
-                                        if (of != null) {
-                                            Field df = getClassField(dist.getClass(), field.getName());
-                                            if (df != null) {
-                                                of.setAccessible(true);
-                                                df.setAccessible(true);
-                                                Object ov = of.get(orig);
-                                                Object dv = df.get(dist);
-                                                if (ov == null && dv != null) {
-                                                    return false;
-                                                }
-                                                if (ov != null && dv == null) {
-                                                    return false;
-                                                }
-                                                if (ov != null && dv != null && !ov.equals(dv)) {
-                                                    return false;
-                                                }
-                                            }
-                                        }
-                                    }
-                                } catch (Throwable e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            return true;
-        }
-        return false;
-    }
 
     public static <T> T copy(T dist, Object orig, Predicate<String> predicate, Class<?>... classes) {
-        if (dist != null && orig != null && ArrayUtil.isNotEmpty(classes)) {
+        if (dist != null && orig != null && ArrayUtils.isNotEmpty(classes)) {
             for (Class<?> clazz : classes) {
                 if (clazz != null) {
                     Field[] fields = clazz.getDeclaredFields();
-                    if (ArrayUtil.isNotEmpty(fields)) {
+                    if (ArrayUtils.isNotEmpty(fields)) {
                         for (Field field : fields) {
                             if (field != null && !Modifier.isStatic(field.getModifiers())) {
                                 try {
@@ -452,12 +334,12 @@ public final class ObjectUtil {
     }
 
     public static String sign(Object obj, Predicate<String> predicate, Class<?>... classes) {
-        if (obj != null && ArrayUtil.isNotEmpty(classes)) {
+        if (obj != null && ArrayUtils.isNotEmpty(classes)) {
             StringBuilder buff = new StringBuilder();
             for (Class<?> clazz : classes) {
                 if (clazz != null) {
                     Field[] fields = clazz.getDeclaredFields();
-                    if (ArrayUtil.isNotEmpty(fields)) {
+                    if (ArrayUtils.isNotEmpty(fields)) {
                         for (Field field : fields) {
                             if (field != null) {
                                 try {
@@ -516,12 +398,12 @@ public final class ObjectUtil {
 
     public static Map<String, Object> toMap(String[] names, Object obj, Function<String, String> renameFunc) {
         Map<String, Object> data = new LinkedHashMap<String, Object>();
-        if (obj != null && ArrayUtil.isNotEmpty(names)) {
+        if (obj != null && ArrayUtils.isNotEmpty(names)) {
             for (String name : names) {
                 if (renameFunc != null) {
                     name = renameFunc.apply(name);
                 }
-                if (StringUtil.isNotEmpty(name)) {
+                if (StringUtils.isNotEmpty(name)) {
                     data.put(name, getFieldValue(obj, name));
                 }
             }
@@ -537,7 +419,7 @@ public final class ObjectUtil {
         execute(obj, method, null, null, async);
     }
     public static void execute(final Object obj,String method,Class[] types,final Object[] params,boolean async){
-        if(obj != null && StringUtil.isNotEmpty(method)){
+        if(obj != null && StringUtils.isNotEmpty(method)){
             try {
                 Class clazz = obj.getClass();
                 final Method _method = clazz.getDeclaredMethod(method, types);

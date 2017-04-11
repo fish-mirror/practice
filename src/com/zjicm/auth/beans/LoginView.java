@@ -1,6 +1,6 @@
 package com.zjicm.auth.beans;
 
-import com.dxy.commons.regex.consts.RegxConsts;
+import com.zjicm.common.lang.consts.RegxConsts;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 

@@ -1,4 +1,4 @@
-package com.zjicm.common.lang.consts;
+package com.zjicm.common.lang.http.consts;
 
 public final class HttpConsts {
     public static final String GET = "GET";

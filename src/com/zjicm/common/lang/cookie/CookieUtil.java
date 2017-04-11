@@ -2,7 +2,7 @@ package com.zjicm.common.lang.cookie;
 
 import com.zjicm.common.lang.character.consts.CharacterConsts;
 import com.zjicm.common.lang.consts.StringConsts;
-import com.zjicm.common.lang.web.WebUtil;
+import com.zjicm.common.lang.http.util.WebUtil;
 import org.apache.commons.lang.StringUtils;
 
 import javax.servlet.http.Cookie;

@@ -21,9 +21,6 @@
         <compiler.target>1.8</compiler.target>
         <test.skip>false</test.skip>
         <test.jvm>/opt/java8/bin/java</test.jvm>
-        <commons.version>2.1.1-SNAPSHOT</commons.version>
-        <nexus.releases.url>http://nexus.dxy.net/nexus/content/repositories/releases/</nexus.releases.url>
-        <nexus.snapshots.url>http://nexus.dxy.net/nexus/content/repositories/snapshots/</nexus.snapshots.url>
     </properties>
     <build>
 
@@ -67,7 +64,7 @@
 
                     <!-- 增加资源配置目录 -->
                     <execution>
-                        <number>add-resource</number>
+                        <id>add-resource</id>
                         <phase>initialize</phase>
                         <goals>
                             <goal>add-resource</goal>
@@ -85,7 +82,7 @@
 
                     <!-- 增加源码目录 -->
                     <execution>
-                        <number>add-source</number>
+                        <id>add-source</id>
                         <phase>initialize</phase>
                         <goals>
                             <goal>add-source</goal>
@@ -224,12 +221,7 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- 通用工具包 -->
-        <dependency>
-            <groupId>dxy.com</groupId>
-            <artifactId>dxy-com-commons</artifactId>
-            <version>${commons.version}</version>
-        </dependency>
+
 
 
         <dependency>
@@ -1015,28 +1007,5 @@
         </dependency>
 
     </dependencies>
-
-    <repositories>
-        <repository>
-            <number>nexus-releases</number>
-            <url>${nexus.releases.url}</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <number>nexus-snapshots</number>
-            <url>${nexus.snapshots.url}</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
 
 </project>
