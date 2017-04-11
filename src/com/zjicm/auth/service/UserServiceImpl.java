@@ -18,26 +18,5 @@ public class UserServiceImpl implements UserService {
     private UserDao userDao;
 
 
-    @Override
-    public void save(User user) {
-        userDao.save(user);
-    }
 
-    @Override
-    public User search(String account, String password) {
-        List<Criterion> criterions = new ArrayList<>(2);
-        criterions.add(Restrictions.eq("account", account));
-        criterions.add(Restrictions.eq("password", password));
-        return userDao.get(criterions, null);
-    }
-
-    @Override
-    public User get(int id) {
-        return userDao.getById(id);
-    }
-
-    @Override
-    public User getByNum(String number) {
-        return userDao.getByField("number", number);
-    }
 }

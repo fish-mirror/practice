@@ -50,7 +50,7 @@ public class AuthAccountApi extends RootController {
 
         if (CollectionUtils.isNotEmpty(errorInfos)) return jsonDataHolder;
 
-        User user = userService.search(loginView.getAccount(), loginView.getPassword());
+        User user = userDao.getByNumPwd(loginView.getAccount(), loginView.getPassword());
 
         if (user == null) return jsonDataHolder.putToError(404, "账号和密码不匹配");
 

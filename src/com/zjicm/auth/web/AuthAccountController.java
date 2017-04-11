@@ -51,7 +51,7 @@ public class AuthAccountController extends RootController {
             return VIEW_LOGIN;
         }
 
-        User user = userService.search(loginView.getAccount(), loginView.getPassword());
+        User user = userDao.getByNumPwd(loginView.getAccount(), loginView.getPassword());
         if (user == null) {
             mmap.put("error", "账号和密码不匹配");
             return VIEW_LOGIN;

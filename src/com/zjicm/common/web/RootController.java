@@ -1,5 +1,6 @@
 package com.zjicm.common.web;
 
+import com.zjicm.auth.dao.UserDao;
 import com.zjicm.auth.domain.User;
 import com.zjicm.auth.enums.Role;
 import com.zjicm.auth.service.AuthorityService;
@@ -39,7 +40,7 @@ public class RootController {
     protected final static String VIEW_COMPANY_INDEX = "company.index";
 
     @Autowired
-    protected UserService userService;
+    protected UserDao userDao;
     @Autowired
     protected AuthorityService authorityService;
     @Autowired
@@ -75,7 +76,7 @@ public class RootController {
         if (userId <= 0) return null;
 
         UserSession userSession = getUserSession(request);
-        User user = userService.get(userId);
+        User user = userDao.getById(userId);
         if (user == null) return null;
 
         Role role = Role.is(user.getRoleId());
