@@ -1,7 +1,7 @@
 package com.zjicm.teacher.service;
 
 
-import com.zjicm.dto.Page;
+import com.zjicm.common.lang.page.PageResult;
 import com.zjicm.teacher.domain.Teacher;
 
 import java.util.List;
@@ -41,7 +41,7 @@ public interface TeacherService {
      * @param page
      * @return
      */
-    Page pageForCollege(int pageSize, int page);
+    PageResult<Teacher> pageForCollege(int pageSize, int page);
 
     //更新院系用户的照片
     boolean updateColImg(String id, String url);

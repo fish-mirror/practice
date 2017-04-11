@@ -2,8 +2,8 @@ package com.zjicm.teacher.service;
 
 import java.util.List;
 
+import com.zjicm.common.lang.page.PageResult;
 import com.zjicm.teacher.dao.TeacherDao;
-import com.zjicm.dto.Page;
 import com.zjicm.teacher.domain.Teacher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,7 +42,7 @@ public class TeacherServiceImpl implements TeacherService {
 
 
     @Override
-    public Page pageForCollege(int pageSize, int page) {
+    public PageResult<Teacher> pageForCollege(int pageSize, int page) {
         return null;
     }
 
