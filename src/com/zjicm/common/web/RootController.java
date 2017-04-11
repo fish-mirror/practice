@@ -1,6 +1,5 @@
 package com.zjicm.common.web;
 
-import com.zjicm.auth.domain.Authority;
 import com.zjicm.auth.domain.User;
 import com.zjicm.auth.enums.Role;
 import com.zjicm.auth.service.AuthorityService;
@@ -9,7 +8,7 @@ import com.zjicm.cache.consts.CacheConsts;
 import com.zjicm.cache.servive.CacheService;
 import com.zjicm.common.Environment;
 import com.zjicm.common.beans.UserSession;
-import com.zjicm.common.lang.consts.HttpConsts;
+import com.zjicm.common.lang.http.consts.HttpConsts;
 import com.zjicm.common.lang.cookie.CookieHandler;
 import com.zjicm.common.lang.json.JsonDataHolder;
 import com.zjicm.company.domain.Company;
@@ -25,7 +24,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
 import java.util.Set;
 
 /**

@@ -1,7 +1,7 @@
 package com.zjicm.common.lang.util;
 
-import com.dxy.base.consts.StringConsts;
-import com.dxy.base.util.StringUtil;
+import antlr.StringUtils;
+import com.zjicm.common.lang.consts.StringConsts;
 
 import java.nio.ByteBuffer;
 import java.text.NumberFormat;
@@ -178,11 +178,11 @@ public final class NumberUtil {
             int n = 1;
             int r = 0;
             for (int i = 1; i < length; i++) {
-                r = com.dxy.base.util.NumberUtil.nextInt(10);
+                r = NumberUtil.nextInt(10);
                 sum += r * n;
                 n = n * 10;
             }
-            r = 1 + com.dxy.base.util.NumberUtil.nextInt(9);
+            r = 1 + NumberUtil.nextInt(9);
             sum += r * n;
             return sum;
         }
@@ -300,22 +300,6 @@ public final class NumberUtil {
             }
         }
         return result;
-    }
-
-    public static final String toHexString(Long value, int length) {
-        if (length > 0) {
-            if (value != null) {
-                String _value = Long.toHexString(value);
-                if (_value.length() < length) {
-                    _value = _value + StringUtil.random(length - _value.length());
-                }
-
-                return _value.toUpperCase();
-            }
-            return StringUtil.random(length).toUpperCase();
-        }
-
-        return StringConsts.EMPTY;
     }
 
     public static byte[] toBytes(long value) {

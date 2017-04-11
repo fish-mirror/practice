@@ -1,12 +1,12 @@
 package com.zjicm.common.lang.sql.util;
 
-import com.dxy.base.Consumer;
-import com.dxy.base.Function;
-import com.dxy.base.consts.StringConsts;
-import com.dxy.base.util.CollectionUtil;
-import com.dxy.base.util.StringUtil;
-import com.dxy.commons.sql.dao.ConnectionBroker;
+import com.zjicm.common.lang.consts.StringConsts;
+import com.zjicm.common.lang.function.Consumer;
+import com.zjicm.common.lang.function.Function;
+import com.zjicm.common.lang.sql.ConnectionBroker;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang.StringUtils;
 
 import javax.sql.DataSource;
 import java.sql.*;
@@ -18,15 +18,9 @@ import java.util.regex.Pattern;
 public final class JdbcUtil {
     private static final Pattern TABLE_NAME_PATTERN = Pattern.compile("^[a-z0-9_\\$\\.]+$", Pattern.CASE_INSENSITIVE);
 
-    public static void main(String[] args) {
-        List<String> values = new ArrayList<String>();
-        values.add("陈良");
-        values.add("陈良2");
-        System.out.println(formatSelectInStringValues(values));
-    }
 
     public static boolean isValidTableName(String name) {
-        if (StringUtil.isNotEmpty(name)) {
+        if (StringUtils.isNotEmpty(name)) {
             return TABLE_NAME_PATTERN.matcher(name).matches();
         }
         return false;
@@ -89,36 +83,8 @@ public final class JdbcUtil {
         }
     }
 
-    public static String formatSelectInIntValues(String ids) {
-        if (StringUtil.isNotEmpty(ids)) {
-            return CollectionUtil.toString(CollectionUtil.parseIntSet(ids, true));
-        }
-        return StringConsts.EMPTY;
-    }
-
-    public static String formatSelectInStringValues(String values) {
-        if (StringUtil.isNotEmpty(values)) {
-            return formatSelectInStringValues(CollectionUtil.parseSet(values, true));
-        }
-        return StringConsts.EMPTY;
-    }
-
-    public static String formatSelectInStringValues(Collection<String> values) {
-        if (CollectionUtil.isNotEmpty(values)) {
-            StringBuilder buff = new StringBuilder();
-            for (String value : values) {
-                if (buff.length() > 0) {
-                    buff.append(',');
-                }
-                buff.append(quote(value));
-            }
-            return buff.toString();
-        }
-        return StringConsts.EMPTY;
-    }
-
     public static String escape(String keyword) {
-        if (StringUtil.isNotEmpty(keyword)) {
+        if (StringUtils.isNotEmpty(keyword)) {
             return StringEscapeUtils.escapeSql(keyword);
         }
         return keyword;
@@ -268,13 +234,13 @@ public final class JdbcUtil {
                                int batchSize,
                                Consumer<PreparedStatement> statementProcessor,
                                Consumer<ResultSet> resultSetProcessor) throws SQLException {
-        if (conn != null && resultSetProcessor != null && StringUtil.isNotEmpty(table)) {
+        if (conn != null && resultSetProcessor != null && StringUtils.isNotEmpty(table)) {
             PreparedStatement stmt = null;
             ResultSet rs = null;
             try {
                 int max = 0;
                 stmt = conn.prepareStatement(
-                        "select max(" + StringUtil.emptyToDefault(column, "id") + ") from " + table);
+                        "select max(" + StringUtils.defaultIfEmpty(column, "id") + ") from " + table);
                 rs = stmt.executeQuery();
                 if (rs.next()) {
                     max = rs.getInt(1);
@@ -283,13 +249,13 @@ public final class JdbcUtil {
                 stmt.close();
                 if (max > 0) {
                     StringBuilder buff = new StringBuilder();
-                    buff.append(StringUtil.emptyToDefault(prefix, "select *"));
+                    buff.append(StringUtils.defaultIfEmpty(prefix, "select *"));
                     buff.append(" from ");
                     buff.append(table);
                     buff.append(" where ");
-                    buff.append(StringUtil.emptyToDefault(column, "id"));
+                    buff.append(StringUtils.defaultIfEmpty(column, "id"));
                     buff.append(" between ? and ?");
-                    if (StringUtil.isNotEmpty(suffix)) {
+                    if (StringUtils.isNotEmpty(suffix)) {
                         buff.append(" and (");
                         buff.append(suffix);
                         buff.append(")");

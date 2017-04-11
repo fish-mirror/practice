@@ -15,12 +15,12 @@ import java.util.List;
 
 /**
  * 翻页器.
- *
+ * <p>
  * <p>此类对于在web页面上分页显示多项内容, 计算页码和当前页的偏移量, 十分方便实用.
- *
+ * <p>
  * <p>该类只需要知道总共有多少项, 当前显示每几页, 每页显示几项, 就可以帮你计算出其它数据,
  * 而且保证所有计算都得出合理的值, 不用担心页码超出边界之类的问题.
- *
+ * <p>
  * <p>使用方法如下:
  * <pre>
  *
@@ -77,18 +77,24 @@ import java.util.List;
  * @author Rainmanzhu
  * @version $Id: PageBuilder.java,v 1.1.1.1 2005/07/24 04:18:38 hugo Exp $
  */
-public class PageBuilder implements Serializable  {
+public class PageBuilder implements Serializable {
 
     /**  */
-	private static final long serialVersionUID = 133995353548823657L;
+    private static final long serialVersionUID = 133995353548823657L;
 
-	/** 每页默认的项数(10). */
+    /**
+     * 每页默认的项数(10).
+     */
     public final static int DEFAULT_ITEMS_PER_PAGE = 10;
 
-    /** 滑动窗口默认的大小(7). */
+    /**
+     * 滑动窗口默认的大小(7).
+     */
     public final static int DEFAULT_SLIDER_SIZE = 9;
 
-    /** 表示项数未知(<code>Integer.MAX_VALUE</code>). */
+    /**
+     * 表示项数未知(<code>Integer.MAX_VALUE</code>).
+     */
     public final static int UNKNOWN_ITEMS = Integer.MAX_VALUE;
     private int page;           // 当前页码. (1-based)
     private int items;          // 总共项数
@@ -97,16 +103,16 @@ public class PageBuilder implements Serializable  {
     /**
      * 默认构造方法.
      */
-    public PageBuilder () {
+    public PageBuilder() {
         this(0);
     }
 
     /**
      * 构造方法, 指定每页项数.
      *
-     * @param int   每页项数.
+     * @param n 每页项数.
      */
-    public PageBuilder (int n) {
+    public PageBuilder(int n) {
         page = 0;
         items = 0;
         itemsPerPage = (n > 0) ? n : DEFAULT_ITEMS_PER_PAGE;
@@ -117,8 +123,8 @@ public class PageBuilder implements Serializable  {
      *
      * @return int   总页数
      */
-    public int pages () {
-        return  (int)Math.ceil((double)items/itemsPerPage);
+    public int pages() {
+        return (int) Math.ceil((double) items / itemsPerPage);
     }
 
     /**
@@ -126,28 +132,27 @@ public class PageBuilder implements Serializable  {
      *
      * @return int   当前页
      */
-    public int page () {
-        return  page;
+    public int page() {
+        return page;
     }
-    
-    
+
 
     public int getPage() {
-		return page;
-	}
+        return page;
+    }
 
-	public void setPage(int page) {
-		this.page = page;
-	}
+    public void setPage(int page) {
+        this.page = page;
+    }
 
-	/**
+    /**
      * 设置并取得当前页.  实际的当前页值被确保在正确的范围内.
      *
-     * @param int   当前页
+     * @param n 当前页
      * @return int   设置后的当前页
      */
-    public int page (int n) {
-        return  (page = calcPage(n));
+    public int page(int n) {
+        return (page = calcPage(n));
     }
 
     /**
@@ -155,21 +160,21 @@ public class PageBuilder implements Serializable  {
      *
      * @return int   总项数
      */
-    public int items () {
-        return  items;
+    public int items() {
+        return items;
     }
 
     /**
      * 设置并取得总项数.  如果指定的总项数小于0, 则被看作0.
      * 自动调整当前页, 确保当前页值在正确的范围内.
      *
-     * @param int   总项数
+     * @param n 总项数
      * @return int   设置以后的总项数
      */
-    public int items (int n) {
+    public int items(int n) {
         items = (n >= 0) ? n : 0;
         page(page);
-        return  items;
+        return items;
     }
 
     /**
@@ -177,24 +182,24 @@ public class PageBuilder implements Serializable  {
      *
      * @return int   每页项数
      */
-    public int itemsPerPage () {
-        return  itemsPerPage;
+    public int itemsPerPage() {
+        return itemsPerPage;
     }
 
     /**
      * 设置并取得每页项数.  如果指定的每页项数小于等于0, 则使用默认值<code>DEFAULT_ITEMS_PER_PAGE</code>.
      * 并调整当前页使之在改变每页项数前后显示相同的项.
      *
-     * @param int   每页项数
+     * @param n 每页项数
      * @return int   设置后的每页项数
      */
-    public int itemsPerPage (int n) {
+    public int itemsPerPage(int n) {
         int tmp = itemsPerPage;
         itemsPerPage = (n > 0) ? n : DEFAULT_ITEMS_PER_PAGE;
         if (page > 0) {
-            page((int)((double)(page - 1)*tmp/itemsPerPage) + 1);
+            page((int) ((double) (page - 1) * tmp / itemsPerPage) + 1);
         }
-        return  itemsPerPage;
+        return itemsPerPage;
     }
 
     /**
@@ -202,8 +207,8 @@ public class PageBuilder implements Serializable  {
      *
      * @return int   偏移量
      */
-    public int offset () {
-        return  (page > 0) ? itemsPerPage*(page - 1) : 0;
+    public int offset() {
+        return (page > 0) ? itemsPerPage * (page - 1) : 0;
     }
 
     /**
@@ -212,12 +217,11 @@ public class PageBuilder implements Serializable  {
      *
      * @return int   当前页的长度
      */
-    public int length () {
+    public int length() {
         if (page > 0) {
-            return  Math.min(itemsPerPage*page, items) - itemsPerPage*(page - 1);
-        } 
-        else {
-            return  0;
+            return Math.min(itemsPerPage * page, items) - itemsPerPage * (page - 1);
+        } else {
+            return 0;
         }
     }
 
@@ -226,26 +230,24 @@ public class PageBuilder implements Serializable  {
      *
      * @return int   起始序号
      */
-    public int beginIndex () {
+    public int beginIndex() {
         if (page > 0) {
-            return  itemsPerPage*(page - 1) + 1;
-        } 
-        else {
-            return  0;
+            return itemsPerPage * (page - 1) + 1;
+        } else {
+            return 0;
         }
     }
-    
+
     /**
      * 取得指定页显示的项的起始序号 (1-based).
      *
      * @return int   起始序号
      */
-    public int beginIndex (int page) {
+    public int beginIndex(int page) {
         if (page > 0) {
-            return  itemsPerPage*(page - 1) + 1;
-        } 
-        else {
-            return  0;
+            return itemsPerPage * (page - 1) + 1;
+        } else {
+            return 0;
         }
     }
 
@@ -254,37 +256,35 @@ public class PageBuilder implements Serializable  {
      *
      * @return int   末项序号
      */
-    public int endIndex () {
+    public int endIndex() {
         if (page > 0) {
-            return  Math.min(itemsPerPage*page, items);
-        } 
-        else {
-            return  0;
+            return Math.min(itemsPerPage * page, items);
+        } else {
+            return 0;
         }
     }
-    
+
     /**
      * 取得指定页显示的项的末项序号 (1-based).
      *
      * @return int   起始序号
      */
-    public int endIndex (int page) {
+    public int endIndex(int page) {
         if (page > 0) {
-            return  Math.min(itemsPerPage*page, items);
-        } 
-        else {
-            return  0;
+            return Math.min(itemsPerPage * page, items);
+        } else {
+            return 0;
         }
     }
 
     /**
      * 设置当前页, 使之显示指定offset(0-based)的项.
      *
-     * @param int   要显示的项的偏移量(0-based)
+     * @param n 要显示的项的偏移量(0-based)
      * @return int   指定项所在的页
      */
-    public int showItem (int n) {
-        return  page(n/itemsPerPage + 1);
+    public int showItem(int n) {
+        return page(n / itemsPerPage + 1);
     }
 
     /**
@@ -292,8 +292,8 @@ public class PageBuilder implements Serializable  {
      *
      * @return int   首页页码
      */
-    public int firstPage () {
-        return  calcPage(1);
+    public int firstPage() {
+        return calcPage(1);
     }
 
     /**
@@ -301,8 +301,8 @@ public class PageBuilder implements Serializable  {
      *
      * @return int   末页页码
      */
-    public int lastPage () {
-        return  calcPage(pages());
+    public int lastPage() {
+        return calcPage(pages());
     }
 
     /**
@@ -310,8 +310,8 @@ public class PageBuilder implements Serializable  {
      *
      * @return int   前一页页码
      */
-    public int previousPage () {
-        return  calcPage(page - 1);
+    public int previousPage() {
+        return calcPage(page - 1);
     }
 
     /**
@@ -319,8 +319,8 @@ public class PageBuilder implements Serializable  {
      *
      * @return int   前n页页码
      */
-    public int previousPage (int n) {
-        return  calcPage(page - n);
+    public int previousPage(int n) {
+        return calcPage(page - n);
     }
 
     /**
@@ -328,8 +328,8 @@ public class PageBuilder implements Serializable  {
      *
      * @return int   后一页页码
      */
-    public int nextPage () {
-        return  calcPage(page + 1);
+    public int nextPage() {
+        return calcPage(page + 1);
     }
 
     /**
@@ -337,8 +337,8 @@ public class PageBuilder implements Serializable  {
      *
      * @return int   后n页页码
      */
-    public int nextPage (int n) {
-        return  calcPage(page + n);
+    public int nextPage(int n) {
+        return calcPage(page + n);
     }
 
     /**
@@ -346,12 +346,12 @@ public class PageBuilder implements Serializable  {
      *
      * @return boolean   是否为禁止的页码
      */
-    public boolean isDisabledPage (int n) {
-        return  (n==0 || n > pages() || n == page);
+    public boolean isDisabledPage(int n) {
+        return (n == 0 || n > pages() || n == page);
     }
 
-    public boolean isSeparator (int n) {
-        return  n<0;
+    public boolean isSeparator(int n) {
+        return n < 0;
     }
 
     /**
@@ -360,8 +360,8 @@ public class PageBuilder implements Serializable  {
      *
      * @return Integer[]   包含页码的数组
      */
-    public Integer[] slider () {
-        return  slider(DEFAULT_SLIDER_SIZE);
+    public Integer[] slider() {
+        return slider(DEFAULT_SLIDER_SIZE);
     }
 
     /**
@@ -370,20 +370,19 @@ public class PageBuilder implements Serializable  {
      * 3, 4, 5, 6, 7这几个页码, 第5页被放在中间.  如果当前页是12, 则返回页码为
      * 9, 10, 11, 12, 13.
      *
-     * @param int   滑动窗口大小
+     * @param n 滑动窗口大小
      * @return Integer[]   包含页码的数组, 如果指定滑动窗口大小小于1或总页数为0, 则返回空数组.
      */
-    public Integer[] slider (int n) {
+    public Integer[] slider(int n) {
         int pages = pages();
         if (pages < 1 || n < 1) {
-            return  new Integer[0];
-        } 
-        else {
+            return new Integer[0];
+        } else {
             if (n > pages) {
                 n = pages;
             }
             Integer[] slider = new Integer[n];
-            int first = page - (n - 1)/2;
+            int first = page - (n - 1) / 2;
             if (first < 1) {
                 first = 1;
             }
@@ -393,45 +392,42 @@ public class PageBuilder implements Serializable  {
             for (int i = 0; i < n; i++) {
                 slider[i] = new Integer(first + i);
             }
-            return  slider;
+            return slider;
         }
     }
 
     public Integer[] slider2() {
         int pages = pages();
         if (pages <= 1) {
-            return  new Integer[0];
-        }
-        else {
+            return new Integer[0];
+        } else {
             int onPage = page();
             List list = new ArrayList();
-            if(pages>10) {
+            if (pages > 10) {
                 int initPageMax = 3;
-                for(int i=1;i<=initPageMax;i++) {
+                for (int i = 1; i <= initPageMax; i++) {
                     list.add(new Integer(i));
                 }
-                if(onPage>1 && onPage<pages) {
-                    if(onPage>5) {
+                if (onPage > 1 && onPage < pages) {
+                    if (onPage > 5) {
                         list.add(new Integer(-1));
                     }
-                    int initPageMin = (onPage>4)?onPage:5;
-                    initPageMax = (onPage<pages-4)?onPage:pages-4;
-                    for(int i=initPageMin-1;i<initPageMax+2;i++) {
+                    int initPageMin = (onPage > 4) ? onPage : 5;
+                    initPageMax = (onPage < pages - 4) ? onPage : pages - 4;
+                    for (int i = initPageMin - 1; i < initPageMax + 2; i++) {
                         list.add(new Integer(i));
                     }
-                    if(onPage<pages-4) {
+                    if (onPage < pages - 4) {
                         list.add(new Integer(-1));
                     }
-                }
-                else {
+                } else {
                     list.add(new Integer(-1));
                 }
-                for(int i=pages-2;i<pages+1;i++) {
+                for (int i = pages - 2; i < pages + 1; i++) {
                     list.add(new Integer(i));
                 }
-            }
-            else {
-                for(int i=1;i<pages+1;i++) {
+            } else {
+                for (int i = 1; i < pages + 1; i++) {
                     list.add(new Integer(i));
                 }
             }
@@ -440,25 +436,24 @@ public class PageBuilder implements Serializable  {
     }
 
     public boolean hasNextPage(Integer[] pages, int index) {
-        return (index<pages.length-1) && pages[index+1].intValue()!=-1;
+        return (index < pages.length - 1) && pages[index + 1].intValue() != -1;
     }
+
     /**
      * 转换成字符串表示.
      *
      * @return String   字符串表示.
      */
-    public String toString () {
+    public String toString() {
         StringBuffer sb = new StringBuffer("PageBuilder: page ");
         if (pages() < 1) {
             sb.append(page());
-        } 
-        else {
+        } else {
             Integer[] slider = slider();
             for (int i = 0; i < slider.length; i++) {
                 if (isDisabledPage(slider[i].intValue())) {
                     sb.append('[').append(slider[i]).append(']');
-                } 
-                else {
+                } else {
                     sb.append(slider[i]);
                 }
                 if (i < slider.length - 1) {
@@ -467,36 +462,42 @@ public class PageBuilder implements Serializable  {
             }
         }
         sb.append(" of ").append(pages()).append(",\n");
-        sb.append("    Showing items ").append(beginIndex()).append(" to ").append(endIndex()).append(" (total ").append(items()).append(" items), ");
+        sb.append("    Showing items ")
+          .append(beginIndex())
+          .append(" to ")
+          .append(endIndex())
+          .append(" (total ")
+          .append(items())
+          .append(" items), ");
         sb.append("offset=").append(offset()).append(", length=").append(length());
-        return  sb.toString();
+        return sb.toString();
     }
 
     /**
      * 计算页数, 但不改变当前页.
      *
-     * @param int   页码
+     * @param n 页码
      * @return int   返回正确的页码(保证不会出边界)
      */
-    protected int calcPage (int n) {
+    protected int calcPage(int n) {
         int pages = pages();
         if (pages > 0) {
-            return  (n < 1) ? 1 : (n > pages) ? pages : n;
+            return (n < 1) ? 1 : (n > pages) ? pages : n;
         }
-        return  0;
-    }
-    
-    public static void main(String[] args) {
-    	com.dxy.commons.pager.PageBuilder pageBuilder = new com.dxy.commons.pager.PageBuilder();
-    	pageBuilder.items(100000);
-		pageBuilder.itemsPerPage(20);
-		pageBuilder.page(40);
-    	System.out.println(pageBuilder.toString());
+        return 0;
     }
 
-	public int getItems() {
-		return items;
-	}
+    public static void main(String[] args) {
+        PageBuilder pageBuilder = new PageBuilder();
+        pageBuilder.items(100000);
+        pageBuilder.itemsPerPage(20);
+        pageBuilder.page(40);
+        System.out.println(pageBuilder.toString());
+    }
+
+    public int getItems() {
+        return items;
+    }
 }
 
 

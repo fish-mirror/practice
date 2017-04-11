@@ -1,7 +1,6 @@
 package com.zjicm.common.lang.character;
 
-import com.dxy.base.util.StringUtil;
-import com.dxy.commons.text.cache.CharacterNatures;
+import org.apache.commons.lang.StringUtils;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -442,7 +441,7 @@ public class CharacterUtil {
      * @return
      */
     public static String big5ToGbk(String word) {
-        if (StringUtil.isNotEmpty(word)) {
+        if (StringUtils.isNotEmpty(word)) {
             StringBuilder buff = new StringBuilder(word.length());
             for (char c : word.toCharArray()) {
                 if (CharacterNatures.isChinese(c)) {
@@ -464,7 +463,7 @@ public class CharacterUtil {
      * @return
      */
     public static String gbkTobig5(String word) {
-        if (StringUtil.isNotEmpty(word)) {
+        if (StringUtils.isNotEmpty(word)) {
             StringBuilder buff = new StringBuilder(word.length());
             for (char c : word.toCharArray()) {
                 if (CharacterNatures.isChinese(c)) {

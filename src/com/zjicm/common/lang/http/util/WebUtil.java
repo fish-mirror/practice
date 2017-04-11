@@ -1,25 +1,19 @@
-package com.zjicm.common.lang.web;
+package com.zjicm.common.lang.http.util;
 
-import com.dxy.base.Function;
-import com.dxy.base.Predicate;
-import com.dxy.base.consts.StringConsts;
-import com.dxy.base.util.*;
-import com.dxy.commons.app.AppUtil;
-import com.dxy.commons.cache.util.MemcachedClientUtil;
-import com.dxy.commons.character.consts.CharacterConsts;
-import com.dxy.commons.encrypt.blowfish.Blowfish;
-import com.dxy.commons.http.consts.HttpConsts;
-import com.dxy.commons.http.util.HttpClientUtil;
-import com.dxy.commons.info.util.CellphoneUtil;
-import com.dxy.commons.io.CloseUtil;
-import com.dxy.commons.json.JsonUtil;
-import com.dxy.commons.sns.util.SnsApiUtil;
-import com.dxy.commons.system.Server;
-import com.dxy.commons.time.util.TimeUtil;
-import com.dxy.commons.web.beans.AgentDevice;
-import com.dxy.commons.web.cookie.CookieUtil;
-import com.dxy.commons.web.session.CanonicalSession;
-import com.dxy.commons.web.util.PathInfo;
+import com.zjicm.common.Server;
+import com.zjicm.common.lang.character.consts.CharacterConsts;
+import com.zjicm.common.lang.http.consts.HttpConsts;
+import com.zjicm.common.lang.consts.StringConsts;
+import com.zjicm.common.lang.http.beans.PathInfo;
+import com.zjicm.common.lang.io.CloseUtil;
+import com.zjicm.common.lang.json.JsonUtil;
+import com.zjicm.common.lang.text.CellphoneUtil;
+import com.zjicm.common.lang.util.BooleanUtil;
+import com.zjicm.common.lang.util.StringUtil;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.MapUtils;
+import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.math.NumberUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.safety.Whitelist;
@@ -42,6 +36,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.Map.Entry;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -251,23 +247,6 @@ public final class WebUtil {
         MIMES.put("xof", "x-world/x-vrml");
     }
 
-    /**
-     * 获取数据来源
-     *
-     * @param request
-     * @return
-     */
-    public static int getFeedSource(HttpServletRequest request) {
-        int source = com.dxy.commons.web.util.WebUtil.DataSource.UC;
-        if (AppUtil.isAndroid(request)) {
-            source = com.dxy.commons.web.util.WebUtil.DataSource.ANDROID;
-        } else if (AppUtil.isIPhone(request)) {
-            source = com.dxy.commons.web.util.WebUtil.DataSource.IPHONE;
-        } else if (AppUtil.isIPad(request)) {
-            source = com.dxy.commons.web.util.WebUtil.DataSource.IPAD;
-        }
-        return source;
-    }
 
     /**
      * URL后添加请求Parameter
@@ -278,7 +257,7 @@ public final class WebUtil {
      * @return
      */
     public static String append(String url, String name, String value) {
-        if (StringUtil.isNotEmpty(url, name)) {
+        if (StringUtil.isNotEmpty(url) && StringUtil.isNotEmpty(name)) {
             StringBuilder buff = new StringBuilder(url);
             if (url.indexOf('?') == -1) {
                 buff.append('?');
@@ -288,7 +267,7 @@ public final class WebUtil {
 
             buff.append(name);
             buff.append('=');
-            buff.append(com.dxy.commons.web.util.WebUtil.encodeUrl(StringUtil.nullToEmpty(value)));
+            buff.append(encodeUrl(StringUtil.defaultString(value)));
             return buff.toString();
         }
         return url;
@@ -305,8 +284,7 @@ public final class WebUtil {
             int idx1 = url.indexOf('?');
             int idx2 = url.indexOf('#');
             if (idx1 != -1 && idx1 < (url.length() - 1) && (idx2 == -1 || idx2 > idx1)) {
-                url = url.substring(0, idx1) + "?" + com.dxy.commons.web.util.WebUtil.toQueryString(com.dxy.commons.web.util.WebUtil
-                                                                                                            .parseQuery(
+                url = url.substring(0, idx1) + "?" + toQueryString(parseQuery(
                         idx2 == -1 ? url.substring(idx1 + 1) : url.substring(idx1 + 1, idx2)), true) +
                       (idx2 == -1 ? StringConsts.EMPTY : url.substring(idx2));
             }
@@ -365,7 +343,7 @@ public final class WebUtil {
         StringBuilder buff = new StringBuilder(128);
         buff.append(secure ? "https://" : "http://");
         buff.append("api.dxy.cn/qr-code/?size=10&margin=1&format=png&url=");
-        buff.append(com.dxy.commons.web.util.WebUtil.encodeUrl(content));
+        buff.append(encodeUrl(content));
         return buff.toString();
     }
 
@@ -463,7 +441,7 @@ public final class WebUtil {
      * @param map
      */
     public static void escapeMap(Map<String, Object> map) {
-        if (CollectionUtil.isNotEmpty(map)) {
+        if (MapUtils.isNotEmpty(map)) {
             for (Entry<String, Object> entry : map.entrySet()) {
                 Object value = entry.getValue();
                 if (value != null && value instanceof String) {
@@ -485,7 +463,7 @@ public final class WebUtil {
             json = json.trim();
             if (json.startsWith("[") && json.endsWith("]")) {
                 Collection<Map> items = JsonUtil.toList(Map.class, json);
-                if (CollectionUtil.isNotEmpty(items)) {
+                if (CollectionUtils.isNotEmpty(items)) {
                     for (Map map : items) {
                         escapeMap(map);
                     }
@@ -703,12 +681,12 @@ public final class WebUtil {
             String name = names.nextElement();
             if (predicate == null || predicate.test(name)) {
                 String[] values = request.getParameterValues(name);
-                if (ArrayUtil.isNotEmpty(values)) {
+                if (ArrayUtils.isNotEmpty(values)) {
                     for (String value : values) {
                         buff.append(buff.length() > initLength ? '&' : '?');
-                        buff.append(com.dxy.commons.web.util.WebUtil.encodeUrl(name));
+                        buff.append(encodeUrl(name));
                         buff.append('=');
-                        buff.append(com.dxy.commons.web.util.WebUtil.encodeUrl(StringUtil.nullToEmpty(value)));
+                        buff.append(encodeUrl(StringUtil.defaultString(value)));
                     }
                 }
             }
@@ -744,29 +722,29 @@ public final class WebUtil {
             String userAgent = getUserAgent(request);
             String encodedName = encodeUrl(filename);
             if (userAgent != null) {
-                userAgent = StringUtil.normalize(userAgent);
-                if (userAgent.indexOf("msie") != -1) {
-                    value = StringUtil.concate("filename=\"", encodedName, StringConsts.QUOTE);
-                } else if (userAgent.indexOf("opera") != -1 || userAgent.indexOf("mozilla") != -1) {
-                    value = StringUtil.concate("filename*=", Server.CHARSET, "''", encodedName);
-                } else if (userAgent.indexOf("safari") != -1) {
-                    value = StringUtil.concate("filename=\"",
+                userAgent = StringUtil.lowerCase(userAgent.trim());
+                if (userAgent.contains("msie")) {
+                    value = StringUtil.join("filename=\"", encodedName, StringConsts.QUOTE);
+                } else if (userAgent.contains("opera") || userAgent.contains("mozilla")) {
+                    value = StringUtil.join("filename*=", Server.CHARSET, "''", encodedName);
+                } else if (userAgent.contains("safari")) {
+                    value = StringUtil.join("filename=\"",
                                                new String(filename.getBytes(Server.CHARSET), "ISO8859-1"),
                                                StringConsts.QUOTE);
-                } else if (userAgent.indexOf("applewebkit") != -1) {
-                    value = StringUtil.concate("filename=\"",
+                } else if (userAgent.contains("applewebkit")) {
+                    value = StringUtil.join("filename=\"",
                                                MimeUtility.encodeText(filename, Server.CHARSET, "B"),
                                                StringConsts.QUOTE);
                 }
             }
 
             if (value == null) {
-                value = StringUtil.concate("filename=\"", encodedName, StringConsts.QUOTE);
+                value = StringUtil.join("filename=\"", encodedName, StringConsts.QUOTE);
             }
         } catch (Throwable e) {
         }
 
-        return StringUtil.nullToEmpty(value);
+        return StringUtil.defaultString(value);
     }
 
     public static String getUserAgent(HttpServletRequest request) {
@@ -781,7 +759,7 @@ public final class WebUtil {
             return StringConsts.HTTP_METHOD_GET;
         }
 
-        String method = com.dxy.commons.web.util.WebUtil.getString(request, "_method", request.getMethod());
+        String method = getString(request, "_method", request.getMethod());
         return method == null || method.length() == 0 ? StringConsts.HTTP_METHOD_GET : method.toUpperCase();
     }
 
@@ -834,7 +812,7 @@ public final class WebUtil {
                 URL u = new URL(url);
                 String host = u.getHost();
                 if (StringUtil.isNotEmpty(host)) {
-                    if (com.dxy.commons.web.util.WebUtil.isLocalAddress(host)) {
+                    if (isLocalAddress(host)) {
                         return false;
                     }
                     return true;
@@ -852,7 +830,7 @@ public final class WebUtil {
                 URL u = new URL(url);
                 String host = u.getHost();
                 if (StringUtil.isNotEmpty(host)) {
-                    if (com.dxy.commons.web.util.WebUtil.isLocalAddress(host)) {
+                    if (isLocalAddress(host)) {
                         return true;
                     }
                     return false;
@@ -918,7 +896,7 @@ public final class WebUtil {
         String raw = getRawRemoteAddress(request);
         if (StringUtil.isNotEmpty(raw)) {
             String[] ips = raw.split("[,]");
-            if (ArrayUtil.isNotEmpty(ips)) {
+            if (ArrayUtils.isNotEmpty(ips)) {
                 String result = null;
                 for (int i = 0; i < ips.length; i++) {
                     String ip = ips[i];
@@ -930,27 +908,6 @@ public final class WebUtil {
                     }
                 }
                 return result;
-            }
-        }
-        return StringConsts.EMPTY;
-    }
-
-    public static String getIntranetEscapedRemoteAddresses(HttpServletRequest request) {
-        String raw = getRawRemoteAddress(request);
-        if (StringUtil.isNotEmpty(raw)) {
-            String[] ips = raw.split("[,]");
-            if (ArrayUtil.isNotEmpty(ips)) {
-                Set<String> items = new LinkedHashSet<String>();
-                for (int i = 0; i < ips.length; i++) {
-                    String ip = ips[i];
-                    if (ip != null) {
-                        ip = ip.trim();
-                        if (Server.DEV || !isLocalAddress(ip)) {
-                            items.add(ip);
-                        }
-                    }
-                }
-                return CollectionUtil.toString(items);
             }
         }
         return StringConsts.EMPTY;
@@ -980,10 +937,10 @@ public final class WebUtil {
     }
 
     public static void write(HttpServletResponse response, String text, int cacheTimeInSeconds, String contentType) {
-        response.setContentType(StringUtil.emptyToDefault(contentType, "text/html; charset=UTF-8"));
+        response.setContentType(StringUtil.defaultIfEmpty(contentType, "text/html; charset=UTF-8"));
         setCacheHeader(response, cacheTimeInSeconds);
         try {
-            response.getWriter().write(StringUtil.nullToEmpty(text));
+            response.getWriter().write(StringUtil.defaultString(text));
             response.getWriter().flush();
             response.setStatus(HttpServletResponse.SC_OK);
         } catch (Throwable e) {
@@ -1079,7 +1036,7 @@ public final class WebUtil {
                     if (StringUtil.isNotEmpty(segment)) {
                         String[] data = segment.split("[=]");
                         if (data != null && data.length == 2) {
-                            params.put(data[0], com.dxy.commons.web.util.WebUtil.decodeUrl(StringUtil.nullToEmpty(data[1])));
+                            params.put(data[0], decodeUrl(StringUtil.defaultString(data[1])));
                         }
                     }
                 }
@@ -1127,8 +1084,8 @@ public final class WebUtil {
     }
 
     public static boolean checkCsrf(HttpServletRequest request, String... suffixes) {
-        if (request != null && ArrayUtil.isNotEmpty(suffixes)) {
-            if (HttpConsts.GET.equals(com.dxy.commons.web.util.WebUtil.getRestMethod(request))) {
+        if (request != null && ArrayUtils.isNotEmpty(suffixes)) {
+            if (HttpConsts.GET.equals(getRestMethod(request))) {
                 return true;
             }
 
@@ -1257,13 +1214,6 @@ public final class WebUtil {
         return false;
     }
 
-    public static CanonicalSession getUserSession(HttpServletRequest request) {
-        if (request != null) {
-            return (CanonicalSession) request.getAttribute("thisUser");
-        }
-
-        return null;
-    }
 
     private static Pattern WHITE_DOMAIN_PATTERN = null;
 
@@ -1441,184 +1391,7 @@ public final class WebUtil {
                                                                                   "hp-tablet",
                                                                                   "kindle"};
 
-    private static final AgentDevice NORMAL = new AgentDevice() {
-        @Override
-        public boolean isTablet() {
-            return false;
-        }
 
-        @Override
-        public boolean isNormal() {
-            return true;
-        }
-
-        @Override
-        public boolean isMobile() {
-            return false;
-        }
-    };
-    private static final AgentDevice MOBILE = new AgentDevice() {
-        @Override
-        public boolean isTablet() {
-            return false;
-        }
-
-        @Override
-        public boolean isNormal() {
-            return false;
-        }
-
-        @Override
-        public boolean isMobile() {
-            return true;
-        }
-    };
-    private static final AgentDevice TABLET = new AgentDevice() {
-        @Override
-        public boolean isTablet() {
-            return true;
-        }
-
-        @Override
-        public boolean isNormal() {
-            return false;
-        }
-
-        @Override
-        public boolean isMobile() {
-            return false;
-        }
-    };
-
-    public static boolean isNormalUser(HttpServletRequest request) {
-        return resolveAgentDevice(request).isNormal() && !isWeixinEmbeddedBrowser(request);
-    }
-
-    public static AgentDevice resolveAgentDevice(HttpServletRequest request) {
-        String userAgent = request.getHeader("User-Agent");
-        // UAProf detection
-        if (request.getHeader("x-wap-profile") != null || request.getHeader("Profile") != null) {
-            return MOBILE;
-        }
-        // User-Agent prefix detection
-        if (userAgent != null && userAgent.length() >= 4) {
-            if (userAgent.trim().contains("okhttp")) {
-                return MOBILE;
-            }
-            if (userAgent.trim().contains("iDxyer")) {
-                return MOBILE;
-            }
-            String prefix = userAgent.substring(0, 4).toLowerCase();
-            if (Arrays.binarySearch(KNOWN_MOBILE_USER_AGENT_PREFIXES, prefix) >= 0) {
-                return MOBILE;
-            }
-        }
-        // Accept-header based detection
-        String accept = request.getHeader("Accept");
-        if (accept != null && accept.contains("wap")) {
-            return MOBILE;
-        }
-        // UserAgent keyword detection for Mobile and Tablet devices
-        if (userAgent != null) {
-            userAgent = userAgent.toLowerCase();
-            // Android special case
-            if (userAgent.contains("android") && !userAgent.contains("mobile")) {
-                return TABLET;
-            }
-            // Kindle Fire special case
-            if (userAgent.contains("silk") && !userAgent.contains("mobile")) {
-                return TABLET;
-            }
-            for (String keyword : KNOWN_TABLET_USER_AGENT_KEYWORDS) {
-                if (userAgent.contains(keyword)) {
-                    return TABLET;
-                }
-            }
-            for (String keyword : KNOWN_MOBILE_USER_AGENT_KEYWORDS) {
-                if (userAgent.contains(keyword)) {
-                    return MOBILE;
-                }
-            }
-        }
-        // OperaMini special case
-        @SuppressWarnings("rawtypes")
-        Enumeration headers = request.getHeaderNames();
-        while (headers.hasMoreElements()) {
-            String header = (String) headers.nextElement();
-            if (header.contains("OperaMini")) {
-                return MOBILE;
-            }
-        }
-        return NORMAL;
-    }
-
-    @SuppressWarnings("unchecked")
-    public static String getRequestDetail(HttpServletRequest request) {
-        if (request != null) {
-            StringBuilder buff = new StringBuilder(512);
-            buff.append("Time:");
-            buff.append(TimeUtil.format(new Date()));
-            buff.append(StringConsts.CRLF);
-            buff.append("URL:");
-            buff.append(getFullRequestUrl(request));
-            buff.append(StringConsts.CRLF);
-            buff.append("METHOD:");
-            buff.append(request.getMethod());
-            buff.append(StringConsts.CRLF);
-            buff.append("IP:");
-            buff.append(getRemoteAddress(request));
-            buff.append(StringConsts.CRLF);
-            Enumeration<String> names = request.getParameterNames();
-            if (names != null) {
-                while (names.hasMoreElements()) {
-                    String name = names.nextElement();
-                    buff.append("PARAM:");
-                    buff.append(name);
-                    buff.append(":");
-                    buff.append(StringUtil.nullToEmpty(com.dxy.commons.web.util.WebUtil.getRawString(request, name)));
-                    buff.append(StringConsts.CRLF);
-                }
-            }
-
-            names = request.getHeaderNames();
-            if (names != null) {
-                while (names.hasMoreElements()) {
-                    String name = names.nextElement();
-                    buff.append("HEADER:");
-                    buff.append(name);
-                    buff.append(":");
-                    buff.append(StringUtil.nullToEmpty(request.getHeader(name)));
-                    buff.append(StringConsts.CRLF);
-                }
-            }
-
-            Cookie[] cookies = request.getCookies();
-            if (ArrayUtil.isNotEmpty(cookies)) {
-                for (Cookie cookie : cookies) {
-                    buff.append("COOKIE:");
-                    buff.append(cookie.getName());
-                    buff.append(",");
-                    buff.append(cookie.getDomain());
-                    buff.append(",");
-                    buff.append(cookie.getMaxAge());
-                    buff.append(",");
-                    buff.append(cookie.getPath());
-                    buff.append(",");
-                    buff.append(cookie.getSecure());
-                    buff.append(",");
-                    buff.append(cookie.getValue());
-                    buff.append(StringConsts.CRLF);
-                }
-            }
-
-            return buff.toString();
-        }
-        return StringConsts.EMPTY;
-    }
-
-    public static void printRequestDetail(HttpServletRequest request) {
-        System.out.println(getRequestDetail(request));
-    }
 
     public static interface HttpServletRequestParameterHandler {
         public boolean test(String name);
@@ -1633,7 +1406,7 @@ public final class WebUtil {
             while (enums.hasMoreElements()) {
                 String name = enums.nextElement();
                 if (handler.test(name)) {
-                    handler.consume(name, com.dxy.commons.web.util.WebUtil.getRawString(request, name));
+                    handler.consume(name, getRawString(request, name));
                 }
             }
         }
@@ -1653,28 +1426,10 @@ public final class WebUtil {
         }
 
         for (String name : names) {
-            handler.consume(name, com.dxy.commons.web.util.WebUtil.getRawString(request, name));
+            handler.consume(name, getRawString(request, name));
         }
     }
 
-    public static boolean matchUrlProtectCode(String code, int seed) {
-        return matchUrlProtectCode(code, String.valueOf(seed));
-    }
-
-    public static boolean matchUrlProtectCode(String code, String seed) {
-        if (StringUtil.isNotEmpty(code, seed)) {
-            return buildUrlProtectCode(seed).equals(code);
-        }
-        return false;
-    }
-
-    public static String buildUrlProtectCode(int seed) {
-        return HashUtil.md5(StringConsts.TOKEN_URL_PROTECTED + seed);
-    }
-
-    public static String buildUrlProtectCode(String seed) {
-        return HashUtil.md5(StringConsts.TOKEN_URL_PROTECTED + StringUtil.nullToEmpty(seed));
-    }
 
     /**
      * @param request
@@ -1709,7 +1464,7 @@ public final class WebUtil {
      */
     public static String[] getStrings(HttpServletRequest request, String name) {
         String[] values = getRawStrings(request, name);
-        if (ArrayUtil.isNotEmpty(values)) {
+        if (ArrayUtils.isNotEmpty(values)) {
             for (int i = 0; i < values.length; i++) {
                 values[i] = escapeHtml(unescapeHtml(values[i]));
             }
@@ -1734,7 +1489,7 @@ public final class WebUtil {
                     if (name.endsWith("]")) {
                         final int offset = name.lastIndexOf('[');
                         if (offset != -1 && offset < name.length() - 1) {
-                            int idx = NumberUtil.parseIntQuietly(name.substring(offset + 1, name.length() - 1), -1);
+                            int idx = NumberUtils.toInt(name.substring(offset + 1, name.length() - 1), -1);
                             if (idx >= 0) {
                                 Map<String, String> item = items.get(idx);
                                 if (item == null) {
@@ -1811,7 +1566,7 @@ public final class WebUtil {
      * @return
      */
     public static int getAsInt(HttpServletRequest request, String name, int def) {
-        return NumberUtil.parseIntQuietly(getRawString(request, name), def);
+        return NumberUtils.toInt(getRawString(request, name), def);
     }
 
     /**
@@ -1830,7 +1585,7 @@ public final class WebUtil {
      * @return
      */
     public static long getAsLong(HttpServletRequest request, String name, long def) {
-        return NumberUtil.parseLongQuietly(getRawString(request, name), def);
+        return NumberUtils.toLong(getRawString(request, name), def);
     }
 
     public static boolean getAsBoolean(HttpServletRequest request, String name) {
@@ -2024,7 +1779,7 @@ public final class WebUtil {
                 idx = idx + WEIXIN_BROWSER_PREFIX.length();
                 int dotindx = agent.indexOf('.', idx + 1);
                 if (dotindx != -1) {
-                    return NumberUtil.parseIntQuietly(agent.substring(idx, dotindx));
+                    return NumberUtils.toInt(agent.substring(idx, dotindx));
                 }
             }
         }
@@ -2064,70 +1819,10 @@ public final class WebUtil {
             public static final Collection<Integer> JOBMD = new ArrayList<Integer>(2);
 
             static {
-                JOBMD.add(com.dxy.commons.web.util.WebUtil.DataSource.JOBMD);
-                JOBMD.add(com.dxy.commons.web.util.WebUtil.DataSource.JOBMD_EN);
+                JOBMD.add(DataSource.JOBMD);
+                JOBMD.add(DataSource.JOBMD_EN);
             }
         }
-    }
-
-    public static final String getWanip() {
-        return StringUtil.nullToEmpty(System.getProperty("wanip"));
-    }
-
-    public static boolean isShortUrl(String url) {
-        return StringUtil.isNotEmpty(url) && url.startsWith(StringConsts.WEBROOT_SHORTURL);
-    }
-
-    public static String getShortUrl(String longUrl) {
-        if (com.dxy.commons.web.util.WebUtil.isUrl(longUrl)) {
-            Map<String, Object> params = new HashMap<String, Object>();
-            params.put("token", StringConsts.TOKEN_SHORTURL_CREATE);
-            params.put("url", longUrl);
-            return StringUtil.emptyToDefault(HttpClientUtil.post("http://i.dxy.cn/pub/shorturl/create", params),
-                                             longUrl);
-        }
-        return StringConsts.EMPTY;
-    }
-
-    public static String getAssetsHost(HttpServletRequest request) {
-        if (Server.DEV) {
-            String host = (String) request.getAttribute("assetsHost");
-            if (StringUtil.isEmpty(host)) {
-                host = request.getParameter("assetsHost");
-                if (StringUtil.isEmpty(host)) {
-                    host = CookieUtil.getValue(request, "f2e_debug_ip");
-                }
-            }
-            if (StringUtil.isNotEmpty(host)) {
-                return host;
-            }
-        }
-
-        return "assets.dxycdn.com";
-    }
-
-    public static boolean isValidPageId(HttpServletRequest request) {
-        if (AppUtil.not(request)) {
-            try {
-                String id = getRawString(request, "da_page_id");
-                if (StringUtil.isNotEmpty(id)) {
-                    String decrypted = Blowfish.build(SnsApiUtil.getConfig(SnsApiUtil.CONFIG_KEY_GLOBAL_DA_PAGEID_KEY))
-                                               .decryptString(id);
-                    if (StringUtil.isNotEmpty(decrypted) &&
-                        MemcachedClientUtil.add(MemcachedClientUtil.getTiny(), decrypted, Boolean.TRUE, 86500 * 7)) {
-                        long timestamp = NumberUtil.parseLongQuietly(decrypted.substring(0, decrypted.indexOf('-')),
-                                                                     0l);
-                        if (System.currentTimeMillis() - timestamp < 3600 * 4000l) {
-                            return true;
-                        }
-                    }
-                }
-            } catch (Throwable e) {
-                e.printStackTrace();
-            }
-            return false;
-        }
-        return true;
     }
 
     private static Pattern getVCPattern = Pattern.compile("([0-9.]+)");
@@ -2139,7 +1834,7 @@ public final class WebUtil {
         if (StringUtil.isEmpty(vc)) {
             vc = getVCFromSource(getUserAgent(request), getVCFromUAPattern);
         }
-        return StringUtil.nullToEmpty(vc);
+        return StringUtil.defaultString(vc);
     }
 
     private static String getVCFromSource(String source, Pattern pattern) {

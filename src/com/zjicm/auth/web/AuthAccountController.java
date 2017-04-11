@@ -1,25 +1,15 @@
 package com.zjicm.auth.web;
 
-import com.dxy.base.util.CollectionUtil;
 import com.zjicm.auth.beans.LoginView;
-import com.zjicm.auth.enums.Role;
-import com.zjicm.auth.service.UserService;
-import com.zjicm.cache.consts.CacheConsts;
 import com.zjicm.common.beans.UserSession;
 import com.zjicm.common.lang.json.JsonDataHolder;
 import com.zjicm.common.lang.json.JsonErrorInfo;
 import com.zjicm.common.web.RootController;
-import com.zjicm.company.service.CompanyService;
 import com.zjicm.auth.domain.User;
-import com.zjicm.student.service.StudentService;
-import com.zjicm.teacher.domain.Teacher;
-import com.zjicm.teacher.service.TeacherService;
 import org.apache.commons.collections.CollectionUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -56,7 +46,7 @@ public class AuthAccountController extends RootController {
         List<JsonErrorInfo> errorInfos = new ArrayList<>();
         jsonDataHolder.packErrorsFromResult(400, "验证失败", errorInfos, results);
 
-        if (CollectionUtil.isNotEmpty(errorInfos)) {
+        if (CollectionUtils.isNotEmpty(errorInfos)) {
             mmap.put("errors", errorInfos);
             return VIEW_LOGIN;
         }
