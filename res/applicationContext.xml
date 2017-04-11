@@ -12,14 +12,15 @@
         http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd
            http://www.springframework.org/schema/context
            http://www.springframework.org/schema/context/spring-context-4.2.xsd">
+
     <bean id="configBean" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="location" value="classpath:config.properties"/>
     </bean>
-    <!-- 采用注释的方式配置bean -->
-    <context:annotation-config/>
-    <!-- 配置要扫描的包 -->
-    <context:component-scan base-package="com.zjicm"></context:component-scan>
 
+    <context:annotation-config/>
+    <context:component-scan base-package="com.zjicm"/>
+
+    <mvc:annotation-driven/>
     <mvc:interceptors>
         <bean class="com.zjicm.common.web.CommonInterceptor"/>
     </mvc:interceptors>
@@ -89,7 +90,7 @@
 
     <!-- 配置HibernateTemplate -->
     <bean id="hibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">
-        <property name="sessionFactory" ref="sessionFactory"></property>
+        <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 
     <bean id="sessionCookieHandler" class="com.zjicm.common.lang.cookie.CookieHandler">

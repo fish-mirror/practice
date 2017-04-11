@@ -48,7 +48,7 @@ public class CommonInterceptor implements HandlerInterceptor {
 
 
         }
-        return false;
+        return true;
     }
 
     @Override
