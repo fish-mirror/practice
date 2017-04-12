@@ -90,6 +90,7 @@ public class BaseDAOImpl<V extends CanonicalDomain<K>, K extends Serializable> e
         return getById(id, null, null, null);
     }
 
+    @Override
     public V getById(K id, Number partitionSeed) {
         return getById(id, partitionSeed, null, null);
     }
@@ -117,16 +118,14 @@ public class BaseDAOImpl<V extends CanonicalDomain<K>, K extends Serializable> e
                             ReadPolicy readPolicy) {
         try {
             setPartition(partitionSeed, table, readPolicy);
-            return (Number) this.getHibernateTemplate().execute(new HibernateCallback<Number>() {
-                public Number doInHibernate(Session session) throws HibernateException {
-                    SQLQuery query = session.createSQLQuery(sql);
-                    if (ArrayUtils.isNotEmpty(vars)) {
-                        for (int i = 0; i < vars.length; i++) {
-                            query.setParameter(i, vars[i]);
-                        }
+            return this.getHibernateTemplate().execute(session -> {
+                SQLQuery query = session.createSQLQuery(sql);
+                if (ArrayUtils.isNotEmpty(vars)) {
+                    for (int i = 0; i < vars.length; i++) {
+                        query.setParameter(i, vars[i]);
                     }
-                    return (Number) query.uniqueResult();
                 }
+                return (Number) query.uniqueResult();
             });
         } catch (Throwable e) {
             throw new DAOReadException(sql, e);
@@ -135,6 +134,7 @@ public class BaseDAOImpl<V extends CanonicalDomain<K>, K extends Serializable> e
         }
     }
 
+    @Override
     public Collection<Number> getNumbers(final String sql,
                                          final Object[] vars,
                                          final int offset,
@@ -144,21 +144,18 @@ public class BaseDAOImpl<V extends CanonicalDomain<K>, K extends Serializable> e
                                          ReadPolicy readPolicy) {
         try {
             setPartition(partitionSeed, table, readPolicy);
-            return (Collection<Number>) this.getHibernateTemplate()
-                                            .execute(new HibernateCallback<Collection<Number>>() {
-                                                public Collection<Number> doInHibernate(Session session) throws
-                                                                                                         HibernateException {
-                                                    SQLQuery query = session.createSQLQuery(sql);
-                                                    if (ArrayUtils.isNotEmpty(vars)) {
-                                                        for (int i = 0; i < vars.length; i++) {
-                                                            query.setParameter(i, vars[i]);
-                                                        }
-                                                    }
-                                                    query.setFirstResult(offset);
-                                                    query.setMaxResults(size);
-                                                    return (Collection<Number>) query.list();
-                                                }
-                                            });
+            return this.getHibernateTemplate()
+                       .execute(session -> {
+                           SQLQuery query = session.createSQLQuery(sql);
+                           if (ArrayUtils.isNotEmpty(vars)) {
+                               for (int i = 0; i < vars.length; i++) {
+                                   query.setParameter(i, vars[i]);
+                               }
+                           }
+                           query.setFirstResult(offset);
+                           query.setMaxResults(size);
+                           return (Collection<Number>) query.list();
+                       });
         } catch (Throwable e) {
             throw new DAOReadException(sql, e);
         } finally {
@@ -166,6 +163,7 @@ public class BaseDAOImpl<V extends CanonicalDomain<K>, K extends Serializable> e
         }
     }
 
+    @Override
     public <T> Collection<T> getObjects(final Class<T> clazz,
                                         final String sql,
                                         final Object[] vars,
@@ -176,22 +174,20 @@ public class BaseDAOImpl<V extends CanonicalDomain<K>, K extends Serializable> e
                                         ReadPolicy readPolicy) {
         try {
             setPartition(partitionSeed, table, readPolicy);
-            return (Collection<T>) this.getHibernateTemplate().execute(new HibernateCallback<Collection<T>>() {
-                public Collection<T> doInHibernate(Session session) throws HibernateException {
-                    try {
-                        SQLQuery query = session.createSQLQuery(sql);
-                        if (ArrayUtils.isNotEmpty(vars)) {
-                            for (int i = 0; i < vars.length; i++) {
-                                query.setParameter(i, vars[i]);
-                            }
+            return this.getHibernateTemplate().execute(session -> {
+                try {
+                    SQLQuery query = session.createSQLQuery(sql);
+                    if (ArrayUtils.isNotEmpty(vars)) {
+                        for (int i = 0; i < vars.length; i++) {
+                            query.setParameter(i, vars[i]);
                         }
-                        query.setFirstResult(offset);
-                        query.setMaxResults(size);
-                        query.setResultTransformer(new AliasToBeanResultTransformer(clazz));
-                        return (Collection<T>) query.list();
-                    } catch (Throwable e) {
-                        throw new DAOReadException(sql, e);
                     }
+                    query.setFirstResult(offset);
+                    query.setMaxResults(size);
+                    query.setResultTransformer(new AliasToBeanResultTransformer(clazz));
+                    return (Collection<T>) query.list();
+                } catch (Throwable e) {
+                    throw new DAOReadException(sql, e);
                 }
             });
         } catch (Throwable e) {
@@ -206,6 +202,7 @@ public class BaseDAOImpl<V extends CanonicalDomain<K>, K extends Serializable> e
         return count(criterions, null, null, null);
     }
 
+    @Override
     public int count(Collection<Criterion> criterions, Number partitionSeed) {
         return count(criterions, partitionSeed, null, ReadPolicy.MASTER);
     }
@@ -221,19 +218,15 @@ public class BaseDAOImpl<V extends CanonicalDomain<K>, K extends Serializable> e
                 }
             }
 
-            return ObjectUtil.nullToDefault((Integer) this.getHibernateTemplate()
-                                                          .execute(new HibernateCallback<Integer>() {
-                                                              public Integer doInHibernate(Session session) throws
-                                                                                                            HibernateException {
-                                                                  Criteria criteria = dc.getExecutableCriteria(session);
-                                                                  Integer count = Integer.parseInt((criteria.setProjection(
-                                                                          Projections.rowCount())
-                                                                                                            .uniqueResult())
-                                                                                                           .toString());
-                                                                  criteria.setProjection(null);
-                                                                  return count;
-                                                              }
-                                                          }), 0);
+            return ObjectUtil.nullToDefault(this.getHibernateTemplate()
+                                                .execute(session -> {
+                                                    Criteria criteria = dc.getExecutableCriteria(session);
+                                                    Integer count = Integer.parseInt((criteria.setProjection(Projections
+                                                                                                                     .rowCount())
+                                                                                              .uniqueResult()).toString());
+                                                    criteria.setProjection(null);
+                                                    return count;
+                                                }), 0);
         } catch (Throwable e) {
             throw new DAOReadException(e);
         } finally {
@@ -257,16 +250,11 @@ public class BaseDAOImpl<V extends CanonicalDomain<K>, K extends Serializable> e
                 }
             }
 
-            return ObjectUtil.nullToDefault((Number) this.getHibernateTemplate()
-                                                         .execute(new HibernateCallback<Number>() {
-                                                             public Number doInHibernate(Session session) throws
-                                                                                                          HibernateException {
-                                                                 return (Number) dc.getExecutableCriteria(session)
-                                                                                   .setProjection(Projections.max(
-                                                                                           property))
-                                                                                   .uniqueResult();
-                                                             }
-                                                         }), 0);
+            return ObjectUtil.nullToDefault(this.getHibernateTemplate()
+                                                .execute(session -> (Number) dc.getExecutableCriteria(session)
+                                                                               .setProjection(Projections.max(
+                                                                                       property))
+                                                                               .uniqueResult()), 0);
         } catch (NullPointerException e) {
         } catch (Throwable e) {
             throw new DAOReadException(e);
@@ -277,45 +265,45 @@ public class BaseDAOImpl<V extends CanonicalDomain<K>, K extends Serializable> e
         return 0;
     }
 
-    public List<Object> distinct(Collection<Criterion> criterions,
-                                 final String property,
-                                 Number partitionSeed,
-                                 String table,
-                                 ReadPolicy readPolicy) {
+
+    @Override
+    public <T> List<T> distinct(Collection<Criterion> criterions,
+                                List<String> properties,
+                                Class<T> clazz,
+                                Number partitionSeed,
+                                String table,
+                                ReadPolicy readPolicy) {
         try {
             setPartition(partitionSeed, table, readPolicy);
 
             final DetachedCriteria dc = DetachedCriteria.forClass(this.entityClass);
             if (criterions != null && !criterions.isEmpty()) {
-                for (Criterion criterion : criterions) {
-                    dc.add(criterion);
+                for (Criterion criterion : criterions) dc.add(criterion);
+            }
+            if (CollectionUtils.isNotEmpty(properties) && clazz != null) {
+                ProjectionList projections = Projections.projectionList()
+                                                        .add(Projections.distinct(Projections.property(properties.get(0))
+                                                                                             .as(properties.get(0))));
+                if (properties.size() > 1) {
+                    properties.stream().skip(1).forEach(property -> projections.add(Projections.property(property)
+                                                                                               .as(property)));
                 }
+                dc.setProjection(projections)
+                  .setResultTransformer(new AliasToBeanResultTransformer(clazz));
             }
 
-            return ObjectUtil.nullToDefault((List<Object>) this.getHibernateTemplate()
-                                                               .execute(new HibernateCallback<List<Object>>() {
-                                                                   public List<Object> doInHibernate(Session session) throws
-                                                                                                                      HibernateException {
-                                                                       return (List<Object>) dc.getExecutableCriteria(
-                                                                               session)
-                                                                                               .setProjection(
-                                                                                                       Projections.distinct(
-                                                                                                               Projections
-                                                                                                                       .property(
-                                                                                                                               property)))
-                                                                                               .list();
-                                                                   }
-                                                               }), Collections.emptyList());
-        } catch (NullPointerException e) {
+            return ObjectUtil.nullToDefault(this.getHibernateTemplate()
+                                                .execute(session -> dc.getExecutableCriteria(session)
+                                                                      .list()),
+                                            Collections.emptyList());
         } catch (Throwable e) {
             throw new DAOReadException(e);
         } finally {
             clearPartition();
         }
-
-        return Collections.emptyList();
     }
 
+    @Override
     public Number min(Collection<Criterion> criterions,
                       final String property,
                       Number partitionSeed,
@@ -331,16 +319,11 @@ public class BaseDAOImpl<V extends CanonicalDomain<K>, K extends Serializable> e
                 }
             }
 
-            return ObjectUtil.nullToDefault((Number) this.getHibernateTemplate()
-                                                         .execute(new HibernateCallback<Number>() {
-                                                             public Number doInHibernate(Session session) throws
-                                                                                                          HibernateException {
-                                                                 return (Number) dc.getExecutableCriteria(session)
-                                                                                   .setProjection(Projections.min(
-                                                                                           property))
-                                                                                   .uniqueResult();
-                                                             }
-                                                         }), 0);
+            return ObjectUtil.nullToDefault(this.getHibernateTemplate()
+                                                .execute(session -> (Number) dc.getExecutableCriteria(session)
+                                                                               .setProjection(Projections.min(
+                                                                                       property))
+                                                                               .uniqueResult()), 0);
         } catch (NullPointerException e) {
         } catch (Throwable e) {
             throw new DAOReadException(e);
@@ -351,6 +334,7 @@ public class BaseDAOImpl<V extends CanonicalDomain<K>, K extends Serializable> e
         return 0;
     }
 
+    @Override
     public Number sum(Collection<Criterion> criterions,
                       final String property,
                       Number partitionSeed,
@@ -386,10 +370,12 @@ public class BaseDAOImpl<V extends CanonicalDomain<K>, K extends Serializable> e
         return 0;
     }
 
+    @Override
     public V getByField(String field, Object value, Number partitionSeed) {
         return getByField(field, value, partitionSeed, null, ReadPolicy.MASTER);
     }
 
+    @Override
     public V getByField(String field, Object value, Number partitionSeed, String table, ReadPolicy readPolicy) {
         if (StringUtils.isNotEmpty(field)) {
             Collection<Criterion> criterions = new ArrayList<Criterion>(1);
@@ -401,10 +387,12 @@ public class BaseDAOImpl<V extends CanonicalDomain<K>, K extends Serializable> e
         return null;
     }
 
+    @Override
     public V get(Collection<Criterion> criterions, List<Order> orders, Number partitionSeed) {
         return get(criterions, orders, partitionSeed, null, ReadPolicy.MASTER);
     }
 
+    @Override
     public V get(Collection<Criterion> criterions,
                  List<Order> orders,
                  Number partitionSeed,
@@ -422,14 +410,17 @@ public class BaseDAOImpl<V extends CanonicalDomain<K>, K extends Serializable> e
         return null;
     }
 
+    @Override
     public void delete(V entityObject) {
         delete(entityObject, null, null);
     }
 
+    @Override
     public void delete(V entityObject, Number partitionSeed) {
         delete(entityObject, partitionSeed, null);
     }
 
+    @Override
     public void delete(V entityObject, Number partitionSeed, String table) {
         if (entityObject != null) {
             try {
@@ -467,22 +458,27 @@ public class BaseDAOImpl<V extends CanonicalDomain<K>, K extends Serializable> e
         }
     }
 
+    @Override
     public void deleteById(K id) {
         this.deleteById(id, null, null);
     }
 
+    @Override
     public void deleteById(K id, Number partitionSeed) {
         this.deleteById(id, partitionSeed, null);
     }
 
+    @Override
     public void deleteById(K id, Number partitionSeed, String table) {
         this.delete(getById(id, partitionSeed, table, null), partitionSeed, table);
     }
 
+    @Override
     public List<V> getAll() {
         return getAll(null, null, null, null, null);
     }
 
+    @Override
     public List<V> getAllByField(String field,
                                  Object value,
                                  Number partitionSeed,
@@ -491,19 +487,34 @@ public class BaseDAOImpl<V extends CanonicalDomain<K>, K extends Serializable> e
         return getAll(buildEQ(field, value), null, partitionSeed, table, readPolicy);
     }
 
+    @Override
     public List<V> getAll(Collection<Criterion> criterions, List<Order> orders) {
         return getAll(criterions, orders, null, null, null);
     }
 
+    @Override
     public List<V> getAll(Collection<Criterion> criterions, List<Order> orders, Number partitionSeed) {
         return getAll(criterions, orders, partitionSeed, null, null);
     }
 
+    @Override
     public List<V> getAll(Collection<Criterion> criterions,
                           List<Order> orders,
                           Number partitionSeed,
                           String table,
                           ReadPolicy readPolicy) {
+        return getAll(criterions, null, null, orders, partitionSeed, table, readPolicy);
+    }
+
+
+    @Override
+    public <T> List<T> getAll(Collection<Criterion> criterions,
+                              ProjectionList projectionList,
+                              Class<T> clazz,
+                              List<Order> orders,
+                              Number partitionSeed,
+                              String table,
+                              ReadPolicy readPolicy) {
         try {
             setPartition(partitionSeed, table, readPolicy);
             final DetachedCriteria dc = DetachedCriteria.forClass(this.entityClass);
@@ -512,17 +523,18 @@ public class BaseDAOImpl<V extends CanonicalDomain<K>, K extends Serializable> e
                     dc.add(criterion);
                 }
             }
+            if (projectionList != null && clazz != null) {
+                dc.setProjection(projectionList)
+                  .setResultTransformer(new AliasToBeanResultTransformer(clazz));
+            }
             if (orders != null) {
                 for (Order order : orders) {
                     dc.addOrder(order);
                 }
             }
 
-            return (List<V>) this.getHibernateTemplate().execute(new HibernateCallback<List<V>>() {
-                public List<V> doInHibernate(Session session) throws HibernateException {
-                    return dc.getExecutableCriteria(session).list();
-                }
-            });
+            return this.getHibernateTemplate()
+                       .execute((HibernateCallback<List<T>>) session -> dc.getExecutableCriteria(session).list());
         } catch (Throwable e) {
             throw new DAOReadException(e);
         } finally {
@@ -560,6 +572,7 @@ public class BaseDAOImpl<V extends CanonicalDomain<K>, K extends Serializable> e
         }
     }
 
+    @Override
     public void save(Collection<V> entities, Number partitionSeed, String table) {
         if (entities != null && entities.size() > 0) {
             for (V entityObject : entities) {
@@ -591,6 +604,7 @@ public class BaseDAOImpl<V extends CanonicalDomain<K>, K extends Serializable> e
         return getPage(criterions, orders, offset, size, null, null, null);
     }
 
+    @Override
     public List<V> getPage(Collection<Criterion> criterions,
                            List<Order> orders,
                            int offset,
@@ -599,6 +613,7 @@ public class BaseDAOImpl<V extends CanonicalDomain<K>, K extends Serializable> e
         return getPage(criterions, orders, offset, size, partitionSeed, null, null);
     }
 
+    @Override
     public List<V> getPage(Collection<Criterion> criterions,
                            List<Order> orders,
                            final int offset,
@@ -624,13 +639,11 @@ public class BaseDAOImpl<V extends CanonicalDomain<K>, K extends Serializable> e
                 dc.addOrder(Order.asc(entityKey));
             }
 
-            return (List<V>) this.getHibernateTemplate().execute(new HibernateCallback<List<V>>() {
-                public List<V> doInHibernate(Session session) throws HibernateException {
-                    Criteria criteria = dc.getExecutableCriteria(session);
-                    criteria.setMaxResults(size);
-                    criteria.setFirstResult(offset);
-                    return criteria.list();
-                }
+            return this.getHibernateTemplate().execute((HibernateCallback<List<V>>) session -> {
+                Criteria criteria = dc.getExecutableCriteria(session);
+                criteria.setMaxResults(size);
+                criteria.setFirstResult(offset);
+                return criteria.list();
             });
         } catch (Throwable e) {
             throw new DAOReadException(e);
@@ -642,7 +655,7 @@ public class BaseDAOImpl<V extends CanonicalDomain<K>, K extends Serializable> e
 
     @Override
     public PageResult<V> getPageResult(Collection<Criterion> criterions, List<Order> orders, int offset, int size) {
-        PageResult<V> result = new PageResult();
+        PageResult<V> result = new PageResult<>();
         int total = count(criterions);
         if (total < offset) offset = total;
 
@@ -658,25 +671,28 @@ public class BaseDAOImpl<V extends CanonicalDomain<K>, K extends Serializable> e
         return result;
     }
 
+    @Override
     public void delete(Collection<Criterion> criterions) {
         delete(criterions, null, null);
     }
 
+    @Override
     public void delete(Collection<Criterion> criterions, Number partitionSeed) {
         delete(criterions, partitionSeed, null);
     }
 
+    @Override
     public void delete(Collection<Criterion> criterions, Number partitionSeed, String table) {
         if (CollectionUtils.isNotEmpty(criterions)) {
             try {
                 Collection<V> entities = null;
                 while (CollectionUtils.isNotEmpty(entities = this.getPage(criterions,
-                                                                         null,
-                                                                         0,
-                                                                         100,
-                                                                         partitionSeed,
-                                                                         table,
-                                                                         null))) {
+                                                                          null,
+                                                                          0,
+                                                                          100,
+                                                                          partitionSeed,
+                                                                          table,
+                                                                          null))) {
                     deleteAll(entities, partitionSeed, table);
                 }
             } catch (Throwable e) {
@@ -685,6 +701,7 @@ public class BaseDAOImpl<V extends CanonicalDomain<K>, K extends Serializable> e
         }
     }
 
+    @Override
     public void iterate(int batchSize, boolean byIdRange, BatchHandler<V> handler) {
         iterate(null, null, batchSize, byIdRange, handler, null, 1, true, null, null, ReadPolicy.MASTER);
     }
@@ -766,15 +783,15 @@ public class BaseDAOImpl<V extends CanonicalDomain<K>, K extends Serializable> e
         int offset = minId;
         Collection<V> items = null;
         while (CollectionUtils.isNotEmpty(items = this.getPage(getIterateCriterions(criterions,
-                                                                                   offset,
-                                                                                   batchSize,
-                                                                                   maxId),
-                                                              orders,
-                                                              maxId > 0 ? 0 : offset,
-                                                              batchSize,
-                                                              partitionSeed,
-                                                              table,
-                                                              readPolicy)) || (maxId > 0 && offset <= maxId)) {
+                                                                                    offset,
+                                                                                    batchSize,
+                                                                                    maxId),
+                                                               orders,
+                                                               maxId > 0 ? 0 : offset,
+                                                               batchSize,
+                                                               partitionSeed,
+                                                               table,
+                                                               readPolicy)) || (maxId > 0 && offset <= maxId)) {
             if (CollectionUtils.isNotEmpty(items)) {
                 try {
                     for (V item : items) {
@@ -814,12 +831,14 @@ public class BaseDAOImpl<V extends CanonicalDomain<K>, K extends Serializable> e
         return criterions;
     }
 
+    @Override
     public void clearPartition() {
         if (this.partitionedTable != null) {
             PartitionContext.clear();
         }
     }
 
+    @Override
     public Map<K, V> getByIdsMap(Collection<K> ids) {
         return getByIdsMap(ids, null);
     }
@@ -964,14 +983,17 @@ public class BaseDAOImpl<V extends CanonicalDomain<K>, K extends Serializable> e
         return sum(criterions, property, null, null, null);
     }
 
+    @Override
     public int fieldUpdate(String field, Object value, K id) {
         return fieldUpdate(field, value, id, null, null);
     }
 
+    @Override
     public int fieldUpdate(String field, Object value, K id, Number partitionSeed) {
         return fieldUpdate(field, value, id, partitionSeed, null);
     }
 
+    @Override
     public int fieldUpdate(String field,
                            Object value,
                            Collection<Criterion> criterions,
@@ -1030,10 +1052,12 @@ public class BaseDAOImpl<V extends CanonicalDomain<K>, K extends Serializable> e
         return 0;
     }
 
+    @Override
     public int deltaUpdate(final String field, final Object value, final K id) {
         return this.deltaUpdate(field, value, id, null, null);
     }
 
+    @Override
     public int deltaUpdate(final String field, final Object value, final K id, Number partitionSeed, String table) {
         if (StringUtils.isNotEmpty(field) && value != null && id != null) {
             final String column = _getField(field);
@@ -1041,27 +1065,25 @@ public class BaseDAOImpl<V extends CanonicalDomain<K>, K extends Serializable> e
             if (StringUtils.isNotEmpty(column)) {
                 try {
                     setPartition(partitionSeed, table, null);
-                    int updated = (Integer) this.getHibernateTemplate().execute(new HibernateCallback<Integer>() {
-                        public Integer doInHibernate(Session session) throws HibernateException {
-                            SQLQuery query = session.createSQLQuery(StringUtils.join(new String[]{
-                                    "update",
-                                    getTable(),
-                                    "set",
-                                    column,
-                                    "=",
-                                    column,
-                                    "+?",
-                                    StringUtils.isEmpty(modifyColumn)
-                                            ? StringConsts.EMPTY
-                                            : ("," + modifyColumn + "=now()"),
-                                    "where",
-                                    primaryKey,
-                                    "=?"
-                            }, " "));
-                            query.setParameter(0, value);
-                            query.setParameter(1, id);
-                            return query.executeUpdate();
-                        }
+                    int updated = this.getHibernateTemplate().execute(session -> {
+                        SQLQuery query = session.createSQLQuery(StringUtils.join(new String[]{
+                                "update",
+                                getTable(),
+                                "set",
+                                column,
+                                "=",
+                                column,
+                                "+?",
+                                StringUtils.isEmpty(modifyColumn)
+                                        ? StringConsts.EMPTY
+                                        : ("," + modifyColumn + "=now()"),
+                                "where",
+                                primaryKey,
+                                "=?"
+                        }, " "));
+                        query.setParameter(0, value);
+                        query.setParameter(1, id);
+                        return query.executeUpdate();
                     });
 
                     return updated;
@@ -1103,7 +1125,7 @@ public class BaseDAOImpl<V extends CanonicalDomain<K>, K extends Serializable> e
 
     }
 
-    public List<Criterion> buildEQ(String field, Object value) {
+    private List<Criterion> buildEQ(String field, Object value) {
         List<Criterion> criterions = new ArrayList<Criterion>(1);
         criterions.add(Restrictions.eq(field, value));
         return criterions;
@@ -1115,6 +1137,7 @@ public class BaseDAOImpl<V extends CanonicalDomain<K>, K extends Serializable> e
         return orders;
     }
 
+    @Override
     public List<V> top(Collection<Criterion> criterions,
                        List<Order> orders,
                        int size,
