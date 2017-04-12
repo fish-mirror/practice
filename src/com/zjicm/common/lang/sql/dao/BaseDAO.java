@@ -7,11 +7,13 @@ import com.zjicm.common.lang.sql.ReadPolicy;
 import com.zjicm.common.lang.page.PageResult;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.ProjectionList;
 
 import java.io.Serializable;
 import java.sql.Connection;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
+
 
 public interface BaseDAO<V, K extends Serializable> {
 
@@ -157,6 +159,14 @@ public interface BaseDAO<V, K extends Serializable> {
                    String table,
                    ReadPolicy readPolicy);
 
+    <T> List<T> getAll(Collection<Criterion> criterions,
+                       ProjectionList projectionList,
+                       Class<T> clazz,
+                       List<Order> orders,
+                       Number partitionSeed,
+                       String table,
+                       ReadPolicy readPolicy);
+
     List<V> selectIn(String field, Collection<?> values, List<Order> orders);
 
     List<V> selectIn(String field,
@@ -218,16 +228,17 @@ public interface BaseDAO<V, K extends Serializable> {
     Number sum(Collection<Criterion> criterions, final String property);
 
     Number sum(Collection<Criterion> criterions,
-                      final String property,
-                      Number partitionSeed,
-                      String table,
-                      ReadPolicy readPolicy);
+               final String property,
+               Number partitionSeed,
+               String table,
+               ReadPolicy readPolicy);
 
-    List<Object> distinct(Collection<Criterion> criterions,
-                          final String property,
-                          Number partitionSeed,
-                          String table,
-                          ReadPolicy readPolicy);
+    <T> List<T> distinct(Collection<Criterion> criterions,
+                         List<String> properties,
+                         Class<T> clazz,
+                         Number partitionSeed,
+                         String table,
+                         ReadPolicy readPolicy);
 
     void iterate(int batchSize, boolean byIdRange, BatchHandler<V> handler);
 
@@ -256,10 +267,10 @@ public interface BaseDAO<V, K extends Serializable> {
     boolean isAlive(Number partitionSeed, ReadPolicy readPolicy);
 
     List<V> top(Collection<Criterion> criterions,
-                       List<Order> orders,
-                       int size,
-                       Comparator<V> comparator,
-                       Collection<Number> partitions,
-                       String table,
-                       ReadPolicy readPolicy);
+                List<Order> orders,
+                int size,
+                Comparator<V> comparator,
+                Collection<Number> partitions,
+                String table,
+                ReadPolicy readPolicy);
 }
