@@ -8,12 +8,7 @@
     <meta name="copyright" content="YUJING&WANGQI@浙江传媒学院"/>
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="http://asserts.ayuya.me/css/bootstrap.min.css"/>
     <!--你自己的样式文件 -->
-    <link href="css/index.css" rel="stylesheet"/>
-    <!-- HTML5 Shim 和 Respond.js 用于让 IE8 支持 HTML5元素和媒体查询 -->
-    <!-- 注意： 如果通过 file://  引入 Respond.js 文件，则该文件无法起效果 -->
-    <!--[if lt IE 9]>
-    <script src="js/html5shiv.js"></script>
-    <script src="js/respond.min.js"></script>
-    <![endif]-->
+    <link rel="stylesheet" type="text/css" href="http://asserts.ayuya.me/css/index.css"/>
 </head>

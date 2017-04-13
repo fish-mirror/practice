@@ -6,5 +6,7 @@
 <%@ include file="/WEB-INF/jsp/include/account_head.jsp" %>
 <body>
 <tiles:insertAttribute name="main" />
+<script src="http://asserts.ayuya.me/js/jquery.min.js"></script>
+<script src="http://asserts.ayuya.me/js/bootstrap.min.js"></script>
 </body>
 </html>

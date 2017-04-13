@@ -4,9 +4,8 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title></title>
-    <link href="../../../css/bootstrap.min.css" rel="stylesheet" />
-    <script src="../../../js/jquery.min.js"></script>
-    <script src="../../../js/bootstrap.min.js"></script>
+    <link href="http://asserts.ayuya.me/css/bootstrap.min.css" rel="stylesheet" />
+
     <style>
         .bg{
             position:absolute;
