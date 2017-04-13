@@ -20,7 +20,7 @@ public class Teacher implements CanonicalDomain<Integer> {
     private String number;
     private String name;
     private String sex;
-    private String institute;
+    private int institute;
     private String position;
     private String tel;
     private Date birth;
@@ -76,11 +76,11 @@ public class Teacher implements CanonicalDomain<Integer> {
         this.sex = sex;
     }
 
-    public String getInstitute() {
-        return this.institute;
+    public int getInstitute() {
+        return institute;
     }
 
-    public void setInstitute(String institute) {
+    public void setInstitute(int institute) {
         this.institute = institute;
     }
 

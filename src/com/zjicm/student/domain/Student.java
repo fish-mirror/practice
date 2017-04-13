@@ -22,17 +22,17 @@ public class Student implements CanonicalDomain<Integer> {
     private String number;
     private String name;
     private String sex;
-    private String institute;
+    private int institute;
     private String major;
-    private String classname;
+    private int classIndex;
+    private int grade;
     private String tel;
     private String email;
     private Date birth;
     private String nation;
     private String politics;
-    private short status;
+    private int status;
     private String imgUrl;
-    private short graduate;
     private Double height;
     private Double weight;
     private String address;
@@ -81,28 +81,36 @@ public class Student implements CanonicalDomain<Integer> {
         this.sex = sex;
     }
 
-    public String getInstitute() {
-        return this.institute;
+    public int getInstitute() {
+        return institute;
     }
 
-    public void setInstitute(String institute) {
+    public void setInstitute(int institute) {
         this.institute = institute;
     }
 
     public String getMajor() {
-        return this.major;
+        return major;
     }
 
     public void setMajor(String major) {
         this.major = major;
     }
 
-    public String getClassname() {
-        return this.classname;
+    public int getClassIndex() {
+        return classIndex;
     }
 
-    public void setClassname(String classname) {
-        this.classname = classname;
+    public void setClassIndex(int classIndex) {
+        this.classIndex = classIndex;
+    }
+
+    public int getGrade() {
+        return grade;
+    }
+
+    public void setGrade(int grade) {
+        this.grade = grade;
     }
 
     public String getTel() {
@@ -147,11 +155,11 @@ public class Student implements CanonicalDomain<Integer> {
         this.politics = politics;
     }
 
-    public short getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(short status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 
@@ -161,15 +169,6 @@ public class Student implements CanonicalDomain<Integer> {
 
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
-    }
-
-
-    public short getGraduate() {
-        return graduate;
-    }
-
-    public void setGraduate(short graduate) {
-        this.graduate = graduate;
     }
 
 
