@@ -654,18 +654,17 @@ public class BaseDAOImpl<V extends CanonicalDomain<K>, K extends Serializable> e
 
 
     @Override
-    public PageResult<V> getPageResult(Collection<Criterion> criterions, List<Order> orders, int offset, int size) {
+    public PageResult<V> getPageResult(Collection<Criterion> criterions, List<Order> orders, int page, int size) {
         PageResult<V> result = new PageResult<>();
         int total = count(criterions);
-        if (total < offset) offset = total;
+        if (total < page) page = total;
 
         result.setTotal(total);
-        result.setParameters(total, offset, size);
-        List<V> items = null;
-        items = getPage(criterions,
-                        orders,
-                        result.getStart(),
-                        result.getLimit());
+        result.setParameters(total, page, size);
+        List<V> items = getPage(criterions,
+                                orders,
+                                result.getStart(),
+                                result.getLimit());
         result.setResult(items);
 
         return result;
