@@ -20,13 +20,52 @@
     <context:annotation-config/>
     <context:component-scan base-package="com.zjicm"/>
 
-    <mvc:annotation-driven/>
+    <mvc:annotation-driven>
+        <mvc:message-converters register-defaults="true">
+            <bean class="com.zjicm.common.lang.convert.MapHttpMessageConverter"/>
+            <bean class="com.zjicm.common.lang.convert.JsonDataHolderHttpMessageConverter">
+                <property name="objectMapper" ref="objectMapper"/>
+            </bean>
+            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+                <property name="objectMapper" ref="objectMapper"/>
+            </bean>
+            <bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter"/>
+            <bean class="com.zjicm.common.lang.convert.StringHttpMessageConverter"/>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
     <mvc:interceptors>
         <bean class="com.zjicm.common.web.CommonInterceptor"/>
     </mvc:interceptors>
 
+    <bean id="objectMapper" class="com.zjicm.common.lang.json.CustomObjectMapper" init-method="init">
+        <property name="camelCaseToLowerCaseWithUnderscores" value="true"/>
+        <property name="dateFormatPattern" value="yyyy-MM-dd HH:mm:ss"/>
+    </bean>
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+        <property name="webBindingInitializer">
+            <bean class="org.springframework.web.bind.support.ConfigurableWebBindingInitializer">
+                <property name="conversionService">
+                    <bean class="org.springframework.format.support.FormattingConversionServiceFactoryBean"/>
+                </property>
+            </bean>
+        </property>
+
+        <property name="supportedMethods">
+            <list>
+                <value>GET</value>
+                <value>POST</value>
+                <value>HEAD</value>
+                <value>PUT</value>
+                <value>DELETE</value>
+                <value>PATCH</value>
+                <value>OPTIONS</value>
+                <value>TRACE</value>
+            </list>
+        </property>
+    </bean>
     <!--proxy-target-class="true"强制使用cglib代理   如果为false则spring会自动选择-->
     <aop:aspectj-autoproxy proxy-target-class="true"/>
+
 
     <!-- 配置数据源 -->
     <bean id="abstractDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" abstract="true"
