@@ -6,14 +6,15 @@
 	<!-- 学校LOGO -->
 	<div class="col-xs-6">
     	<br /><br />
-    	<!-- <img src="image/logo_school.png" /> -->
-    </div>
+		<img src="http://asserts.ayuya.me/image/logo_school.png" />
+
+	</div>
     <!-- 主体 -->
 	<div class="col-xs-12">
 		<br /><br /><br />
 		
 		<div class="bg">
-			<img src="../../../image/login_bg.png" />
+			<img src="http://asserts.ayuya.me/image/login_bg.png" />
 			
 		</div>
 		<div class="col-xs-8"></div>
@@ -45,6 +46,6 @@
 </div>
 <script type="text/javascript">
 function toRegister(){
-	window.location.href="register.jsp";
+	window.location.href="/register";
 }
 </script>
