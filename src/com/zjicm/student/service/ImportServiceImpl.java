@@ -74,7 +74,7 @@ public class ImportServiceImpl implements IImportService {
                     dataStu.setSex(row.getCell(2).getStringCellValue());
                     dataStu.setInstitute(row.getCell(3).getStringCellValue());
                     dataStu.setMajor(row.getCell(4).getStringCellValue());
-                    dataStu.setClassname(row.getCell(5).getStringCellValue());
+                    dataStu.setClassIndex(row.getCell(5).getStringCellValue());
                     dataStu.setTel(row.getCell(6).getStringCellValue());
                     dataStu.setBirth(DateUtils.timeStrToDate(row.getCell(7).getStringCellValue()));
                     dataStu.setPolitics(row.getCell(8).getStringCellValue());
@@ -84,7 +84,7 @@ public class ImportServiceImpl implements IImportService {
                     dataStu.setNumber(cell.getStringCellValue());
                     dataStu.setName(row.getCell(3).getStringCellValue());
                     dataStu.setSex(row.getCell(4).getStringCellValue());
-                    dataStu.setClassname(row.getCell(1).getStringCellValue());
+//                    dataStu.setClassIndex(row.getCell(1).getV());
                     dataStu.setImgUrl("/practice/image/default-head.png");
                     System.out.println(dataStu);
                     if (dataStu.getNumber() == null || dataStu.getNumber().equals("")) {
@@ -147,7 +147,7 @@ public class ImportServiceImpl implements IImportService {
 //
 //                        Student stu = new Student(stuId);
 //                        stu.setName(row.getCell(4).getStringCellValue());
-//                        stu.setClassname(row.getCell(2).getStringCellValue());
+//                        stu.setClassIndex(row.getCell(2).getStringCellValue());
 //                        stu.setImgUrl("/practice/image/default-head.png");
 //                        studentDao.save(stu);
 //                    }

@@ -1,10 +1,14 @@
 package com.zjicm.student.service;
 
 import java.util.List;
-import java.util.Map;
+import java.util.stream.Collectors;
 
+import com.zjicm.student.beans.ClassInfoDto;
+import com.zjicm.student.beans.ClassInfoOut;
 import com.zjicm.student.dao.StudentDao;
 import com.zjicm.student.domain.Student;
+import com.zjicm.student.support.CollegeInfoSupport;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,25 +33,26 @@ public class StudentServiceImpl implements StudentService {
         return studentDao.getByField("number", number);
     }
 
+    @Override
+    public List<ClassInfoOut> getClassList(int institute) {
+        List<ClassInfoDto> list = studentDao.getClassInfoByInstitute(institute);
+        if (CollectionUtils.isEmpty(list)) return null;
+
+        List<ClassInfoOut> outs = list.stream().map(classInfoDto -> {
+            ClassInfoOut out = new ClassInfoOut(classInfoDto);
+            out.setClassname(CollegeInfoSupport.getClassName(String.valueOf(out.getGrade()),
+                                                             out.getMajor(),
+                                                             out.getClassIndex()));
+            return out;
+        }).collect(Collectors.toList());
+        return outs;
+    }
+
 //    @Override
 //    public Page pageForStudentInfo(Short graduate, String classname, String num, int pageSize, int page) {
 //        return null;
 //    }
 
-    @Override
-    public List<String> getClassList(String institute) {
-        return null;
-    }
-
-    @Override
-    public List<String> getMajorList(String institute) {
-        return null;
-    }
-
-//    @Override
-//    public Map<String, StatusDTO> getStatus(String institute) {
-//        return null;
-//    }
 
     @Override
     public List<Student> findByClassName(String classname, int offset, int length) {
