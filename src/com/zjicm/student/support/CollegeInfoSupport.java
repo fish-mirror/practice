@@ -5,10 +5,7 @@ import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 学院相关信息
@@ -287,6 +284,7 @@ public class CollegeInfoSupport {
         if (StringUtils.isNotBlank(major) && ALIAS_MAP.containsKey(major)) return MAJOR_MAP.get(major);
         return null;
     }
+
     /**
      * 获取学院的专业列表
      *
@@ -340,6 +338,19 @@ public class CollegeInfoSupport {
     public static String getClassName(String grade, String majorCode, int classCode) {
         if (StringUtils.isBlank(grade) && classCode < 1 && StringUtils.isBlank(getMajor(majorCode))) return null;
         return grade + getMajor(majorCode) + classCode + "班";
+    }
+
+    /**
+     * 获取当前时间的毕业班年级
+     *
+     * @return
+     */
+    public static int getGraduatingGrade() {
+        Calendar calendar = Calendar.getInstance();
+        // 下半年时，毕业班为明年毕业的班级
+        if (calendar.get(Calendar.MONTH) > Calendar.JUNE) return calendar.get(Calendar.YEAR) - 23;
+        // 否则为当年毕业
+        return calendar.get(Calendar.YEAR) - 24;
     }
 
 }

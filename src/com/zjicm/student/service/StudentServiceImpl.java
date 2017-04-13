@@ -3,6 +3,7 @@ package com.zjicm.student.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.zjicm.common.lang.page.PageResult;
 import com.zjicm.student.beans.ClassInfoDto;
 import com.zjicm.student.beans.ClassInfoOut;
 import com.zjicm.student.dao.StudentDao;
@@ -48,66 +49,29 @@ public class StudentServiceImpl implements StudentService {
         return outs;
     }
 
+    @Override
+    public PageResult<Student> pageStudent(int institute,
+                                           boolean isGraduated,
+                                           int grade,
+                                           String major,
+                                           int classIndex,
+                                           int status,
+                                           String name,
+                                           int page,
+                                           int size) {
+        if (isGraduated) {
+            grade = CollegeInfoSupport.getGraduatingGrade();
+        }
+         return studentDao.page(institute, grade, major, classIndex, status, name, page, size);
+    }
+
 //    @Override
 //    public Page pageForStudentInfo(Short graduate, String classname, String num, int pageSize, int page) {
 //        return null;
 //    }
 
 
-    @Override
-    public List<Student> findByClassName(String classname, int offset, int length) {
-        return null;
-    }
 
-    @Override
-    public List<Student> findGraduateClass(short graduate, int offset, int length) {
-        return null;
-    }
-
-    @Override
-    public int count() {
-        return 0;
-    }
-
-    @Override
-    public int countByClassName(String classname) {
-        return 0;
-    }
-
-    @Override
-    public int countGraduateClass(short graduate) {
-        return 0;
-    }
-
-    @Override
-    public List countGraduateStatus(short graduate) {
-        return null;
-    }
-
-    @Override
-    public List countClassStatus(String classname) {
-        return null;
-    }
-
-    @Override
-    public List countInstituteStatus(String institute) {
-        return null;
-    }
-
-    @Override
-    public List<Student> findInGraduateStatus(short graduate, short status) {
-        return null;
-    }
-
-    @Override
-    public List<Student> findInClassStatus(String classname, short status) {
-        return null;
-    }
-
-    @Override
-    public List<Student> findInInstituteStatus(String institute, short status) {
-        return null;
-    }
 
 //    public Page pageForStudentInfo(Short graduate, String classname, String num, int pageSize, int page) {
 //
