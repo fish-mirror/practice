@@ -103,6 +103,7 @@ public class RootController {
         }
         Set<Integer> authorities = authorityService.getAuthorities(userId);
         if (CollectionUtils.isNotEmpty(authorities)) userSession.setAuthorities(authorities);
+        cacheService.set(CacheConsts.Storage.USERSESSION, userSession.getId(), userSession, 30);
         return userSession;
     }
 
