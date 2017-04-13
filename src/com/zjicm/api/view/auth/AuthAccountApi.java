@@ -35,13 +35,15 @@ public class AuthAccountApi extends RootController {
      *
      * @param request
      * @param response
+     * @param loginView
+     * @param results
      * @return
      */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
     public JsonDataHolder login(HttpServletRequest request,
                                 HttpServletResponse response,
-                                @Valid @ModelAttribute("formBean") LoginView loginView,
+                                @Valid @ModelAttribute LoginView loginView,
                                 BindingResult results
     ) {
         JsonDataHolder jsonDataHolder = new JsonDataHolder();
