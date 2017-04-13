@@ -17,15 +17,13 @@ import java.util.Set;
  * Created by yujing on 2017/3/19.
  */
 @Service
-public class AuthorityServiceImpl implements AuthorityService{
+public class AuthorityServiceImpl implements AuthorityService {
     @Autowired
     AuthorityDao authorityDao;
 
     @Override
     public Set<Integer> getAuthorities(int userId) {
-        List<Criterion> criteria = new ArrayList<>(1);
-        criteria.add(Restrictions.eq("user_id",userId));
-        List<Authority> authorities = authorityDao.getAll(criteria, null);
+        List<Authority> authorities = authorityDao.getByUser(userId);
         if (CollectionUtils.isEmpty(authorities)) return null;
 
         Set<Integer> sets = new HashSet<>();
