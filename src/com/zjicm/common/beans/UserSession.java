@@ -6,7 +6,6 @@ import com.zjicm.student.domain.Student;
 import com.zjicm.teacher.domain.Teacher;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -19,9 +18,9 @@ public class UserSession implements Serializable {
     private String name;
     private int roleId;
     private Set<Integer> authorities;
-    private String institute;
+    private int institute;
     private String major;
-    private String classname;
+    private int classIndex;
     private String indexPage;
 
     public UserSession(String sessionId) {
@@ -50,7 +49,7 @@ public class UserSession implements Serializable {
         this.setName(student.getName());
         this.setInstitute(student.getInstitute());
         this.setMajor(student.getMajor());
-        this.setClassname(student.getClassname());
+        this.setClassIndex(student.getClassIndex());
     }
 
     public void set(User user, Company company) {
@@ -114,11 +113,11 @@ public class UserSession implements Serializable {
         this.authorities = authorities;
     }
 
-    public String getInstitute() {
+    public int getInstitute() {
         return institute;
     }
 
-    public void setInstitute(String institute) {
+    public void setInstitute(int institute) {
         this.institute = institute;
     }
 
@@ -130,12 +129,12 @@ public class UserSession implements Serializable {
         this.major = major;
     }
 
-    public String getClassname() {
-        return classname;
+    public int getClassIndex() {
+        return classIndex;
     }
 
-    public void setClassname(String classname) {
-        this.classname = classname;
+    public void setClassIndex(int classIndex) {
+        this.classIndex = classIndex;
     }
 
     public String getIndexPage() {
