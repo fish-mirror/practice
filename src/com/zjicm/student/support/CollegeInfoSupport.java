@@ -294,7 +294,7 @@ public class CollegeInfoSupport {
      * @return
      */
     public static List getMajorList(int instituteId) {
-        if (instituteId < 0 || INSTITUTE_MAJOR_MAP.containsKey(instituteId)) return null;
+        if (instituteId < 0 || !INSTITUTE_MAJOR_MAP.containsKey(instituteId)) return null;
 
         String str = INSTITUTE_MAJOR_MAP.get(instituteId);
         if (StringUtils.isBlank(str)) return null;

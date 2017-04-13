@@ -2,14 +2,31 @@ package com.zjicm.student.service;
 
 import java.util.List;
 
+import com.zjicm.student.beans.ClassInfoOut;
 import com.zjicm.student.domain.Student;
 
 public interface StudentService {
+    /**
+     * 保存
+     *
+     * @param student
+     */
+    void save(Student student);
 
-    void save(Student stu);
-
+    /**
+     * 通过主键 ID 获取
+     *
+     * @param id
+     * @return
+     */
     Student get(Integer id);
 
+    /**
+     * 通过学号获取
+     *
+     * @param number
+     * @return
+     */
     Student getByNum(String number);
 
     /**
@@ -30,9 +47,7 @@ public interface StudentService {
      * @param institute
      * @return
      */
-    List<String> getClassList(String institute);
-
-    List<String> getMajorList(String institute);
+    List<ClassInfoOut> getClassList(int institute);
 
     //获得学院的状态分布
 //    Map<String, StatusDTO> getStatus(String institute);

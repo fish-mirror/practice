@@ -15,8 +15,8 @@ public class StudentDaoTest extends DaoTest{
     }
 
     @Override
-    public void getTest() {
-        super.getTest();
+    public void getByIdTest() {
+        super.getByIdTest();
     }
 
     @Override
