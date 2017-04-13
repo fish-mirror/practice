@@ -20,7 +20,7 @@ public class DefaultCacheServiceImpl implements CacheService {
     public <T extends Serializable> T get(String storage, String key) {
         if (!storageMap.containsKey(storage)) return null;
 
-        Map<String, Serializable> map = storageMap.get(key);
+        Map<String, Serializable> map = storageMap.get(storage);
         if (MapUtils.isEmpty(map)) return null;
 
         return (T)map.get(key);
@@ -33,6 +33,7 @@ public class DefaultCacheServiceImpl implements CacheService {
         } else {
             Map<String, Serializable> map = new HashMap<>();
             map.put(key, value);
+            storageMap.put(storage, map);
         }
         return true;
     }
