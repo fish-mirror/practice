@@ -4,7 +4,6 @@ import com.zjicm.auth.dao.UserDao;
 import com.zjicm.auth.domain.User;
 import com.zjicm.auth.enums.Role;
 import com.zjicm.auth.service.AuthorityService;
-import com.zjicm.auth.service.UserService;
 import com.zjicm.cache.consts.CacheConsts;
 import com.zjicm.cache.servive.CacheService;
 import com.zjicm.common.Environment;
@@ -133,7 +132,7 @@ public class RootController {
     }
 
     public void refreshSession(UserSession userSession) {
-        cacheService.set(CacheConsts.Storage.USERSESSION, userSession.getId(),userSession, 0);
+        cacheService.set(CacheConsts.Storage.USERSESSION, userSession.getId(), userSession, 0);
     }
 
     public JsonDataHolder redirect(HttpServletResponse response, String service) {
@@ -154,19 +153,30 @@ public class RootController {
         return null;
     }
 
+    /**
+     * 是否需要检查登录
+     *
+     * @return
+     */
     public boolean checkLogin() {
         return true;
     }
 
-    public boolean isApi() {
-        return false;
+    /**
+     * 访问需要的权限
+     *
+     * @return
+     */
+    public int permissionToCheck() {
+        return 0;
     }
 
-    public long permissionToCheck() {
-        return 0l;
-    }
-
-    public int statusToCheck() {
+    /**
+     * 访问需要角色限制
+     *
+     * @return
+     */
+    public int roleToCheck() {
         return 0;
     }
 }
