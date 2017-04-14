@@ -155,6 +155,14 @@ public class RootController {
     }
 
     /**
+     * 是否是 API 接口
+     *
+     * @return
+     */
+    public boolean isApi() {
+        return true;
+    }
+    /**
      * 是否需要检查登录
      *
      * @return
