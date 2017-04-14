@@ -892,11 +892,8 @@ public class BaseDAOImpl<V extends CanonicalDomain<K>, K extends Serializable> e
                     }
                 }
 
-                return (List<V>) this.getHibernateTemplate().execute(new HibernateCallback<List<V>>() {
-                    public List<V> doInHibernate(Session session) throws HibernateException {
-                        return dc.getExecutableCriteria(session).list();
-                    }
-                });
+                return this.getHibernateTemplate()
+                           .execute((HibernateCallback<List<V>>) session -> dc.getExecutableCriteria(session).list());
             } catch (Throwable e) {
                 throw new DAOReadException(e);
             } finally {
