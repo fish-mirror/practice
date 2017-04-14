@@ -3,6 +3,8 @@ package com.zjicm.common.web;
 import com.zjicm.common.beans.UserSession;
 import com.zjicm.common.lang.http.consts.HttpConsts;
 import com.zjicm.common.lang.cookie.CookieHandler;
+import com.zjicm.common.lang.http.util.WebUtil;
+import com.zjicm.common.lang.json.JsonDataHolder;
 import com.zjicm.common.lang.util.UUIDUtil;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,7 @@ public class CommonInterceptor implements HandlerInterceptor {
     @Autowired
     @Qualifier("sessionCookieHandler")
     private CookieHandler sessionCookieHandler;
+
     @Override
     public boolean preHandle(HttpServletRequest request,
                              HttpServletResponse response,
@@ -36,15 +39,34 @@ public class CommonInterceptor implements HandlerInterceptor {
                 String sessionId = sessionCookieHandler.getCookieValue(request);
 
 
-                    if (StringUtils.isBlank(sessionId)) {
-                        sessionId = UUIDUtil.get();
-                        sessionCookieHandler.addCookie(response, sessionId);
-                    }
+                if (StringUtils.isBlank(sessionId)) {
+                    sessionId = UUIDUtil.get();
+                    sessionCookieHandler.addCookie(response, sessionId);
+                }
 
                 request.setAttribute(HttpConsts.Request.ATTRIBUTES_SESSIONID, sessionId);
             }
 
             UserSession userSession = controller.getUserSession(request);
+
+            // 登录限制
+            if (controller.checkLogin() && !userSession.isLogin()) {
+                controller.redirectWeb(response, "/login");
+            }
+
+            // 角色限制
+            if (controller.roleToCheck() != userSession.getRoleId()) {
+                if (controller.isApi()) WebUtil.writeJson(response, new JsonDataHolder().error403().toJson());
+                else controller.redirectWeb(response, "/denied");
+                return false;
+            }
+
+            // 权限限制
+            if (userSession.getAuthorities().contains(controller.permissionToCheck())) {
+                if (controller.isApi()) WebUtil.writeJson(response, new JsonDataHolder().error403().toJson());
+                else controller.redirectWeb(response, "/denied");
+                return false;
+            }
 
 
         }
