@@ -348,9 +348,9 @@ public class CollegeInfoSupport {
     public static int getGraduatingGrade() {
         Calendar calendar = Calendar.getInstance();
         // 下半年时，毕业班为明年毕业的班级
-        if (calendar.get(Calendar.MONTH) > Calendar.JUNE) return calendar.get(Calendar.YEAR) - 23;
-        // 否则为当年毕业
-        return calendar.get(Calendar.YEAR) - 24;
+        if (calendar.get(Calendar.MONTH) > Calendar.JUNE) return calendar.get(Calendar.YEAR) - 2003;
+
+        return calendar.get(Calendar.YEAR) - 2004;
     }
 
 }
