@@ -1,12 +1,13 @@
 package com.zjicm.api.user.student;
 
-import com.zjicm.auth.enums.Role;
 import com.zjicm.common.beans.UserSession;
 import com.zjicm.common.lang.json.JsonDataHolder;
 import com.zjicm.common.lang.page.PageResult;
-import com.zjicm.common.web.RootController;
+import com.zjicm.student.beans.StatusOut;
 import com.zjicm.student.domain.Student;
 import com.zjicm.student.service.StudentService;
+import com.zjicm.web.teacher.TeacherBaseController;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * 学生信息接口(教职工管理接口)
@@ -24,7 +26,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @Controller
 @RequestMapping(value = "/teacher/i/student")
-public class StudentInfoTeacherApi extends RootController {
+public class StudentInfoTeacherApi extends TeacherBaseController {
     @Autowired
     private StudentService studentService;
 
@@ -48,8 +50,6 @@ public class StudentInfoTeacherApi extends RootController {
 
         Student student = studentService.getByNum(number);
         if (student == null) return jsonDataHolder.error101();
-
-        if (Role.teacher.getValue() != session.getRoleId()) return jsonDataHolder.error403();
         if (session.getInstitute() != student.getInstitute()) return jsonDataHolder.error403();
 
         return jsonDataHolder.addToItems(student);
@@ -72,11 +72,11 @@ public class StudentInfoTeacherApi extends RootController {
     @ResponseBody
     public JsonDataHolder list(HttpServletRequest request,
                                HttpServletResponse response,
-                               @RequestParam(value = "status", defaultValue = "0", required = false) int status,
-                               @RequestParam(value = "grade", defaultValue = "", required = false) int grade,
+                               @RequestParam(value = "status", defaultValue = "-1", required = false) int status,
+                               @RequestParam(value = "grade", defaultValue = "0", required = false) int grade,
                                @RequestParam(value = "major", defaultValue = "", required = false) String major,
                                @RequestParam(value = "class_index", defaultValue = "0", required = false) int classIndex,
-                               @RequestParam(value = "is_graduating", defaultValue = "false", required = false) Boolean isGraduating,
+                               @RequestParam(value = "is_graduating", defaultValue = "false", required = false) boolean isGraduating,
                                @RequestParam(value = "name", defaultValue = "", required = false) String name,
                                @RequestParam(value = "page_index", defaultValue = "1", required = false) int page_index,
                                @RequestParam(value = "items_per_page", defaultValue = "10", required = false) int items_per_page
@@ -95,6 +95,7 @@ public class StudentInfoTeacherApi extends RootController {
                                                        items_per_page);
 
 
+        if (result == null || CollectionUtils.isEmpty(result.getResult())) return jsonDataHolder.error101();
         jsonDataHolder.putAttrToJsonDataHolder(result);
         return jsonDataHolder.addListToItems(result.getResult());
     }
@@ -108,10 +109,23 @@ public class StudentInfoTeacherApi extends RootController {
      */
     @RequestMapping(value = "/status", method = RequestMethod.GET)
     @ResponseBody
-    public JsonDataHolder getStatusDistribute(HttpServletRequest request,
-                                              HttpServletResponse response) {
+    public JsonDataHolder distribute(HttpServletRequest request,
+                                     HttpServletResponse response,
+                                     @RequestParam(value = "grade", defaultValue = "0", required = false) int grade,
+                                     @RequestParam(value = "major", defaultValue = "", required = false) String major,
+                                     @RequestParam(value = "class_index", defaultValue = "0", required = false) int classIndex,
+                                     @RequestParam(value = "is_graduating", defaultValue = "false", required = false) boolean isGraduating
+    ) {
+        JsonDataHolder jsonDataHolder = new JsonDataHolder();
+        UserSession session = getUserSession(request);
 
-        return null;
+        List<StatusOut> list = studentService.getStatusdistribute(session.getInstitute(),
+                                                                  isGraduating,
+                                                                  grade,
+                                                                  major,
+                                                                  classIndex);
+        if (CollectionUtils.isEmpty(list)) return jsonDataHolder.error101();
+        return jsonDataHolder.addListToItems(list);
     }
 
 
