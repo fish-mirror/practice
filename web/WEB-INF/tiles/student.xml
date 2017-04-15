@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+        "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+        "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<tiles-definitions>
+    <!-- 学生主页 默认是简历管理页-->
+    <definition name="student.index" extends="layout.default">
+        <put-attribute name="header" type="template" value="/WEB-INF/jsp/include/nav.jsp"/>
+        <put-attribute name="nav" type="template" value="/WEB-INF/jsp/student/resume/nav.jsp"/>
+        <put-attribute name="main" type="template" value="/WEB-INF/jsp/student/resume/personal_info.jsp"/>
+    </definition>
+
+    <!-- 求职管理 首页 -->
+    <definition name="student.job" extends="student.index">
+        <put-attribute name="nav" type="template" value="/WEB-INF/jsp/student/job/nav.jsp"/>
+        <put-attribute name="main" type="template" value="/WEB-INF/jsp/student/job/personal.jsp"/>
+    </definition>
+
+    <!-- 简历管理 首页 -->
+    <definition name="student.resume" extends="student.index">
+        <put-attribute name="nav" type="template" value="/WEB-INF/jsp/student/resume/nav.jsp"/>
+        <put-attribute name="main" type="template" value="/WEB-INF/jsp/student/resume/personal_info.jsp"/>
+    </definition>
+
+    <!-- 实习管理 首页 -->
+    <definition name="student.practice" extends="student.index">
+        <put-attribute name="nav" type="template" value="/WEB-INF/jsp/student/practice/nav.jsp"/>
+        <put-attribute name="main" type="template" value="/WEB-INF/jsp/student/practice/weekly.jsp"/>
+    </definition>
+
+    <!-- 短学期管理 首页 -->
+    <definition name="student.short" extends="student.index">
+        <put-attribute name="nav" type="template" value="/WEB-INF/jsp/student/short_term/nav.jsp"/>
+        <put-attribute name="main" type="template" value="/WEB-INF/jsp/student/short_term/weekly.jsp"/>
+    </definition>
+</tiles-definitions>
+

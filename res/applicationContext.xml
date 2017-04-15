@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+           http://www.springframework.org/schema/aop 
+           http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-4.2.xsd">
+
+    <bean id="configBean" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location" value="classpath:config.properties"/>
+    </bean>
+
+    <context:annotation-config/>
+    <context:component-scan base-package="com.zjicm"/>
+
+    <mvc:annotation-driven>
+        <mvc:message-converters register-defaults="true">
+            <bean class="com.zjicm.common.lang.convert.MapHttpMessageConverter"/>
+            <bean class="com.zjicm.common.lang.convert.JsonDataHolderHttpMessageConverter">
+                <property name="objectMapper" ref="objectMapper"/>
+            </bean>
+            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+                <property name="objectMapper" ref="objectMapper"/>
+            </bean>
+            <bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter"/>
+            <bean class="com.zjicm.common.lang.convert.StringHttpMessageConverter"/>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+    <mvc:interceptors>
+        <bean class="com.zjicm.common.web.CommonInterceptor"/>
+    </mvc:interceptors>
+
+    <bean id="objectMapper" class="com.zjicm.common.lang.json.CustomObjectMapper" init-method="init">
+        <property name="camelCaseToLowerCaseWithUnderscores" value="true"/>
+        <property name="dateFormatPattern" value="yyyy-MM-dd HH:mm:ss"/>
+    </bean>
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+        <property name="webBindingInitializer">
+            <bean class="org.springframework.web.bind.support.ConfigurableWebBindingInitializer">
+                <property name="conversionService">
+                    <bean class="org.springframework.format.support.FormattingConversionServiceFactoryBean"/>
+                </property>
+            </bean>
+        </property>
+
+        <property name="supportedMethods">
+            <list>
+                <value>GET</value>
+                <value>POST</value>
+                <value>HEAD</value>
+                <value>PUT</value>
+                <value>DELETE</value>
+                <value>PATCH</value>
+                <value>OPTIONS</value>
+                <value>TRACE</value>
+            </list>
+        </property>
+    </bean>
+    <!--proxy-target-class="true"强制使用cglib代理   如果为false则spring会自动选择-->
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
+
+
+    <!-- 配置数据源 -->
+    <bean id="abstractDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" abstract="true"
+          destroy-method="close">
+        <property name="driverClass" value="com.mysql.jdbc.Driver"/>
+        <property name="initialPoolSize" value="5"/>
+        <property name="maxIdleTime" value="60"/>
+        <property name="acquireIncrement" value="1"/>
+        <property name="maxStatements" value="0"/>
+        <property name="idleConnectionTestPeriod" value="60"/>
+        <property name="preferredTestQuery" value="select 2"/>
+        <property name="acquireRetryAttempts" value="20"/>
+        <property name="breakAfterAcquireFailure" value="false"/>
+        <property name="testConnectionOnCheckout" value="false"/>
+        <property name="testConnectionOnCheckin" value="true"/>
+    </bean>
+
+    <bean id="dataSource" parent="abstractDataSource">
+        <property name="jdbcUrl"
+                  value="jdbc:mysql://${datasource.host}:${datasource.port}/${datasource.schema}?${datasource.connection.params}"/>
+        <property name="user" value="${datasource.username}"/>
+        <property name="password" value="${datasource.password}"/>
+        <property name="minPoolSize" value="${datasource.minpoolsize.main}"/>
+        <property name="maxPoolSize" value="${datasource.maxpoolsize.main}"/>
+    </bean>
+
+    <!-- 整合Hibernate的SessionFactory -->
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+                <prop key="current_session_context_class">thread</prop>
+                <prop key="hibernate.show_sql">true</prop>
+            </props>
+        </property>
+        <property name="namingStrategy" >
+            <bean class="org.hibernate.cfg.ImprovedNamingStrategy" />
+        </property>
+        <property name="packagesToScan">
+            <list>
+                <value>com.zjicm.auth.domain</value>
+                <value>com.zjicm.teacher.domain</value>
+                <value>com.zjicm.company.domain</value>
+                <value>com.zjicm.cooperation.domain</value>
+                <value>com.zjicm.job.domain</value>
+                <value>com.zjicm.practice.domain</value>
+                <value>com.zjicm.resume.domain</value>
+                <value>com.zjicm.shortterm.domain</value>
+                <value>com.zjicm.student.domain</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- 配置transaction -->
+    <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+
+
+    <!-- 配置HibernateTemplate -->
+    <bean id="hibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="sessionCookieHandler" class="com.zjicm.common.lang.cookie.CookieHandler">
+        <property name="cookieName" value="ZJICM_SESSIONID"/>
+        <property name="cookieDomain" value="${server.domain.suffix}"/>
+        <property name="cookiePath" value="/"/>
+        <property name="httpOnly" value="true"/>
+    </bean>
+</beans>
