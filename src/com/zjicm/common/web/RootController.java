@@ -160,7 +160,7 @@ public class RootController {
      * @return
      */
     public boolean isApi() {
-        return true;
+        return false;
     }
     /**
      * 是否需要检查登录
@@ -168,7 +168,7 @@ public class RootController {
      * @return
      */
     public boolean checkLogin() {
-        return true;
+        return false;
     }
 
     /**

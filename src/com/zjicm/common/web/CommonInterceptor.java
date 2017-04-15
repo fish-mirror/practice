@@ -55,18 +55,21 @@ public class CommonInterceptor implements HandlerInterceptor {
             }
 
             // 角色限制
-            if (controller.roleToCheck() != userSession.getRoleId()) {
-                if (controller.isApi()) WebUtil.writeJson(response, new JsonDataHolder().error403().toJson());
-                else controller.redirectWeb(response, "/denied");
-                return false;
-            }
+            if (controller.roleToCheck() > 0)
+                if (controller.roleToCheck() != userSession.getRoleId()) {
+                    if (controller.isApi()) WebUtil.writeJson(response, new JsonDataHolder().error403().toJson());
+                    else controller.redirectWeb(response, "/denied");
+                    return false;
+                }
 
             // 权限限制
-            if (userSession.getAuthorities().contains(controller.permissionToCheck())) {
-                if (controller.isApi()) WebUtil.writeJson(response, new JsonDataHolder().error403().toJson());
-                else controller.redirectWeb(response, "/denied");
-                return false;
-            }
+            if (controller.permissionToCheck() > 0)
+                if (userSession.getAuthorities() == null ||
+                    userSession.getAuthorities().contains(controller.permissionToCheck())) {
+                    if (controller.isApi()) WebUtil.writeJson(response, new JsonDataHolder().error403().toJson());
+                    else controller.redirectWeb(response, "/denied");
+                    return false;
+                }
 
 
         }
