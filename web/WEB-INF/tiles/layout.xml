@@ -19,7 +19,7 @@
         <put-attribute name="main" type="template" value="/WEB-INF/jsp/account/login.jsp"/>
     </definition>
     <!-- 注册页 -->
-    <definition name="acoount.register" template="/WEB-INF/jsp/layout/account.jsp">
+    <definition name="account.register" template="/WEB-INF/jsp/layout/account.jsp">
         <put-attribute name="main" type="template" value="/WEB-INF/jsp/account/register.jsp"/>
     </definition>
 </tiles-definitions>
