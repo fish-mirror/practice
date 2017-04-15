@@ -5,7 +5,7 @@ package com.zjicm.student.beans;
  */
 public class StatusDto {
     private int status;
-    private int total;
+    private long total;
 
     public int getStatus() {
         return status;
@@ -15,11 +15,11 @@ public class StatusDto {
         this.status = status;
     }
 
-    public int getTotal() {
+    public long getTotal() {
         return total;
     }
 
-    public void setTotal(int total) {
+    public void setTotal(long total) {
         this.total = total;
     }
 }

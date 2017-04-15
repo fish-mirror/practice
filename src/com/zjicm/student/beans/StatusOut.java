@@ -16,7 +16,7 @@ public class StatusOut {
         if (practiceStatus == null) return;
         this.status = dto.getStatus();
         this.statusStr = practiceStatus.name();
-        this.total = dto.getTotal();
+        this.total = (int) dto.getTotal();
     }
 
     public int getStatus() {
