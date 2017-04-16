@@ -62,6 +62,8 @@ public class StringConsts {
     public static final String DATE_FORMAT_PATTERN_MONTH_INT = "yyyyMM";
     public static final String CHARSET_GBK = "GBK";
     public static final String CHARSET_UTF8 = "UTF-8";
+    public static final String UNKOWN = "\u672a\u77e5";
+
     public StringConsts() {
     }
 

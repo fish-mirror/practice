@@ -25,7 +25,7 @@ public class PageResult<V> implements Serializable {
     /**
      * @return Returns the result.
      */
-    public List getResult() {
+    public List<V> getResult() {
         return result;
     }
 
