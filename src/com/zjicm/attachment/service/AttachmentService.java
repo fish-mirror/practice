@@ -24,8 +24,38 @@ public class AttachmentService {
     @Autowired
     private AttachmentDao attachmentDao;
 
+    /**
+     * 通过 ID 获取
+     *
+     * @param id
+     * @param userId
+     * @return
+     */
+    public Attachment getById(int id, int userId) {
+        Attachment attachment = attachmentDao.getById(id);
+        if (attachment == null) return null;
 
+        AttEnums.Type type = AttEnums.Type.is(attachment.getObjectType());
+        if (type == null) return null;
 
+        switch (type) {
+            case avatar:
+            case news_picture:
+                return attachment;
+            default:
+                if (attachment.getUserId() == userId) return attachment;
+                break;
+        }
+        return null;
+    }
+
+    /**
+     * 多 ID 获取
+     *
+     * @param ids
+     * @param userId
+     * @return
+     */
     public List<Attachment> getListByAuth(List<Integer> ids, int userId) {
         List<Attachment> attachments = attachmentDao.getByIds(ids);
         if (CollectionUtils.isEmpty(attachments)) return null;
