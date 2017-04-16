@@ -25,6 +25,11 @@ public class User implements CanonicalDomain<Integer> {
     public User() {
     }
 
+    public User(String number, String password, int roleId) {
+        this.number = number;
+        this.password = password;
+        this.roleId = roleId;
+    }
 
     @Override
     public void prepare() {

@@ -286,6 +286,20 @@ public class CollegeInfoSupport {
     }
 
     /**
+     * 从班级名获取班级序号
+     *
+     * @param classname
+     * @return
+     */
+    public static int getClassIndex(String classname) {
+        if (StringUtils.isBlank(classname)) return 0;
+        if (classname.lastIndexOf('1') > 2) return 1;
+        if (classname.lastIndexOf('2') > 2) return 2;
+        if (classname.lastIndexOf('3') > 2) return 3;
+        return 0;
+    }
+
+    /**
      * 获取学院的专业列表
      *
      * @param instituteId

@@ -3,6 +3,9 @@ package com.zjicm.student.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.zjicm.auth.dao.UserDao;
+import com.zjicm.auth.domain.User;
+import com.zjicm.auth.enums.Role;
 import com.zjicm.common.lang.page.PageResult;
 import com.zjicm.student.beans.ClassInfoDto;
 import com.zjicm.student.beans.ClassInfoOut;
@@ -12,6 +15,7 @@ import com.zjicm.student.dao.StudentDao;
 import com.zjicm.student.domain.Student;
 import com.zjicm.student.support.CollegeInfoSupport;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +24,8 @@ public class StudentService {
 
     @Autowired
     private StudentDao studentDao;
-
+    @Autowired
+    private UserDao userDao;
     /**
      * 保存
      *
@@ -122,5 +127,30 @@ public class StudentService {
         if (CollectionUtils.isEmpty(list)) return null;
 
         return list.stream().map(StatusOut::new).collect(Collectors.toList());
+    }
+
+    /**
+     * 导入学生信息
+     *
+     * @param values
+     * @param institute
+     * @return
+     */
+    public boolean createStudentFromExcel(List<String> values, int institute) {
+        if (CollectionUtils.isEmpty(values)) return false;
+        String number = values.get(1);
+        if (number.length() != 9 && !NumberUtils.isNumber(number)) return false;
+        User user = new User(number, number, Role.student.getValue());
+
+        Student student = new Student();
+        student.setNumber(number);
+        student.setName(values.get(2));
+        student.setInstitute(institute);
+        student.setMajor(CollegeInfoSupport.getMajorCode(values.get(4)));
+        student.setClassIndex(CollegeInfoSupport.getClassIndex(values.get(5)));
+
+        userDao.save(user);
+        studentDao.save(student);
+        return true;
     }
 }
