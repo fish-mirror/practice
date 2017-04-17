@@ -7,10 +7,8 @@ import com.zjicm.auth.dao.UserDao;
 import com.zjicm.auth.domain.User;
 import com.zjicm.auth.enums.Role;
 import com.zjicm.common.lang.page.PageResult;
-import com.zjicm.student.beans.ClassInfoDto;
-import com.zjicm.student.beans.ClassInfoOut;
-import com.zjicm.student.beans.StatusDto;
-import com.zjicm.student.beans.StatusOut;
+import com.zjicm.common.lang.util.StringUtil;
+import com.zjicm.student.beans.*;
 import com.zjicm.student.dao.StudentDao;
 import com.zjicm.student.domain.Student;
 import com.zjicm.student.support.CollegeInfoSupport;
@@ -26,6 +24,7 @@ public class StudentService {
     private StudentDao studentDao;
     @Autowired
     private UserDao userDao;
+
     /**
      * 保存
      *
@@ -152,5 +151,24 @@ public class StudentService {
         userDao.save(user);
         studentDao.save(student);
         return true;
+    }
+
+    /**
+     * 修改学生基本信息
+     *
+     * @param student
+     * @param params
+     */
+    public void patchStudent(Student student, StudentPatchParams params) {
+        if (student == null || params == null) return;
+        if (StringUtil.isNotBlank(params.getEmail())) student.setEmail(params.getEmail());
+        if (StringUtil.isNotBlank(params.getTel())) student.setTel(params.getTel());
+        if (StringUtil.isNotBlank(params.getAddress())) student.setAddress(params.getAddress());
+        if (StringUtil.isNotBlank(params.getNation())) student.setNation(params.getNation());
+        if (StringUtil.isNotBlank(params.getPolitic())) student.setPolitics(params.getPolitic());
+        if (params.getBirthday() != null) student.setBirth(params.getBirthday());
+        if (params.getWeight() > 0) student.setWeight(params.getWeight());
+        if (params.getHeight() > 0) student.setHeight(params.getHeight());
+
     }
 }

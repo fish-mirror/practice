@@ -201,6 +201,16 @@ public class JsonDataHolder {
 
     }
 
+    /**
+     * 检查当前 BindingResult 是否验证失败，失败时候将其加入 error 节点
+     * @param results
+     * @return
+     */
+    public boolean checkError(BindingResult results){
+        List<JsonErrorInfo> errorArray = new ArrayList<>();
+        if (this.packErrorsFromResult(404, "验证失败", errorArray, results) != null) return true;
+        return false;
+    }
 
     //********简单信息的封装*********
 

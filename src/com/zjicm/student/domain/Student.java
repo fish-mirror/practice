@@ -33,8 +33,8 @@ public class Student implements CanonicalDomain<Integer> {
     private String politics;
     private int status;
     private String imgUrl;
-    private Double height;
-    private Double weight;
+    private int height;
+    private int weight;
     private String address;
 
     @Column(updatable = false)
@@ -172,19 +172,19 @@ public class Student implements CanonicalDomain<Integer> {
     }
 
 
-    public Double getHeight() {
+    public int getHeight() {
         return height;
     }
 
-    public void setHeight(Double height) {
+    public void setHeight(int height) {
         this.height = height;
     }
 
-    public Double getWeight() {
+    public int getWeight() {
         return weight;
     }
 
-    public void setWeight(Double weight) {
+    public void setWeight(int weight) {
         this.weight = weight;
     }
 
