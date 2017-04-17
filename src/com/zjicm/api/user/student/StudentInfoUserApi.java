@@ -21,6 +21,7 @@ import javax.validation.Valid;
 
 /**
  * 学生信息个人接口
+ * <p>
  * Created by yujing on 2017/3/30.
  */
 @Controller
@@ -29,6 +30,7 @@ public class StudentInfoUserApi extends RootController {
 
     @Autowired
     private StudentService studentService;
+
     /**
      * 获取个人信息
      *
