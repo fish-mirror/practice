@@ -71,7 +71,8 @@ public class StudentInfoUserApi extends RootController {
         if (jsonDataHolder.checkError(results)) return jsonDataHolder;
 
         UserSession session = getUserSession(request);
-        Student student = studentService.get(session.getUserId());
+        Student student = studentService.getByNum(session.getNumber());
+
         if (student == null) return jsonDataHolder.error101();
 
         studentService.patchStudent(student, params);

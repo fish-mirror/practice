@@ -169,6 +169,7 @@ public class StudentService {
         if (params.getBirthday() != null) student.setBirth(params.getBirthday());
         if (params.getWeight() > 0) student.setWeight(params.getWeight());
         if (params.getHeight() > 0) student.setHeight(params.getHeight());
+        studentDao.save(student);
 
     }
 }
