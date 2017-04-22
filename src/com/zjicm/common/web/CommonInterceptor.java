@@ -65,7 +65,7 @@ public class CommonInterceptor implements HandlerInterceptor {
             // 权限限制
             if (controller.permissionToCheck() > 0)
                 if (userSession.getAuthorities() == null ||
-                    userSession.getAuthorities().contains(controller.permissionToCheck())) {
+                    !userSession.getAuthorities().contains(controller.permissionToCheck())) {
                     if (controller.isApi()) WebUtil.writeJson(response, new JsonDataHolder().error403().toJson());
                     else controller.redirectWeb(response, "/denied");
                     return false;
