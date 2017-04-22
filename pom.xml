@@ -14,16 +14,17 @@
     <properties>
         <spring.version>4.2.7.RELEASE</spring.version>
         <tiles.version>3.0.5</tiles.version>
-        <final.name>practic</final.name>
+        <final.name>practice</final.name>
         <default.encoding>UTF-8</default.encoding>
         <compiler.fork>false</compiler.fork>
         <compiler.executable>/opt/java8/bin/javac</compiler.executable>
         <compiler.version>1.8</compiler.version>
         <compiler.source>1.8</compiler.source>
         <compiler.target>1.8</compiler.target>
-        <test.skip>false</test.skip>
+        <test.skip>true</test.skip>
         <test.jvm>/opt/java8/bin/java</test.jvm>
     </properties>
+
     <build>
 
         <finalName>${final.name}</finalName>
@@ -156,9 +157,10 @@
                 <artifactId>tomcat7-maven-plugin</artifactId>
                 <version>2.2</version>
                 <configuration>
-                    <path>/</path>
                     <uriEncoding>${default.encoding}</uriEncoding>
-                    <server>deploy_local</server>
+                    <server>aliyun</server>
+                    <url>http://139.129.37.224:8080/manager/text</url>
+                    <path>/practice</path>
                     <warFile>${project.build.directory}/dist/${project.build.finalName}.${project.packaging}</warFile>
                     <warSourceDirectory>web</warSourceDirectory>
                     <!--<systemProperties>-->
