@@ -8,19 +8,20 @@ import com.zjicm.common.lang.excel.XlsReader;
 import com.zjicm.common.lang.json.JsonDataHolder;
 import com.zjicm.common.lang.json.MsgType;
 import com.zjicm.common.lang.util.StringUtil;
+import com.zjicm.student.beans.StudentInstituteParams;
+import com.zjicm.student.domain.Student;
 import com.zjicm.student.service.StudentService;
 import com.zjicm.web.teacher.TeacherBaseController;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -82,6 +83,39 @@ public class StudentManageTeacherApi extends TeacherBaseController {
         return jsonDataHolder.simpleMsg(0, MsgType.add);
     }
 
+    /**
+     * 单字段更新学生的学院信息
+     *
+     * @param request
+     * @param respons
+     * @param params
+     * @param results
+     * @return
+     */
+    @RequestMapping(value = "", method = RequestMethod.PATCH)
+    @ResponseBody
+    public JsonDataHolder patch(HttpServletRequest request,
+                                HttpServletResponse respons,
+                                @RequestParam(value = "number", defaultValue = "", required = false) String number,
+                                @Valid @ModelAttribute StudentInstituteParams params,
+                                BindingResult results
+    ) {
+        JsonDataHolder jsonDataHolder = new JsonDataHolder();
+        if (StringUtil.isBlank(number)) return jsonDataHolder.error400();
+
+        if (jsonDataHolder.checkError(results)) return jsonDataHolder;
+
+        UserSession session = getUserSession(request);
+        Student student = studentService.getByNum(number);
+
+        if (student == null) return jsonDataHolder.error101();
+        if (student.getInstitute() != session.getInstitute()) return jsonDataHolder.error403();
+
+        studentService.patchStudentByTeacher(student, params);
+
+        return jsonDataHolder.simpleMsg(student.getId(), MsgType.update);
+
+    }
     @Override
     public int permissionToCheck() {
         return AuthEnums.student_manage.getValue();

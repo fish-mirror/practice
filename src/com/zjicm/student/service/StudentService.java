@@ -172,4 +172,26 @@ public class StudentService {
         studentDao.save(student);
 
     }
+
+    /**
+     * 修改学生的学院基本信息
+     *
+     * @param student
+     * @param params
+     */
+    public void patchStudentByTeacher(Student student, StudentInstituteParams params) {
+        if (student == null || params == null) return;
+        if (StringUtil.isNotBlank(params.getName())) student.setName(params.getName());
+        if (params.getSex() > 0) {
+            if (params.getSex() == 1) student.setSex("男");
+            if (params.getSex() == 2) student.setSex("女");
+        }
+        if (params.getInstitute() > 0) student.setInstitute(params.getInstitute());
+        if (params.getClass_index() > 0) student.setClassIndex(params.getClass_index());
+        if (params.getGrade() > 10) student.setGrade(params.getGrade());
+        if (StringUtil.isNotBlank(params.getMajor())) student.setMajor(params.getMajor());
+
+        studentDao.save(student);
+
+    }
 }
