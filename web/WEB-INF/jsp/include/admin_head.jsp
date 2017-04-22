@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,initial-scale=1.0,user-scalable=no" />
     <link rel="stylesheet" href="">
     <!-- Bootstrap -->
-    <link rel="stylesheet" type="text/css" href="http://asserts.ayuya.me/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="${assets_domain}/practice/css/bootstrap.min.css"/>
     <!--你自己的样式文件 -->
-    <link rel="stylesheet" type="text/css" href="http://asserts.ayuya.me/css/index.css"/>
+    <link rel="stylesheet" type="text/css" href="${assets_domain}/practice/css/index.css"/>
 </head>

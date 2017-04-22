@@ -6,9 +6,10 @@
     <meta name="keywords" content=""/>
     <meta name="description" content=""/>
     <meta name="copyright" content="YUJING&WANGQI@浙江传媒学院"/>
+    <c:set var="assets_domain" value="http://localhost" scope="request"/>
+
     <!-- Bootstrap -->
-    <link href="css/bootstrap.min.css" rel="stylesheet"/>
-    <link rel="stylesheet" type="text/css" href="http://asserts.ayuya.me/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="${assets_domain}/practice/css/bootstrap.min.css"/>
     <!--你自己的样式文件 -->
-    <link rel="stylesheet" type="text/css" href="http://asserts.ayuya.me/css/index.css"/>
+    <link rel="stylesheet" type="text/css" href="${assets_domain}/practice/css/index.css"/>
 </head>

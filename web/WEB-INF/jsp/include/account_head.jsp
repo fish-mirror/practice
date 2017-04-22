@@ -4,7 +4,9 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title></title>
-    <link href="http://asserts.ayuya.me/css/bootstrap.min.css" rel="stylesheet" />
+    <c:set var="assets_domain" value="http://localhost" scope="request"/>
+
+    <link href="${assets_domain}/practice/css/bootstrap.min.css" rel="stylesheet" />
 
     <style>
         .bg{

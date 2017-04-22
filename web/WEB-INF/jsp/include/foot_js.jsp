@@ -1,15 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jsp/include/taglibs.jsp" %>
 
-<!-- 如果要使用Bootstrap的js插件，必须先调入jQuery -->
-<script src="js/jquery.min.js"></script>
-<!-- 包括所有bootstrap的js插件或者可以根据需要使用的js插件调用　-->
-<script src="js/bootstrap.min.js"></script>
-<!-- HTML5 Shim 和 Respond.js 用于让 IE8 支持 HTML5元素和媒体查询 -->
-<!-- 注意： 如果通过 file://  引入 Respond.js 文件，则该文件无法起效果 -->
-<!--[if lt IE 9]>
-<script type=text/javascript src="http://asserts.ayuya.me/js/html5shiv.js"></script>
-<script type=text/javascript src="http://asserts.ayuya.me/js/respond.min.js"></script>
+<c:set var="assets_domain" value="http://localhost" scope="request"/>
+
+<script type=text/javascript src="${assets_domain}/practice/js/html5shiv.js"></script>
+<script type=text/javascript src="${assets_domain}/practice/js/respond.min.js"></script>
 <![endif]-->
 <script>
     window.onload = initPage;
@@ -57,4 +52,4 @@
 
     }
 </script>
-<script src="http://asserts.ayuya.me/js/data.js"></script>
+<script src="${assets_domain}/practice/js/data.js"></script>

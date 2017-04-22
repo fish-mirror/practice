@@ -3,6 +3,8 @@
 <%@ include file="/WEB-INF/jsp/include/taglibs.jsp" %>
 <!DOCTYPE HTML>
 <html>
+<c:set var="assets_domain" value="http://localhost" scope="request"/>
+
 <%@ include file="/WEB-INF/jsp/include/head.jsp" %>
 <body>
 <div id="wrapper" class="clearfix">

@@ -3,12 +3,14 @@
 <%@ include file="/WEB-INF/jsp/include/taglibs.jsp"%>
 <!DOCTYPE HTML>
 <html>
+<c:set var="assets_domain" value="http://localhost" scope="request"/>
+
 <%@ include file="/WEB-INF/jsp/include/admin_head.jsp" %>
 <body>
 <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a href="/" class="navbar-brand"实习系统管理后台</a>
+            <a href="/" class="navbar-brand">实习系统管理后台</a>
         </div>
         <div class="navbar-collapse collapse" id="navbar">
             <ul class="nav navbar-nav navbar-right">

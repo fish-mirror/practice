@@ -7,14 +7,14 @@
 	<!-- 学校LOGO -->
 	<div class="col-xs-6">
     	<br /><br />
-    	<img src="http://asserts.ayuya.me/image/logo_school.png" />
+    	<img src="${assets_domain}/image/logo_school.png" />
     </div>
     <!-- 主体 -->
 	<div class="col-xs-12">
 		<br /><br /><br />
 		
 		<div class="bg">
-			<img src="http://asserts.ayuya.me/image/login_bg.png" />
+			<img src="${assets_domain}/image/login_bg.png" />
 			
 		</div>
 		<div class="col-xs-6"></div>
@@ -61,12 +61,7 @@
 	</div>
    </div>
 </div>
-<!-- 如果要使用Bootstrap的js插件，必须先调入jQuery --> 
-<script src="http://asserts.ayuya.me/js/jquery.min.js"></script>
-<!-- 包括所有bootstrap的js插件或者可以根据需要使用的js插件调用　--> 
-<script src="http://asserts.ayuya.me/js/bootstrap.min.js"></script>
-<script src="http://asserts.ayuya.me/js/bootstrapValidator.min.js"></script>
-<script src="http://asserts.ayuya.me/js/data.js"></script>
+
 <script type="text/javascript">
 window.onload = initPage;
 
