@@ -25,8 +25,8 @@ import javax.validation.Valid;
  * Created by yujing on 2017/3/30.
  */
 @Controller
-@RequestMapping(value = "/user/i/student")
-public class StudentInfoUserApi extends RootController {
+@RequestMapping(value = "/student/i/student")
+public class StudentInfoStudentApi extends RootController {
 
     @Autowired
     private StudentService studentService;

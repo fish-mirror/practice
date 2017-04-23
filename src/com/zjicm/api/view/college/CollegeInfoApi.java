@@ -32,18 +32,18 @@ public class CollegeInfoApi {
      *
      * @param request
      * @param response
-     * @param instituteId
+     * @param institute
      * @return
      */
     @RequestMapping(value = "/class/list", method = RequestMethod.GET)
     @ResponseBody
     public JsonDataHolder listClass(HttpServletRequest request,
                                     HttpServletResponse response,
-                                    @RequestParam(value = "institute_id", defaultValue = "", required = false) int instituteId
+                                    @RequestParam(value = "institute", defaultValue = "", required = false) int institute
     ) {
         JsonDataHolder jsonDataHolder = new JsonDataHolder();
 
-        List<ClassInfoOut> list = studentService.getClassList(instituteId);
+        List<ClassInfoOut> list = studentService.getClassList(institute);
         if (CollectionUtils.isEmpty(list)) return jsonDataHolder.error101();
 
         return jsonDataHolder.addListToItems(list);
@@ -53,18 +53,18 @@ public class CollegeInfoApi {
      * 获取学院的专业列表
      * @param request
      * @param response
-     * @param insituteId
+     * @param institute
      * @return
      */
     @RequestMapping(value = "/major/list", method = RequestMethod.GET)
     @ResponseBody
     public JsonDataHolder listMajor(HttpServletRequest request,
                                     HttpServletResponse response,
-                                    @RequestParam(value = "institute_id", defaultValue = "", required = false) int insituteId
+                                    @RequestParam(value = "institute", defaultValue = "", required = false) int institute
     ) {
         JsonDataHolder jsonDataHolder = new JsonDataHolder();
-        if (insituteId < 0) return jsonDataHolder.error400();
-        List list = CollegeInfoSupport.getMajorList(insituteId);
+        if (institute < 0) return jsonDataHolder.error400();
+        List list = CollegeInfoSupport.getMajorList(institute);
 
         if (CollectionUtils.isEmpty(list)) return jsonDataHolder.error101();
         return jsonDataHolder.addListToItems(list);
