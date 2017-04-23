@@ -15,11 +15,10 @@ public class Intention implements CanonicalDomain<Integer> {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    private String institute;
+    private int institute;
     private String title;
     private String content;
 
-    private Date date;
     @Column(updatable = false)
     private int creator;
     private int modifier;
@@ -45,11 +44,11 @@ public class Intention implements CanonicalDomain<Integer> {
         this.id = id;
     }
 
-    public String getInstitute() {
+    public int getInstitute() {
         return institute;
     }
 
-    public void setInstitute(String institute) {
+    public void setInstitute(int institute) {
         this.institute = institute;
     }
 
@@ -67,14 +66,6 @@ public class Intention implements CanonicalDomain<Integer> {
 
     public void setContent(String content) {
         this.content = content;
-    }
-
-    public Date getDate() {
-        return this.date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
     }
 
     public int getCreator() {
