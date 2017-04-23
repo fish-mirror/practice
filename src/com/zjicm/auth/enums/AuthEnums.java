@@ -10,6 +10,7 @@ public enum AuthEnums {
     short_term_manage(300),              // 学生短学期实习管理权限
     short_term_project_manage(400),      // 短学期课程管理权限
     cooperation_manage(500),             // 校企合作管理权限
+    intention_manage(510),               // 合作意向管理权限
     institute_user_manage(600),          // 本学院用户权限管理
 
 

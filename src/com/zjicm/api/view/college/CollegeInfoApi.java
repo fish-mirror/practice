@@ -19,6 +19,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
+ * 学院基本信息接口
+ * <p>
  * Created by yujing on 2017/3/30.
  */
 @Controller
@@ -51,6 +53,7 @@ public class CollegeInfoApi {
 
     /**
      * 获取学院的专业列表
+     *
      * @param request
      * @param response
      * @param institute

@@ -1,5 +1,6 @@
 package com.zjicm.api.user.cooperation;
 
+import com.zjicm.auth.enums.AuthEnums;
 import com.zjicm.common.beans.UserSession;
 import com.zjicm.common.lang.json.JsonDataHolder;
 import com.zjicm.common.lang.json.MsgType;
@@ -18,6 +19,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 /**
+ * 合作意向教师管理接口
+ * <p>
  * Created by yujing on 2017/4/23.
  */
 @Controller
@@ -105,5 +108,10 @@ public class IntentionTeacherApi extends TeacherBaseController {
 
         intentionService.delete(intention);
         return jsonDataHolder.simpleMsg(id, MsgType.delete);
+    }
+
+    @Override
+    public int permissionToCheck() {
+        return AuthEnums.intention_manage.getValue();
     }
 }
