@@ -2,11 +2,10 @@ package com.zjicm.cooperation.domain;
 
 import com.zjicm.common.lang.sql.domain.CanonicalDomain;
 import com.zjicm.company.domain.Company;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.util.Date;
+
 
 @Entity
 @Table(name = "cooperate")
@@ -16,9 +15,8 @@ public class Cooperation implements CanonicalDomain<Integer> {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private int institute;
-    @OneToOne
-    @Fetch(FetchMode.SELECT)
-    @JoinColumn(name = "company", referencedColumnName = "number", insertable = false, updatable = false)
+    @OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @JoinColumn(name = "company", referencedColumnName = "number")
     private Company company;
     private int status;                                 // 合作状态
     @Column(updatable = false)

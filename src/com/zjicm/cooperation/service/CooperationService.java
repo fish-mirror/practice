@@ -69,7 +69,7 @@ public class CooperationService {
      * @return
      */
     public PageResult<Cooperation> page(int institute, CooperationStatus status, int page, int size) {
-        List<Criterion> criterionList = new ArrayList<>(1);
+        List<Criterion> criterionList = new ArrayList<>(2);
         if (status != null) criterionList.add(Restrictions.eq("status", status.getValue()));
         if (institute > 0) criterionList.add(Restrictions.eq("institute", institute));
 
@@ -82,8 +82,10 @@ public class CooperationService {
      * @param params
      * @return
      */
-    public int createCampay(CompanyRegisterParams params) {
-        if (params == null) return 0;
+    public Company createCampay(CompanyRegisterParams params) {
+        if (params == null) return null;
+        if (userDao.getByField("number", params.getNumber()) != null) return null;
+
         User user = new User();
         user.setNumber(params.getNumber());
         user.setPassword(params.getPassword());
@@ -96,24 +98,25 @@ public class CooperationService {
         userDao.save(user);
         companyDao.save(company);
 
-        return user.getId();
+        return company;
     }
 
     /**
      * 创建合作关系
      *
      * @param insititute
-     * @param companyNumber
+     * @param company
      * @param session
      */
-    public void createCooperation(int insititute, String companyNumber, UserSession session) {
-        if (insititute < 0 || StringUtil.isBlank(companyNumber) || session == null) return;
+    public int createCooperation(int insititute, Company company, UserSession session) {
+        if (insititute < 0 || company == null || session == null) return 0;
         Cooperation cooperation = new Cooperation();
         cooperation.setInstitute(insititute);
-        cooperation.setCompany(new Company(companyNumber));
+        cooperation.setCompany(company);
         if (session.getRoleId() == Role.teacher.getValue()) cooperation.setStatus(1);
         cooperation.setCreator(session.getUserId());
         cooperateDao.save(cooperation);
+        return cooperation.getId();
     }
 
 }

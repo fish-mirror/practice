@@ -5,6 +5,8 @@ import com.zjicm.common.beans.UserSession;
 import com.zjicm.common.lang.json.JsonDataHolder;
 import com.zjicm.common.lang.json.MsgType;
 import com.zjicm.common.lang.page.PageResult;
+import com.zjicm.company.domain.Company;
+import com.zjicm.company.service.CompanyService;
 import com.zjicm.cooperation.beans.CompanyRegisterParams;
 import com.zjicm.cooperation.beans.CooperationMangeOut;
 import com.zjicm.cooperation.domain.Cooperation;
@@ -33,6 +35,8 @@ import java.util.List;
 public class CooperationTeacherApi extends TeacherBaseController {
     @Autowired
     private CooperationService cooperationService;
+    @Autowired
+    private CompanyService companyService;
 
     /**
      * 合作企业的分页列表
@@ -63,6 +67,24 @@ public class CooperationTeacherApi extends TeacherBaseController {
         return jsonDataHolder.addListToItems(list);
     }
 
+    @RequestMapping(value = "", method = RequestMethod.POST)
+    @ResponseBody
+    public JsonDataHolder create(HttpServletRequest request,
+                                 HttpServletResponse response,
+                                 @RequestParam(value = "company_id", defaultValue = "0", required = false) int companyId
+
+    ) {
+        JsonDataHolder jsonDataHolder = new JsonDataHolder();
+        if (companyId < 0) return jsonDataHolder.error400();
+
+        UserSession session = getUserSession(request);
+        Company company = companyService.get(companyId);
+        if (company == null) return jsonDataHolder.error101();
+
+        int coopId = cooperationService.createCooperation(session.getInstitute(), company, session);
+        return jsonDataHolder.simpleMsg(coopId, MsgType.add);
+    }
+
     /**
      * 创建企业账号，建立合作
      *
@@ -70,23 +92,23 @@ public class CooperationTeacherApi extends TeacherBaseController {
      * @param response
      * @return
      */
-    @RequestMapping(value = "", method = RequestMethod.POST)
+    @RequestMapping(value = "/company", method = RequestMethod.POST)
     @ResponseBody
-    public JsonDataHolder create(HttpServletRequest request,
-                                 HttpServletResponse response,
-                                 @Valid @ModelAttribute CompanyRegisterParams params,
-                                 BindingResult results
+    public JsonDataHolder createCompany(HttpServletRequest request,
+                                        HttpServletResponse response,
+                                        @Valid @ModelAttribute CompanyRegisterParams params,
+                                        BindingResult results
 
     ) {
         JsonDataHolder jsonDataHolder = new JsonDataHolder();
         if (jsonDataHolder.checkError(results)) return jsonDataHolder;
 
         UserSession session = getUserSession(request);
-        int userId = cooperationService.createCampay(params);
-        if (userId < 0) return jsonDataHolder.putToError(404, "创建失败");
+        Company company = cooperationService.createCampay(params);
+        if (company == null) return jsonDataHolder.putToError(404, "该企业账号已存在");
 
-        cooperationService.createCooperation(session.getInstitute(), params.getNumber(), session);
-        return jsonDataHolder.simpleMsg(userId, MsgType.add);
+        int coopId = cooperationService.createCooperation(session.getInstitute(), company, session);
+        return jsonDataHolder.simpleMsg(coopId, MsgType.add);
     }
 
     /**
@@ -112,7 +134,7 @@ public class CooperationTeacherApi extends TeacherBaseController {
         if (id < 0 || cooperationStatus == null) return jsonDataHolder.error400();
 
         Cooperation cooperation = cooperationService.get(id);
-        if (cooperation == null) return null;
+        if (cooperation == null) return jsonDataHolder.error101();
 
         UserSession session = getUserSession(request);
         if (cooperation.getInstitute() != session.getInstitute()) return jsonDataHolder.error403();

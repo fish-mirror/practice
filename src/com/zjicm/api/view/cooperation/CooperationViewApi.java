@@ -42,6 +42,7 @@ public class CooperationViewApi extends RootController {
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
     public JsonDataHolder list(HttpServletRequest request,
+                               @RequestParam(value = "institute", defaultValue = "0", required = false) int institute,
                                @RequestParam(value = "page_index", defaultValue = "1", required = false) int page,
                                @RequestParam(value = "items_per_page", defaultValue = "10", required = false) int size
     ) {
@@ -49,7 +50,7 @@ public class CooperationViewApi extends RootController {
         UserSession session = getUserSession(request);
 
         // 通用接口只返回正常状态的合作企业
-        PageResult<Cooperation> result = cooperationService.page(session.getInstitute(),
+        PageResult<Cooperation> result = cooperationService.page(institute,
                                                                  CooperationStatus.cooperating,
                                                                  page,
                                                                  size);

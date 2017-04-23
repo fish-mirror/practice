@@ -1,5 +1,6 @@
 package com.zjicm.cooperation.beans;
 
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 
 /**
@@ -9,10 +10,13 @@ import org.hibernate.validator.constraints.NotBlank;
  */
 public class CompanyRegisterParams {
     @NotBlank
+    @Length(min = 6, max = 9, message = "输入长度在 6 - 9 位")
     private String number;
     @NotBlank
+    @Length(min = 8, max = 20, message = "输入长度在 8 - 20 位")
     private String password;
     @NotBlank
+    @Length(min = 8, max = 20, message = "输入长度在 0 - 20 位")
     private String name;
 
     public String getNumber() {
