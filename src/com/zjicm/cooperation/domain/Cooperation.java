@@ -1,6 +1,9 @@
 package com.zjicm.cooperation.domain;
 
 import com.zjicm.common.lang.sql.domain.CanonicalDomain;
+import com.zjicm.company.domain.Company;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -13,7 +16,11 @@ public class Cooperation implements CanonicalDomain<Integer> {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private int institute;
-    private int companyUserId;
+    @OneToOne
+    @Fetch(FetchMode.SELECT)
+    @JoinColumn(name = "company", referencedColumnName = "number", insertable = false, updatable = false)
+    private Company company;
+    private int status;                                 // 合作状态
     @Column(updatable = false)
     private int creator;
     private int modifier;
@@ -46,12 +53,21 @@ public class Cooperation implements CanonicalDomain<Integer> {
         this.institute = institute;
     }
 
-    public int getCompanyUserId() {
-        return companyUserId;
+
+    public int getStatus() {
+        return status;
     }
 
-    public void setCompanyUserId(int companyUserId) {
-        this.companyUserId = companyUserId;
+    public void setCompany(Company company) {
+        this.company = company;
+    }
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     public int getCreator() {

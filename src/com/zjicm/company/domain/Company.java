@@ -31,6 +31,9 @@ public class Company implements CanonicalDomain<Integer> {
     public Company() {
     }
 
+    public Company(String number) {
+        this.number = number;
+    }
 
     @Override
     public Integer getId() {
