@@ -1,7 +1,10 @@
 package com.zjicm.cooperation.beans;
 
+import com.zjicm.common.lang.consts.RegxConsts;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
+
+import javax.validation.constraints.Pattern;
 
 /**
  * 创建企业账号参数
@@ -9,14 +12,15 @@ import org.hibernate.validator.constraints.NotBlank;
  * Created by yujing on 2017/4/23.
  */
 public class CompanyRegisterParams {
-    @NotBlank
+    @NotBlank(message = "账号不能为空")
     @Length(min = 6, max = 9, message = "输入长度在 6 - 9 位")
     private String number;
-    @NotBlank
-    @Length(min = 8, max = 20, message = "输入长度在 8 - 20 位")
+    @NotBlank(message = "密码不能为空")
+    @Length(min = 6, max = 12, message = "输入长度在 6 - 12 位")
+    @Pattern(regexp = RegxConsts.EXPRESSION_PWD, message = "密码字符不符合规则，请输入 数字/字母/符号 的组合")
     private String password;
     @NotBlank
-    @Length(min = 8, max = 20, message = "输入长度在 0 - 20 位")
+    @Length(min = 1, max = 20, message = "输入长度在 1 - 20 位")
     private String name;
 
     public String getNumber() {

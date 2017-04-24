@@ -1,13 +1,17 @@
 package com.zjicm.api.view.auth;
 
-import com.zjicm.auth.beans.LoginView;
+import com.zjicm.auth.beans.LoginParam;
 import com.zjicm.auth.domain.User;
 import com.zjicm.common.beans.UserSession;
 import com.zjicm.common.lang.json.JsonDataHolder;
 import com.zjicm.common.lang.json.JsonErrorInfo;
 import com.zjicm.common.lang.json.MsgType;
 import com.zjicm.common.web.RootController;
+import com.zjicm.company.domain.Company;
+import com.zjicm.cooperation.beans.CompanyRegisterParams;
+import com.zjicm.cooperation.service.CooperationService;
 import org.apache.commons.collections.CollectionUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -29,13 +33,15 @@ import java.util.List;
 @Controller
 @RequestMapping(value = "/auth/i/account")
 public class AuthAccountApi extends RootController {
+    @Autowired
+    private CooperationService cooperationService;
 
     /**
      * 统一帐号登录
      *
      * @param request
      * @param response
-     * @param loginView
+     * @param loginParam
      * @param results
      * @return
      */
@@ -43,16 +49,13 @@ public class AuthAccountApi extends RootController {
     @ResponseBody
     public JsonDataHolder login(HttpServletRequest request,
                                 HttpServletResponse response,
-                                @Valid @ModelAttribute LoginView loginView,
+                                @Valid @ModelAttribute LoginParam loginParam,
                                 BindingResult results
     ) {
         JsonDataHolder jsonDataHolder = new JsonDataHolder();
-        List<JsonErrorInfo> errorInfos = new ArrayList<>();
-        jsonDataHolder.packErrorsFromResult(400, "验证失败", errorInfos, results);
+        if (jsonDataHolder.checkError(results)) return jsonDataHolder;
 
-        if (CollectionUtils.isNotEmpty(errorInfos)) return jsonDataHolder;
-
-        User user = userDao.getByNumPwd(loginView.getAccount(), loginView.getPassword());
+        User user = userDao.getByNumPwd(loginParam.getAccount(), loginParam.getPassword());
 
         if (user == null) return jsonDataHolder.putToError(404, "账号和密码不匹配");
 
@@ -60,6 +63,32 @@ public class AuthAccountApi extends RootController {
         if (userSession == null) return jsonDataHolder.putToError(404, "该账号状态异常");
 
         return redirect(response, "");
+    }
+
+    /**
+     * 注册企业账号
+     *
+     * @param request
+     * @param response
+     * @param params
+     * @param results
+     * @return
+     */
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    @ResponseBody
+    public JsonDataHolder register(HttpServletRequest request,
+                                   HttpServletResponse response,
+                                   @Valid @ModelAttribute CompanyRegisterParams params,
+                                   BindingResult results
+    ) {
+        JsonDataHolder jsonDataHolder = new JsonDataHolder();
+        if (jsonDataHolder.checkError(results)) return jsonDataHolder;
+
+
+        Company company = cooperationService.createCampay(params);
+        if (company == null) return jsonDataHolder.putToError(404, "该企业账号已存在");
+
+        return jsonDataHolder.simpleMsg(company.getId(), MsgType.add);
     }
 
     /**

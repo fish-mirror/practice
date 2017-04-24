@@ -9,7 +9,7 @@ import javax.validation.constraints.Pattern;
 /**
  * Created by yujing on 2017/3/8.
  */
-public class LoginView {
+public class LoginParam {
 
     @NotBlank(message = "学号或工号不能为空")
     @Length(max = 9, min = 8, message = "学号或教工号长度不符合")
