@@ -5,7 +5,6 @@ import com.zjicm.auth.domain.User;
 import com.zjicm.auth.enums.Role;
 import com.zjicm.common.beans.UserSession;
 import com.zjicm.common.lang.page.PageResult;
-import com.zjicm.common.lang.util.StringUtil;
 import com.zjicm.company.dao.CompanyDao;
 import com.zjicm.company.domain.Company;
 import com.zjicm.cooperation.beans.CompanyRegisterParams;

@@ -25,8 +25,8 @@ import java.util.List;
  * <p/>
  * Created by yujing on 2017/4/15.
  */
-@RequestMapping(value = "/user/i/att")
 @Controller
+@RequestMapping(value = "/user/i/att")
 public class AttUserApi extends RootController {
 
     @Autowired

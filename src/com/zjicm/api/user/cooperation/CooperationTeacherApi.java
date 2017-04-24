@@ -67,6 +67,14 @@ public class CooperationTeacherApi extends TeacherBaseController {
         return jsonDataHolder.addListToItems(list);
     }
 
+    /**
+     * 创建合作意向
+     *
+     * @param request
+     * @param response
+     * @param companyId
+     * @return
+     */
     @RequestMapping(value = "", method = RequestMethod.POST)
     @ResponseBody
     public JsonDataHolder create(HttpServletRequest request,
