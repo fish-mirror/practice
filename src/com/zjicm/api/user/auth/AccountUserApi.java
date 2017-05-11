@@ -27,6 +27,12 @@ import java.util.Set;
 public class AccountUserApi extends RootController {
 
 
+    /**
+     * 获取
+     *
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "", method = RequestMethod.GET)
     @ResponseBody
     public JsonDataHolder get(HttpServletRequest request) {

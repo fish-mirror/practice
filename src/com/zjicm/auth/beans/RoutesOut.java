@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 输出菜单路由组
+ *
  * Created by yujing on 2017/5/10.
  */
 public class RoutesOut {

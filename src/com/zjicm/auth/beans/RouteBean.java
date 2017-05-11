@@ -1,6 +1,8 @@
 package com.zjicm.auth.beans;
 
 /**
+ * 菜单项和路由对应关系
+ * <p>
  * Created by yujing on 2017/5/10.
  */
 public class RouteBean {
