@@ -2,6 +2,7 @@ package com.zjicm.auth.enums;
 
 /**
  * 权限枚举
+ *
  * Created by yujing on 2017/3/19.
  */
 public enum AuthEnums {
@@ -11,10 +12,11 @@ public enum AuthEnums {
     short_term_project_manage(400),      // 短学期课程管理权限
     cooperation_manage(500),             // 校企合作管理权限
     intention_manage(510),               // 合作意向管理权限
-    institute_user_manage(600),          // 本学院用户权限管理
+    job_manage(600),                     // 职位管理
 
+    institute_user_manage(700),          // 本学院用户权限管理
+    college_user_manage(710),            // 跨学院权限管理
 
-    college_user_manage(700),            // 跨学院权限管理
     news_manage(800),                    // 资讯管理
 
 
