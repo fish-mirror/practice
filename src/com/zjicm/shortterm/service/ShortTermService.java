@@ -1,22 +1,29 @@
 package com.zjicm.shortterm.service;
 
+import com.zjicm.common.lang.page.PageResult;
 import com.zjicm.shortterm.domain.ShortTermComment;
 import com.zjicm.shortterm.domain.ShortTermProject;
 import com.zjicm.shortterm.domain.ShortTermReport;
 import com.zjicm.shortterm.dao.ShortTermCommentDao;
 import com.zjicm.shortterm.dao.ShortTermProjectDao;
 import com.zjicm.shortterm.dao.ShortTermReportDao;
+import com.zjicm.shortterm.enums.ShortTermEnums;
+import org.apache.commons.lang.StringUtils;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by yujing on 2017/1/3.
  */
 @Component
-public class ShortTermService implements IShortTermService {
+public class ShortTermService {
 
     @Autowired
     private ShortTermProjectDao shortTermProjectDao;
@@ -26,58 +33,77 @@ public class ShortTermService implements IShortTermService {
     private ShortTermCommentDao shortTermCommentDao;
 
 
-    @Override
     public Integer addProject(ShortTermProject stp) {
         return null;
     }
 
-    @Override
     public void updateProjectStatus(Integer id, Short status) {
 
     }
 
-    @Override
     public void updateProject(ShortTermProject stp) {
 
     }
 
-    @Override
+    /**
+     * 获取短学期项目
+     *
+     * @param id
+     * @return
+     */
     public ShortTermProject getProject(Integer id) {
 
         return shortTermProjectDao.getById(id);
     }
 
-    @Override
-    public List<ShortTermProject> getProjectList() {
-        // TODO Auto-generated method stub
-        return null;
+    /**
+     * 短学期项目的分页方法
+     *
+     * @param institute
+     * @param collegeUserId
+     * @param term
+     * @param status
+     * @param fullStatus
+     * @param gradeNeed
+     * @param majorNeed
+     * @param page
+     * @param size
+     * @return
+     */
+    public PageResult<ShortTermProject> pageProjects(int institute,
+                                                     int collegeUserId,
+                                                     String term,
+                                                     ShortTermEnums.ProjectStatus status,
+                                                     ShortTermEnums.ProjectFull fullStatus,
+                                                     int gradeNeed,
+                                                     String majorNeed,
+                                                     int page,
+                                                     int size) {
+        List<Criterion> criteria = new ArrayList<>();
+        if (institute > 0) criteria.add(Restrictions.eq("institute", institute));
+        if (collegeUserId > 0) criteria.add(Restrictions.eq("collegeUserId", collegeUserId));
+        if (StringUtils.isNotBlank(term)) criteria.add(Restrictions.eq("term", term));
+        if (status != null) criteria.add(Restrictions.eq("status", status.getValue()));
+        if (fullStatus != null) {
+            switch (fullStatus) {
+                case full:
+                    criteria.add(Restrictions.eqProperty("selectedNum", "topNum"));
+                    break;
+                case unfull:
+                    criteria.add(Restrictions.ltProperty("selectedNum", "topNum"));
+                    break;
+            }
+        }
+        if (gradeNeed > 0) criteria.add(Restrictions.eq("gradeNeed", gradeNeed));
+        if (StringUtils.isBlank(majorNeed)) criteria.add(Restrictions.eq("majorNeed", majorNeed));
+
+        List<Order> orders = new ArrayList<>();
+        orders.add(Order.desc("id"));
+
+        return shortTermProjectDao.getPageResult(criteria, orders, page, size);
     }
 
-    @Override
-    public List<ShortTermProject> getProjectList(String term) {
-        // TODO Auto-generated method stub
-        return null;
-    }
 
-    @Override
-    public List<ShortTermProject> getProjectList(Short status) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public List<ShortTermProject> getProjectListByCol(String institute,
-                                                      Short status) {
-        return null;
-}
-
-    @Override
-    public List<ShortTermProject> getProjectListByCom(String comId, Short status) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
     public String addSelectProject(Integer pid, String stuId, String major, String insitute, String term) {
         return null;
 //        String grade = (stuId).substring(0, 2);
@@ -131,7 +157,6 @@ public class ShortTermService implements IShortTermService {
 
     }
 
-    @Override
     public boolean cancelSelectedProject(Integer id, String stuId, String term, String major) {
 //        ShortTermReport str = this.getReport(id);
 //        //判断是否是有效的学生对象和学期
@@ -153,53 +178,44 @@ public class ShortTermService implements IShortTermService {
 
     }
 
-    @Override
     public ShortTermReport getReport(Integer id) {
         return null;
     }
 
-    @Override
     public ShortTermReport getProjectSelected(String stuId, String term) {
         return null;
     }
 
-    @Override
     public List<ShortTermReport> getReportList(String stuId) {
         return null;
     }
 
 
-    @Override
     public List<ShortTermReport> getReportList(String institute, String comId) {
         // TODO Auto-generated method stub
         return null;
     }
 
 
-    @Override
     public void addCommemt(Integer rid, String userId, float grade) {
         // TODO Auto-generated method stub
 
     }
 
-    @Override
     public void updateComment(Integer id, float grade) {
         // TODO Auto-generated method stub
 
     }
 
-    @Override
     public Float getGrade(Integer rid) {
         // TODO Auto-generated method stub
         return null;
     }
 
-    @Override
     public List<ShortTermComment> getGradeList(Integer rid) {
         // TODO Auto-generated method stub
         return null;
     }
-
 
 
 }
