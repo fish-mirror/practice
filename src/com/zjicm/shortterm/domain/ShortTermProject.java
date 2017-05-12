@@ -16,13 +16,13 @@ public class ShortTermProject implements CanonicalDomain<Integer> {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String name;
-    private int companyUserId;
+    private String companyNumber;
 
     private int institute;
     private String purpose;
     private String content;
     private String majorNeed = "";
-    private int gradeNeed = 0;
+    private String gradeNeed = "";
     private int selectedNum = 0;
     private int topNum;
     private int unmajorNum = 0;
@@ -65,12 +65,12 @@ public class ShortTermProject implements CanonicalDomain<Integer> {
         this.name = name;
     }
 
-    public int getCompanyUserId() {
-        return companyUserId;
+    public String getCompanyNumber() {
+        return companyNumber;
     }
 
-    public void setCompanyUserId(int companyUserId) {
-        this.companyUserId = companyUserId;
+    public void setCompanyNumber(String companyNumber) {
+        this.companyNumber = companyNumber;
     }
 
     public int getInstitute() {
@@ -105,11 +105,11 @@ public class ShortTermProject implements CanonicalDomain<Integer> {
         this.majorNeed = majorNeed;
     }
 
-    public int getGradeNeed() {
+    public String getGradeNeed() {
         return gradeNeed;
     }
 
-    public void setGradeNeed(int gradeNeed) {
+    public void setGradeNeed(String gradeNeed) {
         this.gradeNeed = gradeNeed;
     }
 

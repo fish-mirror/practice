@@ -63,6 +63,7 @@ public class ShortTermProjectTeacherApi extends TeacherBaseController {
     public JsonDataHolder list(HttpServletRequest request,
                                @RequestParam(value = "term", defaultValue = "", required = false) String term,
                                @RequestParam(value = "status", defaultValue = "-1", required = false) int status,
+                               @RequestParam(value = "company_number", defaultValue = "", required = false) String companyNumber,
                                @RequestParam(value = "full_status", defaultValue = "0", required = false) int fullStatus,
                                @RequestParam(value = "grade_need", defaultValue = "0", required = false) int gradeNeed,
                                @RequestParam(value = "major_need", defaultValue = "", required = false) String majorNeed,
@@ -75,7 +76,7 @@ public class ShortTermProjectTeacherApi extends TeacherBaseController {
         ShortTermEnums.ProjectFull projectFull = ShortTermEnums.ProjectFull.is(fullStatus);
 
         PageResult<ShortTermProject> pr = shortTermService.pageProjects(session.getInstitute(),
-                                                                        0,
+                                                                        companyNumber,
                                                                         term,
                                                                         projectStatus,
                                                                         projectFull,

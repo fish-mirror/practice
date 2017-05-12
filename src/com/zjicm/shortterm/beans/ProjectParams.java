@@ -12,8 +12,8 @@ import org.hibernate.validator.constraints.Range;
 public class ProjectParams {
     @NotBlank
     private String name;
-    @Range(min = 1)
-    private int company_user_id;
+    @NotBlank
+    private String company_number;
     @NotBlank
     private String purpose;
     @NotBlank
@@ -21,7 +21,7 @@ public class ProjectParams {
     @NotBlank
     private String content;
     private String major_need;
-    private int grade_need;
+    private String grade_need;
     @Range(min = 10)
     private int top_num;
     private int unmajor_num;
@@ -36,12 +36,12 @@ public class ProjectParams {
         this.name = name;
     }
 
-    public int getCompany_user_id() {
-        return company_user_id;
+    public String getCompany_number() {
+        return company_number;
     }
 
-    public void setCompany_user_id(int company_user_id) {
-        this.company_user_id = company_user_id;
+    public void setCompany_number(String company_number) {
+        this.company_number = company_number;
     }
 
     public String getPurpose() {
@@ -76,11 +76,11 @@ public class ProjectParams {
         this.major_need = major_need;
     }
 
-    public int getGrade_need() {
+    public String getGrade_need() {
         return grade_need;
     }
 
-    public void setGrade_need(int grade_need) {
+    public void setGrade_need(String grade_need) {
         this.grade_need = grade_need;
     }
 

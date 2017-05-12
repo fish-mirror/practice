@@ -18,7 +18,6 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,7 +51,7 @@ public class ShortTermService {
         project.setTerm("");
 
         project.setAttId(params.getAtt_id());
-        project.setCompanyUserId(params.getCompany_user_id());
+        project.setCompanyNumber(params.getCompany_number());
         project.setContent(params.getContent());
         project.setGradeNeed(params.getGrade_need());
         project.setMajorNeed(params.getMajor_need());
@@ -74,7 +73,6 @@ public class ShortTermService {
     public String updateProject(ProjectPatchParams params, ShortTermProject project) {
         if (params == null || project == null) return "参数为空";
         if (params.getAtt_id() > 0) project.setAttId(params.getAtt_id());
-        if (params.getGrade_need() > 0) project.setGradeNeed(params.getGrade_need());
         if (params.getTop_num() > 0) {
             if (project.getSelectedNum() > params.getTop_num()) return "设置的总数不能小于当前已选的数量";
             project.setTopNum(params.getTop_num());
@@ -83,6 +81,8 @@ public class ShortTermService {
             if (project.getUnmajorSelected() > params.getUnmajor_num()) return "设置的跨专业名额不能小于当前已选数量";
             project.setUnmajorNum(params.getUnmajor_num());
         }
+
+        if (StringUtils.isNotEmpty(params.getGrade_need())) project.setGradeNeed(params.getGrade_need());
         if (StringUtils.isNotBlank(params.getName())) project.setName(params.getName());
         if (StringUtils.isNotBlank(params.getContent())) project.setContent(params.getContent());
         if (StringUtils.isNotBlank(params.getMajor_need())) project.setMajorNeed(params.getMajor_need());
@@ -122,7 +122,7 @@ public class ShortTermService {
      * 短学期项目的分页方法
      *
      * @param institute
-     * @param collegeUserId
+     * @param companyNumber
      * @param term
      * @param status
      * @param fullStatus
@@ -133,7 +133,7 @@ public class ShortTermService {
      * @return
      */
     public PageResult<ShortTermProject> pageProjects(int institute,
-                                                     int collegeUserId,
+                                                     String companyNumber,
                                                      String term,
                                                      ShortTermEnums.ProjectStatus status,
                                                      ShortTermEnums.ProjectFull fullStatus,
@@ -143,7 +143,7 @@ public class ShortTermService {
                                                      int size) {
         List<Criterion> criteria = new ArrayList<>();
         if (institute > 0) criteria.add(Restrictions.eq("institute", institute));
-        if (collegeUserId > 0) criteria.add(Restrictions.eq("collegeUserId", collegeUserId));
+        if (StringUtils.isNotBlank(companyNumber)) criteria.add(Restrictions.eq("companyNumber", companyNumber));
         if (StringUtils.isNotBlank(term)) criteria.add(Restrictions.eq("term", term));
         if (status != null) criteria.add(Restrictions.eq("status", status.getValue()));
         if (fullStatus != null) {
@@ -156,7 +156,11 @@ public class ShortTermService {
                     break;
             }
         }
-        if (gradeNeed > 0) criteria.add(Restrictions.eq("gradeNeed", gradeNeed));
+        if (gradeNeed > 0) {
+            criteria.add(Restrictions.or(
+                    Restrictions.like("gradeNeed", "%" +gradeNeed + "%"),
+                    Restrictions.eq("gradeNeed", "")));
+        }
         if (StringUtils.isBlank(majorNeed)) criteria.add(Restrictions.eq("majorNeed", majorNeed));
 
         List<Order> orders = new ArrayList<>();

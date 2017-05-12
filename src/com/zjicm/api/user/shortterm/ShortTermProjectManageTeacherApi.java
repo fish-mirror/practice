@@ -74,8 +74,8 @@ public class ShortTermProjectManageTeacherApi extends TeacherBaseController {
         ShortTermProject project = shortTermService.getProject(params.getId());
         if (project.getInstitute() != session.getInstitute()) return jsonDataHolder.error403();
 
-        if (project.getStatus() == ShortTermEnums.ProjectStatus.open.getValue()) {
-            return jsonDataHolder.putToError(405, "发布状态的项目不可修改，请关闭后重试");
+        if (project.getStatus() == ShortTermEnums.ProjectStatus.can_selected.getValue()) {
+            return jsonDataHolder.putToError(405, "选课状态下的项目不可修改，请关闭后重试");
         }
 
         shortTermService.updateProject(params, project);
@@ -91,7 +91,7 @@ public class ShortTermProjectManageTeacherApi extends TeacherBaseController {
      * @param status
      * @return
      */
-    @RequestMapping(value = "", method = RequestMethod.PATCH)
+    @RequestMapping(value = "/status", method = RequestMethod.POST)
     @ResponseBody
     public JsonDataHolder updateStatus(HttpServletRequest request,
                                        @RequestParam(value = "id", defaultValue = "0", required = false) int id,

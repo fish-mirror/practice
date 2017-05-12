@@ -7,8 +7,10 @@ package com.zjicm.shortterm.enums;
  */
 public class ShortTermEnums {
     public enum ProjectStatus {
-        cancel(0),           // 关闭选课
-        open(1);             // 开放
+        cancel(0),                  // 关闭选课
+        can_selected(1),            // 可选课
+        can_upload_report(2),       // 可上传
+        can_grade(3);               // 可评分
 
         private int value;
 

@@ -18,7 +18,7 @@ public class ProjectPatchParams {
     private String place;
     private String content;
     private String major_need;
-    private int grade_need;
+    private String grade_need;
     @Range(min = 10)
     private int top_num;
     private int unmajor_num;
@@ -72,11 +72,11 @@ public class ProjectPatchParams {
         this.major_need = major_need;
     }
 
-    public int getGrade_need() {
+    public String getGrade_need() {
         return grade_need;
     }
 
-    public void setGrade_need(int grade_need) {
+    public void setGrade_need(String grade_need) {
         this.grade_need = grade_need;
     }
 
