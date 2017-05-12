@@ -12,7 +12,6 @@ import org.hibernate.validator.constraints.Range;
 public class ProjectParams {
     @NotBlank
     private String name;
-    @NotBlank
     private String company_number;
     @NotBlank
     private String purpose;

@@ -47,6 +47,8 @@ public class ShortTermProjectManageTeacherApi extends TeacherBaseController {
         if (jsonDataHolder.checkError(results)) return jsonDataHolder;
 
         UserSession session = getUserSession(request);
+
+
         int id = shortTermService.createProject(params, session);
 
         return jsonDataHolder.simpleMsg(id, MsgType.add);

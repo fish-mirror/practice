@@ -2,6 +2,8 @@ package com.zjicm.shortterm.service;
 
 import com.zjicm.common.beans.UserSession;
 import com.zjicm.common.lang.page.PageResult;
+import com.zjicm.company.domain.Company;
+import com.zjicm.company.service.CompanyService;
 import com.zjicm.shortterm.beans.ProjectParams;
 import com.zjicm.shortterm.beans.ProjectPatchParams;
 import com.zjicm.shortterm.domain.ShortTermComment;
@@ -11,6 +13,7 @@ import com.zjicm.shortterm.dao.ShortTermCommentDao;
 import com.zjicm.shortterm.dao.ShortTermProjectDao;
 import com.zjicm.shortterm.dao.ShortTermReportDao;
 import com.zjicm.shortterm.enums.ShortTermEnums;
+import com.zjicm.student.support.CollegeInfoSupport;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
@@ -22,6 +25,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 短学期业务方法
+ *
  * Created by yujing on 2017/1/3.
  */
 @Component
@@ -33,6 +38,8 @@ public class ShortTermService {
     private ShortTermReportDao shortTermReportDao;
     @Autowired
     private ShortTermCommentDao shortTermCommentDao;
+    @Autowired
+    private CompanyService companyService;
 
 
     /**
@@ -44,14 +51,20 @@ public class ShortTermService {
      */
     public Integer createProject(ProjectParams params, UserSession session) {
         if (params == null || session == null || session.getUserId() <= 0) return null;
+
+        Company company = null;
+        if (StringUtils.isNotBlank(params.getCompany_number())) {
+            company = companyService.getByNum(params.getCompany_number());
+        }
+
         ShortTermProject project = new ShortTermProject();
         project.setCreator(session.getUserId());
         project.setInstitute(session.getInstitute());
         project.setStatus(ShortTermEnums.ProjectStatus.cancel.getValue());
-        project.setTerm("");
+        project.setTerm(CollegeInfoSupport.getCurrentTerm());
 
         project.setAttId(params.getAtt_id());
-        project.setCompanyNumber(params.getCompany_number());
+        project.setCompany(company);
         project.setContent(params.getContent());
         project.setGradeNeed(params.getGrade_need());
         project.setMajorNeed(params.getMajor_need());
@@ -134,6 +147,7 @@ public class ShortTermService {
      */
     public PageResult<ShortTermProject> pageProjects(int institute,
                                                      String companyNumber,
+                                                     String name,
                                                      String term,
                                                      ShortTermEnums.ProjectStatus status,
                                                      ShortTermEnums.ProjectFull fullStatus,
@@ -145,6 +159,7 @@ public class ShortTermService {
         if (institute > 0) criteria.add(Restrictions.eq("institute", institute));
         if (StringUtils.isNotBlank(companyNumber)) criteria.add(Restrictions.eq("companyNumber", companyNumber));
         if (StringUtils.isNotBlank(term)) criteria.add(Restrictions.eq("term", term));
+        if (StringUtils.isNotBlank(name)) criteria.add(Restrictions.like("name", "%" + name + "%"));
         if (status != null) criteria.add(Restrictions.eq("status", status.getValue()));
         if (fullStatus != null) {
             switch (fullStatus) {
@@ -161,7 +176,8 @@ public class ShortTermService {
                     Restrictions.like("gradeNeed", "%" +gradeNeed + "%"),
                     Restrictions.eq("gradeNeed", "")));
         }
-        if (StringUtils.isBlank(majorNeed)) criteria.add(Restrictions.eq("majorNeed", majorNeed));
+        if (StringUtils.isNotBlank(majorNeed)) criteria.add(Restrictions.eq("majorNeed", majorNeed));
+
 
         List<Order> orders = new ArrayList<>();
         orders.add(Order.desc("id"));

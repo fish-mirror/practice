@@ -1,6 +1,7 @@
 package com.zjicm.shortterm.domain;
 
 import com.zjicm.common.lang.sql.domain.CanonicalDomain;
+import com.zjicm.company.domain.Company;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -16,7 +17,10 @@ public class ShortTermProject implements CanonicalDomain<Integer> {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String name;
-    private String companyNumber;
+
+    @OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @JoinColumn(name = "companyNumber", referencedColumnName = "number")
+    private Company company;
 
     private int institute;
     private String purpose;
@@ -65,12 +69,12 @@ public class ShortTermProject implements CanonicalDomain<Integer> {
         this.name = name;
     }
 
-    public String getCompanyNumber() {
-        return companyNumber;
+    public Company getCompany() {
+        return company;
     }
 
-    public void setCompanyNumber(String companyNumber) {
-        this.companyNumber = companyNumber;
+    public void setCompany(Company company) {
+        this.company = company;
     }
 
     public int getInstitute() {

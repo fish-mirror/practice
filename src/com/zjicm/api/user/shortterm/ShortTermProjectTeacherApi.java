@@ -28,6 +28,13 @@ public class ShortTermProjectTeacherApi extends TeacherBaseController {
     @Autowired
     ShortTermService shortTermService;
 
+    /**
+     * 单数据获取
+     *
+     * @param request
+     * @param id
+     * @return
+     */
     @RequestMapping(value = "", method = RequestMethod.GET)
     @ResponseBody
     public JsonDataHolder get(HttpServletRequest request,
@@ -61,6 +68,7 @@ public class ShortTermProjectTeacherApi extends TeacherBaseController {
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
     public JsonDataHolder list(HttpServletRequest request,
+                               @RequestParam(value = "name", defaultValue = "", required = false) String name,
                                @RequestParam(value = "term", defaultValue = "", required = false) String term,
                                @RequestParam(value = "status", defaultValue = "-1", required = false) int status,
                                @RequestParam(value = "company_number", defaultValue = "", required = false) String companyNumber,
@@ -77,6 +85,7 @@ public class ShortTermProjectTeacherApi extends TeacherBaseController {
 
         PageResult<ShortTermProject> pr = shortTermService.pageProjects(session.getInstitute(),
                                                                         companyNumber,
+                                                                        name,
                                                                         term,
                                                                         projectStatus,
                                                                         projectFull,
