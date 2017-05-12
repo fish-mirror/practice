@@ -72,13 +72,16 @@ public interface BaseDAO<V, K extends Serializable> {
 
     int fieldUpdate(String field, Object value, K id);
 
-    int fieldUpdate(String field, Object value, K id, Number partitionSeed);
+    int fieldUpdate(String field, Object value, K id, int modifier);
 
-    int fieldUpdate(String field, Object value, K id, Number partitionSeed, String table);
+    int fieldUpdate(String field, Object value, K id, int modifier, Number partitionSeed);
+
+    int fieldUpdate(String field, Object value, K id, int modifier, Number partitionSeed, String table);
 
     int fieldUpdate(String field,
                     Object value,
                     Collection<Criterion> criterions,
+                    int modifier,
                     Number partitionSeed,
                     String table);
 

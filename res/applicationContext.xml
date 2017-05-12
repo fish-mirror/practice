@@ -102,6 +102,9 @@
         <property name="maxPoolSize" value="${datasource.maxpoolsize.main}"/>
     </bean>
 
+    <!-- 数据库表字段和数据域属性的命名策略-->
+    <bean id="namingStrategy" class="org.hibernate.cfg.ImprovedNamingStrategy" />
+
     <!-- 整合Hibernate的SessionFactory -->
     <bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
@@ -112,9 +115,7 @@
                 <prop key="hibernate.show_sql">true</prop>
             </props>
         </property>
-        <property name="namingStrategy" >
-            <bean class="org.hibernate.cfg.ImprovedNamingStrategy" />
-        </property>
+        <property name="namingStrategy" ref="namingStrategy" />
         <property name="packagesToScan">
             <list>
                 <value>com.zjicm.auth.domain</value>

@@ -18,8 +18,10 @@ import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
+import org.hibernate.cfg.NamingStrategy;
 import org.hibernate.criterion.*;
 import org.hibernate.transform.AliasToBeanResultTransformer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.orm.hibernate3.SessionFactoryUtils;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
@@ -38,6 +40,8 @@ import java.util.*;
 import java.util.concurrent.ExecutorService;
 
 public class BaseDAOImpl<V extends CanonicalDomain<K>, K extends Serializable> extends HibernateDaoSupport implements BaseDAO<V, K> {
+    @Autowired
+    private NamingStrategy namingStrategy;
     private Class<V> entityClass;
 
     private String table = "";
@@ -1007,20 +1011,24 @@ public class BaseDAOImpl<V extends CanonicalDomain<K>, K extends Serializable> e
         return sum(criterions, property, null, null, null);
     }
 
-    @Override
     public int fieldUpdate(String field, Object value, K id) {
-        return fieldUpdate(field, value, id, null, null);
+        return fieldUpdate(field, value, id, -1, null, null);
+    }
+    @Override
+    public int fieldUpdate(String field, Object value, K id, int modifier) {
+        return fieldUpdate(field, value, id, modifier, null, null);
     }
 
     @Override
-    public int fieldUpdate(String field, Object value, K id, Number partitionSeed) {
-        return fieldUpdate(field, value, id, partitionSeed, null);
+    public int fieldUpdate(String field, Object value, K id, int modifier, Number partitionSeed) {
+        return fieldUpdate(field, value, id, modifier, partitionSeed, null);
     }
 
     @Override
     public int fieldUpdate(String field,
                            Object value,
                            Collection<Criterion> criterions,
+                           int modifier,
                            Number partitionSeed,
                            String table) {
         int count = 0;
@@ -1028,7 +1036,7 @@ public class BaseDAOImpl<V extends CanonicalDomain<K>, K extends Serializable> e
         if (CollectionUtils.isNotEmpty(items)) {
             for (V item : items) {
                 if (item != null) {
-                    count += fieldUpdate(field, value, item.getId(), partitionSeed, table);
+                    count += fieldUpdate(field, value, item.getId(), modifier, partitionSeed, table);
                 }
             }
         }
@@ -1037,10 +1045,11 @@ public class BaseDAOImpl<V extends CanonicalDomain<K>, K extends Serializable> e
     }
 
     @Override
-    public int fieldUpdate(final String field, final Object value, final K id, Number partitionSeed, String table) {
+    public int fieldUpdate(final String field, final Object value, final K id, final int modifier, Number partitionSeed, String table) {
         if (StringUtils.isNotEmpty(field) && value != null && id != null) {
             final String column = _getField(field);
             final String modifyColumn = _getField("modifyTime");
+            final String modifierColumn = _getField("modifier");
             if (StringUtils.isNotEmpty(column)) {
                 try {
                     setPartition(partitionSeed, table, null);
@@ -1055,6 +1064,9 @@ public class BaseDAOImpl<V extends CanonicalDomain<K>, K extends Serializable> e
                                     StringUtils.isEmpty(modifyColumn)
                                             ? StringConsts.EMPTY
                                             : ("," + modifyColumn + "=now()"),
+                                    StringUtils.isEmpty(modifierColumn) || modifier < 0
+                                            ? StringConsts.EMPTY
+                                            : ("," + modifierColumn + "=" + modifier),
                                     "where",
                                     primaryKey,
                                     "=?"
@@ -1082,7 +1094,11 @@ public class BaseDAOImpl<V extends CanonicalDomain<K>, K extends Serializable> e
     }
 
     @Override
-    public int deltaUpdate(final String field, final Object value, final K id, Number partitionSeed, String table) {
+    public int deltaUpdate(final String field,
+                           final Object value,
+                           final K id,
+                           Number partitionSeed,
+                           String table) {
         if (StringUtils.isNotEmpty(field) && value != null && id != null) {
             final String column = _getField(field);
             final String modifyColumn = _getField("modifyTime");
@@ -1137,7 +1153,7 @@ public class BaseDAOImpl<V extends CanonicalDomain<K>, K extends Serializable> e
                             }
 
                             if (!field.isAnnotationPresent(Transient.class)) {
-                                return property;
+                                return namingStrategy.propertyToColumnName(property);
                             }
                         }
                     }
