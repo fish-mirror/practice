@@ -16,22 +16,21 @@ public class ShortTermProject implements CanonicalDomain<Integer> {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String name;
-    private String companyUserId;
+    private int companyUserId;
 
     private int institute;
     private String purpose;
     private String content;
-    private String majorNeed;
-    private String gradeNeed;
-    private Integer selectedNum;
-    private Integer topNum;
-    private Integer unmajorNum;
-    private Integer unmajorSelected;
+    private String majorNeed = "";
+    private int gradeNeed = 0;
+    private int selectedNum = 0;
+    private int topNum;
+    private int unmajorNum = 0;
+    private int unmajorSelected = 0;
     private String term;
     private String place;
     private String time;
-    private int status;
-    private String fileUrl;
+    private int status = 0;
     private int attId;
     @Column(updatable = false)
     private int creator;
@@ -66,11 +65,11 @@ public class ShortTermProject implements CanonicalDomain<Integer> {
         this.name = name;
     }
 
-    public String getCompanyUserId() {
+    public int getCompanyUserId() {
         return companyUserId;
     }
 
-    public void setCompanyUserId(String companyUserId) {
+    public void setCompanyUserId(int companyUserId) {
         this.companyUserId = companyUserId;
     }
 
@@ -106,43 +105,43 @@ public class ShortTermProject implements CanonicalDomain<Integer> {
         this.majorNeed = majorNeed;
     }
 
-    public String getGradeNeed() {
+    public int getGradeNeed() {
         return gradeNeed;
     }
 
-    public void setGradeNeed(String gradeNeed) {
+    public void setGradeNeed(int gradeNeed) {
         this.gradeNeed = gradeNeed;
     }
 
-    public Integer getSelectedNum() {
+    public int getSelectedNum() {
         return selectedNum;
     }
 
-    public void setSelectedNum(Integer selectedNum) {
+    public void setSelectedNum(int selectedNum) {
         this.selectedNum = selectedNum;
     }
 
-    public Integer getTopNum() {
+    public int getTopNum() {
         return topNum;
     }
 
-    public void setTopNum(Integer topNum) {
+    public void setTopNum(int topNum) {
         this.topNum = topNum;
     }
 
-    public Integer getUnmajorNum() {
+    public int getUnmajorNum() {
         return unmajorNum;
     }
 
-    public void setUnmajorNum(Integer unmajorNum) {
+    public void setUnmajorNum(int unmajorNum) {
         this.unmajorNum = unmajorNum;
     }
 
-    public Integer getUnmajorSelected() {
+    public int getUnmajorSelected() {
         return unmajorSelected;
     }
 
-    public void setUnmajorSelected(Integer unmajorSelected) {
+    public void setUnmajorSelected(int unmajorSelected) {
         this.unmajorSelected = unmajorSelected;
     }
 
@@ -176,14 +175,6 @@ public class ShortTermProject implements CanonicalDomain<Integer> {
 
     public void setStatus(int status) {
         this.status = status;
-    }
-
-    public String getFileUrl() {
-        return fileUrl;
-    }
-
-    public void setFileUrl(String fileUrl) {
-        this.fileUrl = fileUrl;
     }
 
     public int getAttId() {

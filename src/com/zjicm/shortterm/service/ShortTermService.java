@@ -1,6 +1,9 @@
 package com.zjicm.shortterm.service;
 
+import com.zjicm.common.beans.UserSession;
 import com.zjicm.common.lang.page.PageResult;
+import com.zjicm.shortterm.beans.ProjectParams;
+import com.zjicm.shortterm.beans.ProjectPatchParams;
 import com.zjicm.shortterm.domain.ShortTermComment;
 import com.zjicm.shortterm.domain.ShortTermProject;
 import com.zjicm.shortterm.domain.ShortTermReport;
@@ -33,16 +36,76 @@ public class ShortTermService {
     private ShortTermCommentDao shortTermCommentDao;
 
 
-    public Integer addProject(ShortTermProject stp) {
+    /**
+     * 新增短学期项目
+     *
+     * @param params
+     * @param session
+     * @return
+     */
+    public Integer createProject(ProjectParams params, UserSession session) {
+        if (params == null || session == null || session.getUserId() <= 0) return null;
+        ShortTermProject project = new ShortTermProject();
+        project.setCreator(session.getUserId());
+        project.setInstitute(session.getInstitute());
+        project.setStatus(ShortTermEnums.ProjectStatus.cancel.getValue());
+        project.setTerm("");
+
+        project.setAttId(params.getAtt_id());
+        project.setCompanyUserId(params.getCompany_user_id());
+        project.setContent(params.getContent());
+        project.setGradeNeed(params.getGrade_need());
+        project.setMajorNeed(params.getMajor_need());
+        project.setName(params.getName());
+        project.setPlace(params.getPlace());
+        project.setPurpose(params.getPurpose());
+        project.setTopNum(params.getTop_num());
+        project.setUnmajorNum(params.getUnmajor_num());
+        shortTermProjectDao.save(project);
+        return project.getId();
+    }
+
+    /**
+     * 编辑更新短学期项目
+     *
+     * @param params
+     * @param project
+     */
+    public String updateProject(ProjectPatchParams params, ShortTermProject project) {
+        if (params == null || project == null) return "参数为空";
+        if (params.getAtt_id() > 0) project.setAttId(params.getAtt_id());
+        if (params.getGrade_need() > 0) project.setGradeNeed(params.getGrade_need());
+        if (params.getTop_num() > 0) {
+            if (project.getSelectedNum() > params.getTop_num()) return "设置的总数不能小于当前已选的数量";
+            project.setTopNum(params.getTop_num());
+        }
+        if (params.getUnmajor_num() > 0) {
+            if (project.getUnmajorSelected() > params.getUnmajor_num()) return "设置的跨专业名额不能小于当前已选数量";
+            project.setUnmajorNum(params.getUnmajor_num());
+        }
+        if (StringUtils.isNotBlank(params.getName())) project.setName(params.getName());
+        if (StringUtils.isNotBlank(params.getContent())) project.setContent(params.getContent());
+        if (StringUtils.isNotBlank(params.getMajor_need())) project.setMajorNeed(params.getMajor_need());
+        if (StringUtils.isNotBlank(params.getPlace())) project.setPlace(params.getPlace());
+        if (StringUtils.isNotBlank(params.getPurpose())) project.setPurpose(params.getPurpose());
+
+        shortTermProjectDao.save(project);
         return null;
     }
 
-    public void updateProjectStatus(Integer id, Short status) {
-
-    }
-
-    public void updateProject(ShortTermProject stp) {
-
+    /**
+     * 更改短学期项目状态
+     *
+     * @param id
+     * @param status
+     * @param institute
+     * @return
+     */
+    public int updateProjectStatus(int id, int status, int institute) {
+        List<Criterion> criteria = new ArrayList<>();
+        criteria.add(Restrictions.eq("id", id));
+        criteria.add(Restrictions.eq("institute", institute));
+        return shortTermProjectDao.fieldUpdate("status", status, criteria, null, null);
     }
 
     /**
@@ -52,7 +115,6 @@ public class ShortTermService {
      * @return
      */
     public ShortTermProject getProject(Integer id) {
-
         return shortTermProjectDao.getById(id);
     }
 
