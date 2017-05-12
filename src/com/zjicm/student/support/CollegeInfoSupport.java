@@ -367,4 +367,20 @@ public class CollegeInfoSupport {
         return calendar.get(Calendar.YEAR) - 2004;
     }
 
+    /**
+     * 获取当前学期
+     *
+     * @return
+     */
+    public static String getCurrentTerm() {
+        Calendar calendar = Calendar.getInstance();
+        int currentYear = calendar.get(Calendar.YEAR);
+        // 下半年时，为第一学期
+        if (calendar.get(Calendar.MONTH) > Calendar.JUNE) {
+            return currentYear + "-" + (currentYear + 1) + "学年第一学期";
+        }
+
+        return (currentYear - 1) + "-" + currentYear + "学年第二学期";
+    }
+
 }
