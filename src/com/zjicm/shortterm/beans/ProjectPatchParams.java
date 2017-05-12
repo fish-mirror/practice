@@ -1,5 +1,6 @@
 package com.zjicm.shortterm.beans;
 
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.NotNull;
@@ -13,11 +14,17 @@ import javax.validation.constraints.NotNull;
 public class ProjectPatchParams {
     @NotNull
     private Integer id;
+    @Length(max = 30)
     private String name;
+    @Length(max = 500)
     private String purpose;
+    @Length(max = 30)
     private String place;
+    @Length(max = 1000)
     private String content;
+    @Length(max = 8)
     private String major_need;
+    @Length(max = 4)
     private String grade_need;
     @Range(min = 10)
     private int top_num;

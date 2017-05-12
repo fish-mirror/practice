@@ -26,7 +26,7 @@ import java.util.List;
 
 /**
  * 短学期业务方法
- *
+ * <p>
  * Created by yujing on 2017/1/3.
  */
 @Component
@@ -114,11 +114,11 @@ public class ShortTermService {
      * @param institute
      * @return
      */
-    public int updateProjectStatus(int id, int status, int institute) {
+    public int updateProjectStatus(int id, int status, int institute, int modifier) {
         List<Criterion> criteria = new ArrayList<>();
         criteria.add(Restrictions.eq("id", id));
         criteria.add(Restrictions.eq("institute", institute));
-        return shortTermProjectDao.fieldUpdate("status", status, criteria, null, null);
+        return shortTermProjectDao.fieldUpdate("status", status, criteria, modifier, null, null);
     }
 
     /**
@@ -173,7 +173,7 @@ public class ShortTermService {
         }
         if (gradeNeed > 0) {
             criteria.add(Restrictions.or(
-                    Restrictions.like("gradeNeed", "%" +gradeNeed + "%"),
+                    Restrictions.like("gradeNeed", "%" + gradeNeed + "%"),
                     Restrictions.eq("gradeNeed", "")));
         }
         if (StringUtils.isNotBlank(majorNeed)) criteria.add(Restrictions.eq("majorNeed", majorNeed));

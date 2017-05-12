@@ -107,7 +107,7 @@ public class ShortTermProjectManageTeacherApi extends TeacherBaseController {
         ShortTermEnums.ProjectStatus projectStatus = ShortTermEnums.ProjectStatus.is(status);
         if (projectStatus == null) return jsonDataHolder.error400();
 
-        if (shortTermService.updateProjectStatus(id, status, session.getInstitute()) > 0) {
+        if (shortTermService.updateProjectStatus(id, status, session.getInstitute(), session.getUserId()) > 0) {
             return jsonDataHolder.simpleMsg(id, MsgType.update);
         } else {
             return jsonDataHolder.error101();

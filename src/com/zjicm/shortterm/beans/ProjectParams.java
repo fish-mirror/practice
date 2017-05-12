@@ -1,5 +1,6 @@
 package com.zjicm.shortterm.beans;
 
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.Range;
 
@@ -11,15 +12,21 @@ import org.hibernate.validator.constraints.Range;
  */
 public class ProjectParams {
     @NotBlank
+    @Length(max = 30)
     private String name;
     private String company_number;
     @NotBlank
+    @Length(max = 500)
     private String purpose;
     @NotBlank
+    @Length(max = 30)
     private String place;
     @NotBlank
+    @Length(max = 1000)
     private String content;
+    @Length(max = 4)
     private String major_need;
+    @Length(max = 8)
     private String grade_need;
     @Range(min = 10)
     private int top_num;
