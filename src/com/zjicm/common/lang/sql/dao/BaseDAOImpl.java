@@ -621,6 +621,19 @@ public class BaseDAOImpl<V extends CanonicalDomain<K>, K extends Serializable> e
                            Number partitionSeed,
                            String table,
                            ReadPolicy readPolicy) {
+        return getPage(null, criterions, null, orders, offset, size, partitionSeed, table, readPolicy);
+    }
+
+    @Override
+    public <T> List<T> getPage(Class<T> clazz,
+                               Collection<Criterion> criterions,
+                               ProjectionList projectionList,
+                               List<Order> orders,
+                               int offset,
+                               int size,
+                               Number partitionSeed,
+                               String table,
+                               ReadPolicy readPolicy) {
         try {
             setPartition(partitionSeed, table, readPolicy);
 
@@ -630,7 +643,10 @@ public class BaseDAOImpl<V extends CanonicalDomain<K>, K extends Serializable> e
                     dc.add(criterion);
                 }
             }
-
+            if (projectionList != null && clazz != null) {
+                dc.setProjection(projectionList)
+                  .setResultTransformer(new AliasToBeanResultTransformer(clazz));
+            }
             if (orders != null) {
                 for (Order order : orders) {
                     dc.addOrder(order);
@@ -639,7 +655,7 @@ public class BaseDAOImpl<V extends CanonicalDomain<K>, K extends Serializable> e
                 dc.addOrder(Order.asc(entityKey));
             }
 
-            return this.getHibernateTemplate().execute((HibernateCallback<List<V>>) session -> {
+            return this.getHibernateTemplate().execute((HibernateCallback<List<T>>) session -> {
                 Criteria criteria = dc.getExecutableCriteria(session);
                 criteria.setMaxResults(size);
                 criteria.setFirstResult(offset);
@@ -655,16 +671,28 @@ public class BaseDAOImpl<V extends CanonicalDomain<K>, K extends Serializable> e
 
     @Override
     public PageResult<V> getPageResult(Collection<Criterion> criterions, List<Order> orders, int page, int size) {
-        PageResult<V> result = new PageResult<>();
+        return getPageResult(null, criterions, null, orders, page, size);
+    }
+
+    @Override
+    public <T> PageResult<T> getPageResult(Class<T> clazz,
+                                           Collection<Criterion> criterions,
+                                           ProjectionList projectionList,
+                                           List<Order> orders,
+                                           int page,
+                                           int size) {
+        PageResult<T> result = new PageResult<>();
         int total = count(criterions);
         if (total < page) page = total;
 
         result.setTotal(total);
         result.setParameters(total, page, size);
-        List<V> items = getPage(criterions,
+        List<T> items = getPage(clazz,
+                                criterions,
+                                projectionList,
                                 orders,
                                 result.getStart(),
-                                result.getLimit());
+                                result.getLimit(), null, null, null);
         result.setResult(items);
 
         return result;

@@ -192,16 +192,33 @@ public interface BaseDAO<V, K extends Serializable> {
                     String table,
                     ReadPolicy readPolicy);
 
+    <T> List<T> getPage(Class<T> clazz,
+                        Collection<Criterion> criterions,
+                        ProjectionList projectionList,
+                        List<Order> orders,
+                        int offset,
+                        int size,
+                        Number partitionSeed,
+                        String table,
+                        ReadPolicy readPolicy);
+
     /**
      * 支持 PageResult 的分页查询
      *
      * @param criterions
      * @param orders
-     * @param offset
+     * @param page
      * @param size
      * @return
      */
-    PageResult<V> getPageResult(Collection<Criterion> criterions, List<Order> orders, int offset, int size);
+    PageResult<V> getPageResult(Collection<Criterion> criterions, List<Order> orders, int page, int size);
+
+    <T> PageResult<T> getPageResult(Class<T> clazz,
+                                    Collection<Criterion> criterions,
+                                    ProjectionList projectionList,
+                                    List<Order> orders,
+                                    int page,
+                                    int size);
 
     int count(Collection<Criterion> criterions);
 
