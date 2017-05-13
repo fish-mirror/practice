@@ -62,7 +62,7 @@ public class AuthAccountApi extends RootController {
         UserSession userSession = doLogin(request, response, user.getId());
         if (userSession == null) return jsonDataHolder.putToError(404, "该账号状态异常");
 
-        return redirect(response, "");
+        return redirect(response, "/home");
     }
 
     /**
