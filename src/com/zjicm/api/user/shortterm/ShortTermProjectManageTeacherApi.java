@@ -8,7 +8,7 @@ import com.zjicm.shortterm.beans.ProjectParams;
 import com.zjicm.shortterm.beans.ProjectPatchParams;
 import com.zjicm.shortterm.domain.ShortTermProject;
 import com.zjicm.shortterm.enums.ShortTermEnums;
-import com.zjicm.shortterm.service.ShortTermService;
+import com.zjicm.shortterm.service.ShortTermInfoService;
 import com.zjicm.web.teacher.TeacherBaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,7 +27,7 @@ import javax.validation.Valid;
 @RequestMapping("/teacher/i/shortterm")
 public class ShortTermProjectManageTeacherApi extends TeacherBaseController {
     @Autowired
-    ShortTermService shortTermService;
+    ShortTermInfoService shortTermService;
 
     /**
      * 创建短学期项目

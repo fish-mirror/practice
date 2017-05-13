@@ -2,6 +2,7 @@ package com.zjicm.shortterm.service;
 
 import com.zjicm.common.beans.UserSession;
 import com.zjicm.common.lang.page.PageResult;
+import com.zjicm.common.lang.util.StringUtil;
 import com.zjicm.company.domain.Company;
 import com.zjicm.company.service.CompanyService;
 import com.zjicm.shortterm.beans.ProjectParams;
@@ -30,7 +31,7 @@ import java.util.List;
  * Created by yujing on 2017/1/3.
  */
 @Component
-public class ShortTermService {
+public class ShortTermInfoService {
 
     @Autowired
     private ShortTermProjectDao shortTermProjectDao;
@@ -186,59 +187,6 @@ public class ShortTermService {
     }
 
 
-    public String addSelectProject(Integer pid, String stuId, String major, String insitute, String term) {
-        return null;
-//        String grade = (stuId).substring(0, 2);
-//        ShortTermProject shortTerm = this.getProject(pid);
-//        if (shortTermReportDao.get(stuId, pid) != null) {
-//            return "已存在对应选课记录！";
-//        }
-//        if (shortTerm.getInstitute().equals(insitute)
-//            && shortTerm.getStatus() == 1
-//            && (term == null
-//                || shortTerm.getTerm().equals(term))) {
-//            //人数限制
-//            Integer topNum = shortTerm.getTopNum();
-//            Integer selectedNum = shortTerm.getSelectedNum();
-//            Integer unmajorNum = shortTerm.getUnmajorNum();
-//            Integer unmajorSelected = shortTerm.getUnmajorSelected();
-//
-//            if (topNum > selectedNum) {
-//                //年级限制
-//                if (shortTerm.getGradeNeed().equals("all") || shortTerm.getGradeNeed().equals(grade)) {
-//                    //专业限制
-//                    if (shortTerm.getMajorNeed().equals("all") || shortTerm.getMajorNeed().equals(major)) {
-//                        shortTermReportDao.add(stuId, new ShortTermProject(pid));
-//                        selectedNum++;
-//                        shortTerm.setSelectedNum(selectedNum);
-//                        shortTermProjectDao.update(shortTerm);
-//                        return "success";
-//                        //还有非专业名额
-//                    } else if (unmajorSelected < unmajorNum) {
-//                        shortTermReportDao.add(stuId, new ShortTermProject(pid));
-//                        selectedNum++;
-//                        unmajorSelected++;
-//                        shortTerm.setSelectedNum(selectedNum);
-//                        shortTerm.setUnmajorSelected(unmajorSelected);
-//                        shortTermProjectDao.update(shortTerm);
-//                        return "success";
-//                    } else {
-//                        return "专业限制，名额已满！";
-//                    }
-//                } else {
-//                    return "年级不符！";
-//                }
-//
-//            } else {
-//                return "该项目人数已满！";
-//            }
-//        } else {
-//            return "该项目不可选！";
-//        }
-
-
-    }
-
     public boolean cancelSelectedProject(Integer id, String stuId, String term, String major) {
 //        ShortTermReport str = this.getReport(id);
 //        //判断是否是有效的学生对象和学期
@@ -261,22 +209,32 @@ public class ShortTermService {
     }
 
     public ShortTermReport getReport(Integer id) {
+        if (id <= 0) return null;
+        return shortTermReportDao.getById(id);
+    }
+
+    public ShortTermReport getReport(int projectId, String studentNumber) {
+        if (projectId <= 0 || StringUtils.isBlank(studentNumber)) return null;
+
+        List<Criterion> criteria = new ArrayList<>();
+        criteria.add(Restrictions.eq("projectId", projectId));
+        criteria.add(Restrictions.eq("studentNumber", studentNumber));
+        return shortTermReportDao.get(criteria, null);
+    }
+
+    public ShortTermProject getProjectSelected(String stuId, String term) {
         return null;
     }
 
-    public ShortTermReport getProjectSelected(String stuId, String term) {
-        return null;
+    public PageResult<ShortTermReport> pageReport(String studentNumber, int page, int size) {
+        List<Criterion> criteria = new ArrayList<>();
+        criteria.add(Restrictions.eq("studentNumber", studentNumber));
+        List<Order> orders = new ArrayList<>();
+        orders.add(Order.desc("id"));
+        return shortTermReportDao.getPageResult(criteria, orders, page, size);
     }
 
-    public List<ShortTermReport> getReportList(String stuId) {
-        return null;
-    }
 
-
-    public List<ShortTermReport> getReportList(String institute, String comId) {
-        // TODO Auto-generated method stub
-        return null;
-    }
 
 
     public void addCommemt(Integer rid, String userId, float grade) {

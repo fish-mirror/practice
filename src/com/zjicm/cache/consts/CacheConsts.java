@@ -7,5 +7,7 @@ public final class CacheConsts {
     public static final class Storage{
         public static final String USERSESSION = "USER_SESSION";
         public static final String USERSESSION_REMEMBER = "USER_SESSION_REMEMBER";
+
+        public static final String SHORT_TERM = "SHORT_TERM";
     }
 }

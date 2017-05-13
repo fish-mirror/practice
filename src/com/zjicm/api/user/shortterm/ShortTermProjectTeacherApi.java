@@ -5,7 +5,7 @@ import com.zjicm.common.lang.json.JsonDataHolder;
 import com.zjicm.common.lang.page.PageResult;
 import com.zjicm.shortterm.domain.ShortTermProject;
 import com.zjicm.shortterm.enums.ShortTermEnums;
-import com.zjicm.shortterm.service.ShortTermService;
+import com.zjicm.shortterm.service.ShortTermInfoService;
 import com.zjicm.web.teacher.TeacherBaseController;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/teacher/i/shortterm")
 public class ShortTermProjectTeacherApi extends TeacherBaseController {
     @Autowired
-    ShortTermService shortTermService;
+    private ShortTermInfoService shortTermInfoService;
 
     /**
      * 单数据获取
@@ -43,7 +43,7 @@ public class ShortTermProjectTeacherApi extends TeacherBaseController {
         JsonDataHolder jsonDataHolder = new JsonDataHolder();
         if (id <= 0) return jsonDataHolder.error400();
 
-        ShortTermProject shortTermProject = shortTermService.getProject(id);
+        ShortTermProject shortTermProject = shortTermInfoService.getProject(id);
         if (shortTermProject == null) return jsonDataHolder.error101();
 
         UserSession session = getUserSession(request);
@@ -83,16 +83,16 @@ public class ShortTermProjectTeacherApi extends TeacherBaseController {
         ShortTermEnums.ProjectStatus projectStatus = ShortTermEnums.ProjectStatus.is(status);
         ShortTermEnums.ProjectFull projectFull = ShortTermEnums.ProjectFull.is(fullStatus);
 
-        PageResult<ShortTermProject> pr = shortTermService.pageProjects(session.getInstitute(),
-                                                                        companyNumber,
-                                                                        name,
-                                                                        term,
-                                                                        projectStatus,
-                                                                        projectFull,
-                                                                        gradeNeed,
-                                                                        majorNeed,
-                                                                        page,
-                                                                        size);
+        PageResult<ShortTermProject> pr = shortTermInfoService.pageProjects(session.getInstitute(),
+                                                                            companyNumber,
+                                                                            name,
+                                                                            term,
+                                                                            projectStatus,
+                                                                            projectFull,
+                                                                            gradeNeed,
+                                                                            majorNeed,
+                                                                            page,
+                                                                            size);
 
         if (pr == null || CollectionUtils.isEmpty(pr.getResult())) return jsonDataHolder.error101();
 

@@ -22,6 +22,7 @@ public class ShortTermReport implements CanonicalDomain<Integer> {
     private String studentNumber;
     private int projectId;
     private int attId;
+    private int type;
 
     @Column(updatable = false)
     private Date createTime;                            // 创建时间
@@ -30,6 +31,11 @@ public class ShortTermReport implements CanonicalDomain<Integer> {
     public ShortTermReport() {
     }
 
+    public ShortTermReport(String studentNumber, int projectId, int type) {
+        this.studentNumber = studentNumber;
+        this.projectId = projectId;
+        this.type = type;
+    }
 
     public Integer getId() {
         return id;
@@ -66,6 +72,14 @@ public class ShortTermReport implements CanonicalDomain<Integer> {
 
     public void setAttId(int attId) {
         this.attId = attId;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 
     public Date getCreateTime() {

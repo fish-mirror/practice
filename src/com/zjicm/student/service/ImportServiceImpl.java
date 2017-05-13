@@ -7,7 +7,7 @@ import com.zjicm.shortterm.dao.ShortTermProjectDao;
 import com.zjicm.shortterm.dao.ShortTermReportDao;
 import com.zjicm.student.domain.Student;
 import com.zjicm.auth.domain.User;
-import com.zjicm.shortterm.service.ShortTermService;
+import com.zjicm.shortterm.service.ShortTermInfoService;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -31,7 +31,7 @@ public class ImportServiceImpl implements IImportService {
     @Autowired
     private ShortTermReportDao shortTermReportDao;
     @Autowired
-    private ShortTermService shortTermService;
+    private ShortTermInfoService shortTermService;
 
     /*
      * 获取excel文件数据，插入数据库
@@ -165,13 +165,13 @@ public class ImportServiceImpl implements IImportService {
                     } else {
 
 
-                        String result = shortTermService.addSelectProject(stp.getId(), stuId, major, institute, null);
-                        result = stuId + " " + stp.getName() + result;
-                        System.out.println(result);
-                        if (info.indexOf("success") != -1) {
-                            info = new StringBuilder(result);
-                        }
-                        info.append(result);
+//                        String result = shortTermService.addSelectProject(stp.getId(), stuId, major, institute, null);
+//                        result = stuId + " " + stp.getName() + result;
+//                        System.out.println(result);
+//                        if (info.indexOf("success") != -1) {
+//                            info = new StringBuilder(result);
+//                        }
+//                        info.append(result);
 
                     }
 
