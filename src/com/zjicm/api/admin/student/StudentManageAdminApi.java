@@ -1,6 +1,7 @@
 package com.zjicm.api.admin.student;
 
 import com.zjicm.common.lang.json.JsonDataHolder;
+import com.zjicm.web.admin.AdminBaseController;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +21,7 @@ import java.io.File;
  */
 @Controller
 @RequestMapping(value = "/admin/i/student")
-public class StudentManageAdminApi {
+public class StudentManageAdminApi extends AdminBaseController {
 
 
     @Value("${file.upload.base}")
