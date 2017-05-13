@@ -4,7 +4,7 @@
 <!DOCTYPE HTML>
 <html>
 
-<c:set var="assets_domain" value="http://asserts.ayuya.me" scope="request"/>
+<c:set var="assets_domain" value="http://opvyx1uc9.bkt.clouddn.com" scope="request"/>
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -12,7 +12,7 @@
     <meta name="keywords" content=""/>
     <meta name="description" content=""/>
     <meta name="copyright" content="YUJING&WANGQI@浙江传媒学院"/>
-    <c:set var="assets_domain" value="http://asserts.ayuya.me" scope="request"/>
+    <c:set var="assets_domain" value="http://opvyx1uc9.bkt.clouddn.com" scope="request"/>
 
     <!-- Bootstrap -->
     <link rel="stylesheet" type="text/css" href="${assets_domain}/practice/css/bootstrap.min.css"/>

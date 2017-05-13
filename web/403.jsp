@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<c:set var="assets_domain" value="http://asserts.ayuya.me" scope="request"/>
+<c:set var="assets_domain" value="http://opvyx1uc9.bkt.clouddn.com" scope="request"/>
 
 <!DOCTYPE html>
 <html lang="en">
