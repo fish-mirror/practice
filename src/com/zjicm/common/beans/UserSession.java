@@ -19,9 +19,9 @@ public class UserSession implements Serializable {
     private int roleId;
     private Set<Integer> authorities;
     private int institute;
+    private int grade;
     private String major;
     private int classIndex;
-    private String indexPage;
 
     public UserSession(String sessionId) {
         this.id = sessionId;
@@ -48,6 +48,7 @@ public class UserSession implements Serializable {
         if (student == null) return;
         this.setName(student.getName());
         this.setInstitute(student.getInstitute());
+        this.setGrade(student.getGrade());
         this.setMajor(student.getMajor());
         this.setClassIndex(student.getClassIndex());
     }
@@ -121,6 +122,14 @@ public class UserSession implements Serializable {
         this.institute = institute;
     }
 
+    public int getGrade() {
+        return grade;
+    }
+
+    public void setGrade(int grade) {
+        this.grade = grade;
+    }
+
     public String getMajor() {
         return major;
     }
@@ -135,13 +144,5 @@ public class UserSession implements Serializable {
 
     public void setClassIndex(int classIndex) {
         this.classIndex = classIndex;
-    }
-
-    public String getIndexPage() {
-        return indexPage;
-    }
-
-    public void setIndexPage(String indexPage) {
-        this.indexPage = indexPage;
     }
 }

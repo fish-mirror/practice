@@ -7,14 +7,14 @@
 	<!-- 学校LOGO -->
 	<div class="col-xs-6">
     	<br /><br />
-    	<img src="${assets_domain}/image/logo_school.png" />
+    	<img src="${assets_domain}/practice/image/logo_school.png" />
     </div>
     <!-- 主体 -->
 	<div class="col-xs-12">
 		<br /><br /><br />
 		
 		<div class="bg">
-			<img src="${assets_domain}/image/login_bg.png" />
+			<img src="${assets_domain}/practice/image/login_bg.png" />
 			
 		</div>
 		<div class="col-xs-6"></div>

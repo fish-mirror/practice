@@ -5,7 +5,7 @@
 <tiles-definitions>
     <!-- 默认排版 -->
     <definition name="layout.default" template="/WEB-INF/jsp/layout/default.jsp">
-        <put-attribute name="header" type="template" value="/WEB-INF/jsp/include/header.jsp"/>
+        <put-attribute name="header" type="template" value="/WEB-INF/jsp/include/head.jsp"/>
         <put-attribute name="main" type="template" value=""/>
         <put-attribute name="footer" type="template" value="/WEB-INF/jsp/include/footer.jsp"/>
     </definition>
@@ -22,5 +22,10 @@
     <definition name="account.register" template="/WEB-INF/jsp/layout/account.jsp">
         <put-attribute name="main" type="template" value="/WEB-INF/jsp/account/register.jsp"/>
     </definition>
+
+    <!-- 用户页 -->
+    <definition name="practice.index" template="/WEB-INF/jsp/base.jsp">
+    </definition>
+
 </tiles-definitions>
 

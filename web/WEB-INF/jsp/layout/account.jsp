@@ -6,7 +6,7 @@
 
 <%@ include file="/WEB-INF/jsp/include/account_head.jsp" %>
 <body>
-<c:set var="assets_domain" value="http://localhost" scope="request"/>
+<c:set var="assets_domain" value="http://asserts.ayuya.me" scope="request"/>
 
 <tiles:insertAttribute name="main" />
 <script src="${assets_domain}/practice/js/jquery.min.js"></script>

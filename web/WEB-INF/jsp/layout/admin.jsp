@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/jsp/include/taglibs.jsp"%>
 <!DOCTYPE HTML>
 <html>
-<c:set var="assets_domain" value="http://localhost" scope="request"/>
+<c:set var="assets_domain" value="http://asserts.ayuya.me" scope="request"/>
 
 <%@ include file="/WEB-INF/jsp/include/admin_head.jsp" %>
 <body>

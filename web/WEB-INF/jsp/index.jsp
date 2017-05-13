@@ -3,9 +3,24 @@
 <%@ include file="/WEB-INF/jsp/include/taglibs.jsp" %>
 <!DOCTYPE HTML>
 <html>
-<%@ include file="/WEB-INF/jsp/include/head.jsp" %>
+
+<c:set var="assets_domain" value="http://asserts.ayuya.me" scope="request"/>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title></title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content=""/>
+    <meta name="copyright" content="YUJING&WANGQI@浙江传媒学院"/>
+    <c:set var="assets_domain" value="http://asserts.ayuya.me" scope="request"/>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" type="text/css" href="${assets_domain}/practice/css/bootstrap.min.css"/>
+    <!--你自己的样式文件 -->
+    <link rel="stylesheet" type="text/css" href="${assets_domain}/practice/css/index.css"/>
+</head>
+
 <body>
-<c:set var="assets_domain" value="http://localhost" scope="request"/>
 
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -16,7 +31,7 @@
                 <span class="icon-bar"></span>
             </button>
             <a href="javascript:;"><span class="logo">高校实习管理系统</span><img
-                    src="${assets_domain}/image/logo.png" alt="实习管理系统"/></a>
+                    src="${assets_domain}/practice/image/logo.png" alt="实习管理系统"/></a>
         </div>
         <div number="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-left">
@@ -36,42 +51,42 @@
     <ul number="show_pic">
         <li style="opacity: 1; z-index: 10;">
             <a href1="">
-                <img src="${assets_domain}/image/01.jpg">
+                <img src="${assets_domain}/practice/image/01.jpg">
             </a>
             <span style="width: 378px; opacity: 0.5;" class="titlebg"></span>
             <a href1="" class="title">理工科招聘会</a>
         </li>
         <li style="opacity: 0; z-index: 9;">
             <a href1="">
-                <img src="${assets_domain}/image/02.jpg">
+                <img src="${assets_domain}/practice/image/02.jpg">
             </a>
             <span style="width: 196px; opacity: 0.5;" class="titlebg"></span>
             <a href1="" class="title">校企“零距离”，倾听企业声音</a>
         </li>
         <li style="opacity: 0; z-index: 9;">
             <a href1="">
-                <img src="${assets_domain}/image/03.jpg">
+                <img src="${assets_domain}/practice/image/03.jpg">
             </a>
             <span style="width: 490px; opacity: 0.5;" class="titlebg"></span>
             <a href1="" class="title">访问游戏公司</a>
         </li>
         <li style="opacity: 0; z-index: 9;">
             <a href1="">
-                <img src="${assets_domain}/image/04.jpg">
+                <img src="${assets_domain}/practice/image/04.jpg">
             </a>
             <span style="width: 420px; opacity: 0.5;" class="titlebg"></span>
             <a href1="" class="title">多媒体作品讨论会</a>
         </li>
         <li style="opacity: 0; z-index: 9;">
             <a href1="">
-                <img src="${assets_domain}/image/05.jpg">
+                <img src="${assets_domain}/practice/image/05.jpg">
             </a>
             <span style="width: 354px; opacity: 0.5;" class="titlebg"></span>
             <a href1="" class="title">移动互联网技术与传播高峰论坛在我校召开</a>
         </li>
         <li style="opacity: 0; z-index: 9;">
             <a href1="">
-                <img src="${assets_domain}/image/06.jpg">
+                <img src="${assets_domain}/practice/image/06.jpg">
             </a>
             <span style="width: 224px; opacity: 0.5;" class="titlebg"></span>
             <a href1="" class="title">第一届“海象杯”手机APP设计大赛成功举办</a>
@@ -100,7 +115,7 @@
                 <a><h4>合作企业介绍</h4></a>
             </div>
             <div class="bd">
-                <img src="${assets_domain}/image/company/danei.jpg" style="height:94px;width:190px;">
+                <img src="${assets_domain}/practice/image/company/danei.jpg" style="height:94px;width:190px;">
 
                 <ul class="h-notice-list">
                     <li><a href="" target="_blank">达内时代科技集团有限公司</a></li>

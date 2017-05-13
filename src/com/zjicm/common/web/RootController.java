@@ -34,9 +34,7 @@ import java.util.Set;
 public class RootController {
     protected final static String VIEW_LOGIN = "accoount.login";
     protected final static String VIEW_INDEX = "view.index";
-    protected final static String VIEW_STUDENT_INDEX = "student.index";
-    protected final static String VIEW_TEACHER_INDEX = "teacher.index";
-    protected final static String VIEW_COMPANY_INDEX = "company.index";
+    protected final static String VIEW_HOME = "practice.index";
 
     @Autowired
     protected UserDao userDao;
@@ -86,17 +84,14 @@ public class RootController {
             case teacher:
                 Teacher teacher = teacherService.getByNum(user.getNumber());
                 userSession.set(user, teacher);
-                userSession.setIndexPage(VIEW_TEACHER_INDEX);
                 break;
             case student:
                 Student student = studentService.getByNum(user.getNumber());
                 userSession.set(user, student);
-                userSession.setIndexPage(VIEW_STUDENT_INDEX);
                 break;
             case company:
                 Company company = companyService.getByNum(user.getNumber());
                 userSession.set(user, company);
-                userSession.setIndexPage(VIEW_COMPANY_INDEX);
                 break;
             default:
                 return null;

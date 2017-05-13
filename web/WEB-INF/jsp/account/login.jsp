@@ -1,6 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8" %>
 
-<c:set var="assets_domain" value="http://localhost" scope="request"/>
+<c:set var="assets_domain" value="http://asserts.ayuya.me" scope="request"/>
 
 <div class="container" style="min-width:800px">
     <br/><br/><br/>
@@ -8,7 +8,7 @@
     <!-- 学校LOGO -->
     <div class="col-xs-6">
         <br/><br/>
-        <img src="${assets_domain}/image/logo_school.png"/>
+        <img src="${assets_domain}/practice/image/logo_school.png"/>
 
     </div>
     <!-- 主体 -->
@@ -16,7 +16,7 @@
         <br/><br/><br/>
 
         <div class="bg">
-            <img src="${assets_domain}/image/login_bg.png"/>
+            <img src="${assets_domain}/practice/image/login_bg.png"/>
 
         </div>
         <div class="col-xs-8"></div>
