@@ -14,13 +14,13 @@
 
     <title>500 ณ๖ดํมห</title>
 
-    <link href="${assets_domain}/base/js/css/style.css" rel="stylesheet">
-    <link href="${assets_domain}/base/js/css/style-responsive.css" rel="stylesheet">
+    <link href="${assets_domain}/base/css/style.css" rel="stylesheet">
+    <link href="${assets_domain}/base/css/style-responsive.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
-    <script src="${assets_domain}/base/js/js/html5shiv.js"></script>
-    <script src="${assets_domain}/base/js/js/respond.min.js"></script>
+    <script src="${assets_domain}/base/js/html5shiv.js"></script>
+    <script src="${assets_domain}/base/js/respond.min.js"></script>
     <![endif]-->
 </head>
 
@@ -41,10 +41,10 @@
 </section>
 
 <!-- Placed js at the end of the document so the pages load faster -->
-<script src="${assets_domain}/base/js/js/jquery-1.10.2.min.js"></script>
-<script src="${assets_domain}/base/js/js/jquery-migrate-1.2.1.min.js"></script>
-<script src="${assets_domain}/base/js/js/bootstrap.min.js"></script>
-<script src="${assets_domain}/base/js/js/modernizr.min.js"></script>
+<script src="${assets_domain}/base/js/jquery-1.10.2.min.js"></script>
+<script src="${assets_domain}/base/js/jquery-migrate-1.2.1.min.js"></script>
+<script src="${assets_domain}/base/js/bootstrap.min.js"></script>
+<script src="${assets_domain}/base/js/modernizr.min.js"></script>
 
 
 <!--common scripts for all pages-->

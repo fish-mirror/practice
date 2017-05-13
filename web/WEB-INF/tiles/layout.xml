@@ -4,23 +4,18 @@
         "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
 <tiles-definitions>
     <!-- 默认排版 -->
-    <definition name="layout.default" template="/WEB-INF/jsp/layout/default.jsp">
-        <put-attribute name="header" type="template" value="/WEB-INF/jsp/include/head.jsp"/>
-        <put-attribute name="main" type="template" value=""/>
-        <put-attribute name="footer" type="template" value="/WEB-INF/jsp/include/footer.jsp"/>
-    </definition>
+    <!--<definition name="layout.default" template="/WEB-INF/jsp/layout/default.jsp">-->
+        <!--<put-attribute name="header" type="template" value="/WEB-INF/jsp/include/head.jsp"/>-->
+        <!--<put-attribute name="main" type="template" value=""/>-->
+        <!--<put-attribute name="footer" type="template" value="/WEB-INF/jsp/include/footer.jsp"/>-->
+    <!--</definition>-->
 
     <!-- 主页 -->
     <definition name="layout.index" template="/WEB-INF/jsp/index.jsp">
     </definition>
 
     <!-- 登录页 -->
-    <definition name="account.login" template="/WEB-INF/jsp/layout/account.jsp">
-        <put-attribute name="main" type="template" value="/WEB-INF/jsp/account/login.jsp"/>
-    </definition>
-    <!-- 注册页 -->
-    <definition name="account.register" template="/WEB-INF/jsp/layout/account.jsp">
-        <put-attribute name="main" type="template" value="/WEB-INF/jsp/account/register.jsp"/>
+    <definition name="account.login" template="/WEB-INF/jsp/login.jsp">
     </definition>
 
     <!-- 用户页 -->
