@@ -3,6 +3,7 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:task="http://www.springframework.org/schema/task"
        xmlns:aop="http://www.springframework.org/schema/aop"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
@@ -11,7 +12,11 @@
         http://www.springframework.org/schema/mvc
         http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd
            http://www.springframework.org/schema/context
-           http://www.springframework.org/schema/context/spring-context-4.2.xsd">
+           http://www.springframework.org/schema/context/spring-context-4.2.xsd
+        http://www.springframework.org/schema/task
+        http://www.springframework.org/schema/task/spring-task-4.2.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd">
 
     <bean id="configBean" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="location" value="classpath:config.properties"/>
@@ -75,6 +80,8 @@
     </bean>
     <!--proxy-target-class="true"强制使用cglib代理   如果为false则spring会自动选择-->
     <aop:aspectj-autoproxy proxy-target-class="true"/>
+    <task:annotation-driven scheduler="threadPoolTaskScheduler"/>
+    <task:scheduler id="threadPoolTaskScheduler"  pool-size="5" />
 
 
     <!-- 配置数据源 -->
@@ -103,7 +110,7 @@
     </bean>
 
     <!-- 数据库表字段和数据域属性的命名策略-->
-    <bean id="namingStrategy" class="org.hibernate.cfg.ImprovedNamingStrategy" />
+    <bean id="namingStrategy" class="org.hibernate.cfg.ImprovedNamingStrategy"/>
 
     <!-- 整合Hibernate的SessionFactory -->
     <bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
@@ -115,7 +122,7 @@
                 <prop key="hibernate.show_sql">true</prop>
             </props>
         </property>
-        <property name="namingStrategy" ref="namingStrategy" />
+        <property name="namingStrategy" ref="namingStrategy"/>
         <property name="packagesToScan">
             <list>
                 <value>com.zjicm.auth.domain</value>
@@ -128,6 +135,8 @@
                 <value>com.zjicm.shortterm.domain</value>
                 <value>com.zjicm.student.domain</value>
                 <value>com.zjicm.attachment.domain</value>
+                <value>com.zjicm.customkeyvalue.domain</value>
+
             </list>
         </property>
     </bean>
@@ -136,7 +145,6 @@
     <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
-
 
 
     <!-- 配置HibernateTemplate -->
