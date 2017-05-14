@@ -17,10 +17,22 @@
 <div class="wrap fadeInDown">
     <h1>实习管理系统</h1>
     <h2>用实践，探索更大的世界</h2>
-    <div class="form-group"><input type="text" name="username" placeholder="学号/工号/账号" id="id"></div>
-    <div class="form-group"><input type="text" name="password" placeholder="密码" id="psw"></div>
-    <div class="form-group"><button class="btn btn-submit" id="loginBtn">登录</button></div>
-    <div class="tip" id="tip"></div>
+    <div id="loginForm">
+        <div class="form-group" id="account">
+            <input type="text" name="account" placeholder="学号">
+            <div class="check"></div>
+        </div>
+        <div class="form-group" id="password">
+            <input type="password" name="password" placeholder="密码">
+            <div class="check"></div>
+        </div>
+        <div class="form-group">
+            <button class="btn btn-submit" id="loginBtn">
+                登录
+            </button>
+        </div>
+        <div class="tip" id="tip"></div>
+    </div>
     <footer>推荐使用chrome48以上版本访问<br>Copyright © 2017 aqi&amp;ayu. All Rights Reserved.</footer>
 </div>
 </body>

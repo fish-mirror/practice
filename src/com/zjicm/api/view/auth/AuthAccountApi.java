@@ -2,6 +2,7 @@ package com.zjicm.api.view.auth;
 
 import com.zjicm.auth.beans.LoginParam;
 import com.zjicm.auth.domain.User;
+import com.zjicm.common.beans.KeyValue;
 import com.zjicm.common.beans.UserSession;
 import com.zjicm.common.lang.json.JsonDataHolder;
 import com.zjicm.common.lang.json.JsonErrorInfo;
@@ -62,7 +63,8 @@ public class AuthAccountApi extends RootController {
         UserSession userSession = doLogin(request, response, user.getId());
         if (userSession == null) return jsonDataHolder.putToError(404, "该账号状态异常");
 
-        return redirect(response, "/home");
+
+        return jsonDataHolder.addToItems(new KeyValue<>("url", "http://139.129.37.224:8080/practice/home"));
     }
 
     /**
