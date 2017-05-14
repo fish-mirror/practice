@@ -29,9 +29,9 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Controller
 @RequestMapping("/student/i/shortterm")
-public class ShortTermProjectStudentApi extends StudentBaseController {
+public class ProjectStudentApi extends StudentBaseController {
     @Autowired
-    ShortTermInfoService shortTermService;
+    ShortTermInfoService shortTermInfoService;
     @Autowired
     ShortTermSelectService shortTermSelectService;
 
@@ -43,7 +43,7 @@ public class ShortTermProjectStudentApi extends StudentBaseController {
      * @param id
      * @return
      */
-    @RequestMapping(value = "", method = RequestMethod.GET)
+    @RequestMapping(value = "/project", method = RequestMethod.GET)
     @ResponseBody
     public JsonDataHolder get(HttpServletRequest request,
                               @RequestParam(value = "id", defaultValue = "0", required = false) int id
@@ -51,7 +51,7 @@ public class ShortTermProjectStudentApi extends StudentBaseController {
         JsonDataHolder jsonDataHolder = new JsonDataHolder();
         if (id <= 0) return jsonDataHolder.error400();
 
-        ShortTermProject shortTermProject = shortTermService.getProject(id);
+        ShortTermProject shortTermProject = shortTermInfoService.getProject(id);
         if (shortTermProject == null) return jsonDataHolder.error101();
 
         UserSession session = getUserSession(request);
@@ -65,37 +65,22 @@ public class ShortTermProjectStudentApi extends StudentBaseController {
      * 短学期项目选课列表（仅提供当前学期，状态为可选课的短学期项目）
      *
      * @param request
-     * @param fullStatus
-     * @param gradeNeed
-     * @param majorNeed
      * @param page
      * @param size
      * @return
      */
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @RequestMapping(value = "/project/list", method = RequestMethod.GET)
     @ResponseBody
     public JsonDataHolder list(HttpServletRequest request,
-                               @RequestParam(value = "name", defaultValue = "", required = false) String name,
-                               @RequestParam(value = "full_status", defaultValue = "0", required = false) int fullStatus,
-                               @RequestParam(value = "grade_need", defaultValue = "0", required = false) int gradeNeed,
-                               @RequestParam(value = "major_need", defaultValue = "", required = false) String majorNeed,
                                @RequestParam(value = "page_index", defaultValue = "1", required = false) int page,
                                @RequestParam(value = "items_per_page", defaultValue = "10", required = false) int size
     ) {
         JsonDataHolder jsonDataHolder = new JsonDataHolder();
         UserSession session = getUserSession(request);
-        ShortTermEnums.ProjectFull projectFull = ShortTermEnums.ProjectFull.is(fullStatus);
 
-        PageResult<ShortTermProject> pr = shortTermService.pageProjects(session.getInstitute(),
-                                                                        null,
-                                                                        name,
-                                                                        CollegeInfoSupport.getCurrentTerm(),
-                                                                        ShortTermEnums.ProjectStatus.can_selected,
-                                                                        projectFull,
-                                                                        gradeNeed,
-                                                                        majorNeed,
-                                                                        page,
-                                                                        size);
+        PageResult<ShortTermProject> pr = shortTermSelectService.pageShortTermProject(session.getInstitute(),
+                                                                                      page,
+                                                                                      size);
 
         if (pr == null || CollectionUtils.isEmpty(pr.getResult())) return jsonDataHolder.error101();
 
@@ -104,53 +89,44 @@ public class ShortTermProjectStudentApi extends StudentBaseController {
     }
 
     /**
-     * 选课
+     * 选课/取消选课
      *
      * @param request
      * @param id
      * @return
      */
-    @RequestMapping(value = "/select", method = RequestMethod.POST)
+    @RequestMapping(value = "/project", method = RequestMethod.POST)
     @ResponseBody
     public JsonDataHolder select(HttpServletRequest request,
-                                 @RequestParam(value = "id", defaultValue = "0", required = false) int id
+                                 @RequestParam(value = "id", defaultValue = "0", required = false) int id,
+                                 @RequestParam(value = "select", defaultValue = "true", required = false) boolean select
+
     ) {
         JsonDataHolder jsonDataHolder = new JsonDataHolder();
         if (id <= 0) return jsonDataHolder.error400();
         UserSession session = getUserSession(request);
 
         ShortTermProject project = shortTermSelectService.getProjectFromCanSelect(id, session.getInstitute());
-        if (project == null) return jsonDataHolder.error101();
+        if (project == null) {
+            project = shortTermInfoService.getProject(id,
+                                                      ShortTermEnums.ProjectStatus.can_selected.getValue(),
+                                                      session.getInstitute());
+            if (project == null) return jsonDataHolder.error101();
 
-        String result = shortTermSelectService.selectProject(project, session);
-        if (StringUtils.isNotBlank(result)) return jsonDataHolder.putToError(405, result);
+        }
 
-        return jsonDataHolder.simpleMsg(id, MsgType.add);
-    }
 
-    /**
-     * 取消选课
-     *
-     * @param request
-     * @param id
-     * @return
-     */
-    @RequestMapping(value = "/cancel", method = RequestMethod.POST)
-    @ResponseBody
-    public JsonDataHolder cancel(HttpServletRequest request,
-                                 @RequestParam(value = "id", defaultValue = "0", required = false) int id
-    ) {
-        JsonDataHolder jsonDataHolder = new JsonDataHolder();
-        if (id <= 0) return jsonDataHolder.error400();
-        UserSession session = getUserSession(request);
+        if (select) {
+            String result = shortTermSelectService.selectProject(project, session);
+            if (StringUtils.isNotBlank(result)) return jsonDataHolder.putToError(405, result);
 
-        ShortTermProject project = shortTermSelectService.getProjectFromCanSelect(id, session.getInstitute());
-        if (project == null) return jsonDataHolder.error101();
+            return jsonDataHolder.simpleMsg(id, MsgType.add);
+        } else {
+            boolean result = shortTermSelectService.cancalProject(project, session);
+            if (!result) return jsonDataHolder.putToError(405, "状态异常");
 
-        boolean result = shortTermSelectService.cancalProject(project, session);
-        if (!result) return jsonDataHolder.putToError(405, "状态异常");
-
-        return jsonDataHolder.simpleMsg(id, MsgType.delete);
+            return jsonDataHolder.simpleMsg(id, MsgType.delete);
+        }
     }
 
     /**
@@ -159,7 +135,7 @@ public class ShortTermProjectStudentApi extends StudentBaseController {
      * @param request
      * @return
      */
-    @RequestMapping(value = "/selected", method = RequestMethod.GET)
+    @RequestMapping(value = "/current/project", method = RequestMethod.GET)
     @ResponseBody
     public JsonDataHolder selected(HttpServletRequest request) {
         JsonDataHolder jsonDataHolder = new JsonDataHolder();
@@ -180,7 +156,7 @@ public class ShortTermProjectStudentApi extends StudentBaseController {
      * @param size
      * @return
      */
-    @RequestMapping(value = "/report", method = RequestMethod.GET)
+    @RequestMapping(value = "/report/list", method = RequestMethod.GET)
     @ResponseBody
     public JsonDataHolder reports(HttpServletRequest request,
                                   @RequestParam(value = "page_index", defaultValue = "1", required = false) int page,
@@ -189,7 +165,7 @@ public class ShortTermProjectStudentApi extends StudentBaseController {
         JsonDataHolder jsonDataHolder = new JsonDataHolder();
         UserSession session = getUserSession(request);
 
-        PageResult<ShortTermReport> pr = shortTermService.pageReport(session.getNumber(), page, size);
+        PageResult<ShortTermReport> pr = shortTermInfoService.pageReport(session.getNumber(), page, size);
 
         if (pr == null || CollectionUtils.isEmpty(pr.getResult())) return jsonDataHolder.error101();
 

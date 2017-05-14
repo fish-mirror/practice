@@ -131,6 +131,14 @@ public class ShortTermInfoService {
     public ShortTermProject getProject(Integer id) {
         return shortTermProjectDao.getById(id);
     }
+    public ShortTermProject getProject(Integer id, int status, int institute) {
+        List<Criterion> criteria = new ArrayList<>();
+        criteria.add(Restrictions.eq("id", id));
+        criteria.add(Restrictions.eq("institute", institute));
+        criteria.add(Restrictions.eq("status", status));
+
+        return shortTermProjectDao.get(criteria,null);
+    }
 
     /**
      * 短学期项目的分页方法

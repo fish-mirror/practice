@@ -28,7 +28,7 @@ public class ProjectParams {
     private String major_need;
     @Length(max = 8)
     private String grade_need;
-    @Range(min = 10)
+    @Range(min = 10, max = 100)
     private int top_num;
     private int unmajor_num;
     private int att_id;

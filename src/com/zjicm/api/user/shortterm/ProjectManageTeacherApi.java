@@ -25,9 +25,9 @@ import javax.validation.Valid;
  */
 @Controller
 @RequestMapping("/teacher/i/shortterm")
-public class ShortTermProjectManageTeacherApi extends TeacherBaseController {
+public class ProjectManageTeacherApi extends TeacherBaseController {
     @Autowired
-    ShortTermInfoService shortTermService;
+    private ShortTermInfoService shortTermInfoService;
 
     /**
      * 创建短学期项目
@@ -37,7 +37,7 @@ public class ShortTermProjectManageTeacherApi extends TeacherBaseController {
      * @param results
      * @return
      */
-    @RequestMapping(value = "", method = RequestMethod.POST)
+    @RequestMapping(value = "/project", method = RequestMethod.POST)
     @ResponseBody
     public JsonDataHolder create(HttpServletRequest request,
                                  @Valid @ModelAttribute ProjectParams params,
@@ -49,7 +49,7 @@ public class ShortTermProjectManageTeacherApi extends TeacherBaseController {
         UserSession session = getUserSession(request);
 
 
-        int id = shortTermService.createProject(params, session);
+        int id = shortTermInfoService.createProject(params, session);
 
         return jsonDataHolder.simpleMsg(id, MsgType.add);
     }
@@ -62,7 +62,7 @@ public class ShortTermProjectManageTeacherApi extends TeacherBaseController {
      * @param results
      * @return
      */
-    @RequestMapping(value = "", method = RequestMethod.PATCH)
+    @RequestMapping(value = "/project", method = RequestMethod.PATCH)
     @ResponseBody
     public JsonDataHolder patch(HttpServletRequest request,
                                 @Valid @ModelAttribute ProjectPatchParams params,
@@ -73,14 +73,14 @@ public class ShortTermProjectManageTeacherApi extends TeacherBaseController {
 
         // 判断是否是本学院的项目
         UserSession session = getUserSession(request);
-        ShortTermProject project = shortTermService.getProject(params.getId());
+        ShortTermProject project = shortTermInfoService.getProject(params.getId());
         if (project.getInstitute() != session.getInstitute()) return jsonDataHolder.error403();
 
         if (project.getStatus() == ShortTermEnums.ProjectStatus.can_selected.getValue()) {
             return jsonDataHolder.putToError(405, "选课状态下的项目不可修改，请关闭后重试");
         }
 
-        shortTermService.updateProject(params, project);
+        shortTermInfoService.updateProject(params, project);
         return jsonDataHolder.simpleMsg(params.getId(), MsgType.update);
     }
 
@@ -93,7 +93,7 @@ public class ShortTermProjectManageTeacherApi extends TeacherBaseController {
      * @param status
      * @return
      */
-    @RequestMapping(value = "/status", method = RequestMethod.POST)
+    @RequestMapping(value = "/project/status", method = RequestMethod.POST)
     @ResponseBody
     public JsonDataHolder updateStatus(HttpServletRequest request,
                                        @RequestParam(value = "id", defaultValue = "0", required = false) int id,
@@ -107,13 +107,14 @@ public class ShortTermProjectManageTeacherApi extends TeacherBaseController {
         ShortTermEnums.ProjectStatus projectStatus = ShortTermEnums.ProjectStatus.is(status);
         if (projectStatus == null) return jsonDataHolder.error400();
 
-        if (shortTermService.updateProjectStatus(id, status, session.getInstitute(), session.getUserId()) > 0) {
+        if (shortTermInfoService.updateProjectStatus(id, status, session.getInstitute(), session.getUserId()) > 0) {
             return jsonDataHolder.simpleMsg(id, MsgType.update);
         } else {
             return jsonDataHolder.error101();
         }
 
     }
+
 
     @Override
     public int permissionToCheck() {

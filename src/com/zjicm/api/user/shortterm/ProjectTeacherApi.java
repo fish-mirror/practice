@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Controller
 @RequestMapping("/teacher/i/shortterm")
-public class ShortTermProjectTeacherApi extends TeacherBaseController {
+public class ProjectTeacherApi extends TeacherBaseController {
     @Autowired
     private ShortTermInfoService shortTermInfoService;
 
@@ -35,7 +35,7 @@ public class ShortTermProjectTeacherApi extends TeacherBaseController {
      * @param id
      * @return
      */
-    @RequestMapping(value = "", method = RequestMethod.GET)
+    @RequestMapping(value = "/project", method = RequestMethod.GET)
     @ResponseBody
     public JsonDataHolder get(HttpServletRequest request,
                               @RequestParam(value = "id", defaultValue = "0", required = false) int id
@@ -65,7 +65,7 @@ public class ShortTermProjectTeacherApi extends TeacherBaseController {
      * @param size
      * @return
      */
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @RequestMapping(value = "/project/list", method = RequestMethod.GET)
     @ResponseBody
     public JsonDataHolder list(HttpServletRequest request,
                                @RequestParam(value = "name", defaultValue = "", required = false) String name,

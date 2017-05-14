@@ -2,15 +2,14 @@ package com.zjicm.customkeyvalue.beans;
 
 import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.NotNull;
-
 /**
+ * 自定义键值对参数
+ * <p>
  * Created by yujing on 2017/5/13.
  */
 public class CustomKeyParams {
     @Length(max = 50)
     private String name;
-    @NotNull
     @Length(max = 50)
     private String key;
     private String value;

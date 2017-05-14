@@ -3,11 +3,12 @@ package com.zjicm.shortterm.service;
 import com.zjicm.cache.consts.CacheConsts;
 import com.zjicm.cache.servive.CacheService;
 import com.zjicm.common.beans.UserSession;
+import com.zjicm.common.lang.json.JsonUtil;
 import com.zjicm.common.lang.page.PageResult;
+import com.zjicm.common.lang.util.BooleanUtil;
 import com.zjicm.customkeyvalue.dao.CustomKeyValueDao;
 import com.zjicm.customkeyvalue.domain.CustomKeyValue;
 import com.zjicm.customkeyvalue.enums.CustomKey;
-import com.zjicm.customkeyvalue.service.CustomKeyValueService;
 import com.zjicm.shortterm.dao.ShortTermProjectDao;
 import com.zjicm.shortterm.dao.ShortTermReportDao;
 import com.zjicm.shortterm.domain.ShortTermProject;
@@ -16,11 +17,10 @@ import com.zjicm.shortterm.enums.ShortTermEnums;
 import com.zjicm.student.support.CollegeInfoSupport;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.hibernate.criterion.Criterion;
+import org.hibernate.validator.constraints.Range;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,8 +57,15 @@ public class ShortTermSelectService {
      */
     public boolean open(int institute) {
         CustomKeyValue customKeyValue = customKeyValueDao.getByKey(CustomKey.short_term_can_select.name());
-        if (customKeyValue.getValue().equals(String.valueOf(true))) return true;
-        customKeyValue.setValue(String.valueOf(true));
+        String value = customKeyValue.getValue();
+        Map<String, Boolean> openMap = JsonUtil.toMap(value);
+
+        if (openMap == null) openMap = new HashMap<>();
+        if (BooleanUtil.is(openMap.get(String.valueOf(institute)))) return true;
+
+        openMap.put(String.valueOf(institute), true);
+        customKeyValue.setValue(JsonUtil.toString(openMap));
+        customKeyValueDao.save(customKeyValue);
 
         List<ShortTermProject> projects = shortTermProjectDao.getAllCanSelected(institute,
                                                                                 CollegeInfoSupport.getCurrentTerm());
@@ -74,23 +81,17 @@ public class ShortTermSelectService {
      */
     public boolean close(int institute) {
         CustomKeyValue customKeyValue = customKeyValueDao.getByKey(CustomKey.short_term_can_select.name());
-        if (customKeyValue.getValue().equals(String.valueOf(false))) return true;
-        customKeyValue.setValue(String.valueOf(false));
+        String value = customKeyValue.getValue();
+        Map<String, Boolean> openMap = JsonUtil.toMap(value);
+
+        if (openMap == null) openMap = new HashMap<>();
+        if (openMap.get(String.valueOf(institute))) openMap.put(String.valueOf(institute), false);
+
+        customKeyValue.setValue(JsonUtil.toString(openMap));
+        customKeyValueDao.save(customKeyValue);
 
         getCanSelectProjectsMap().remove(institute);
         return true;
-    }
-
-    /**
-     * 是否可选
-     *
-     * @return
-     */
-    public boolean canSelectStatus() {
-        String value = CustomKeyValueService.getValue(CustomKey.short_term_can_select.name());
-        if (StringUtils.isNotBlank(value) && value.equals("true")) return true;
-
-        return false;
     }
 
     /**
@@ -115,7 +116,7 @@ public class ShortTermSelectService {
      * @param size
      * @return
      */
-    public PageResult<ShortTermProject> getShortTermProject(int institute, int page, int size) {
+    public PageResult<ShortTermProject> pageShortTermProject(int institute, int page, int size) {
         List<ShortTermProject> projects = getCanSelectProjectsMap().get(institute);
         if (CollectionUtils.isEmpty(projects)) return null;
 
@@ -184,10 +185,10 @@ public class ShortTermSelectService {
         } else return "专业限制，名额已满";
 
         shortTermProjectDao.save(project);
-        // 保存 10 分钟缓存
-        cacheService.set(CacheConsts.Storage.SHORT_TERM, "short_term_project_" + session.getNumber(), project, 10 * 60);
         ShortTermReport report = new ShortTermReport(session.getNumber(), project.getId(), recordType);
         shortTermReportDao.save(report);
+        // 保存 10 分钟缓存
+        cacheService.set(CacheConsts.Storage.SHORT_TERM, "short_term_project_" + session.getNumber(), project, 10 * 60);
         return null;
     }
 
@@ -209,6 +210,7 @@ public class ShortTermSelectService {
         int selectedNum = project.getSelectedNum();
         int unmajorSelected = project.getUnmajorSelected();
         ShortTermReport report = shortTermInfoService.getReport(project.getId(), session.getNumber());
+        if (report == null) return false;
         ShortTermEnums.RecordType recordType = ShortTermEnums.RecordType.is(report.getType());
         if (recordType == null) return false;
 
