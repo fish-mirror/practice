@@ -85,10 +85,12 @@ public class CommonInterceptor implements HandlerInterceptor {
     }
 
     @Override
-    public void afterCompletion(HttpServletRequest httpServletRequest,
-                                HttpServletResponse httpServletResponse,
+    public void afterCompletion(HttpServletRequest request,
+                                HttpServletResponse response,
                                 Object o,
                                 Exception e) throws Exception {
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE");
 
     }
 }
