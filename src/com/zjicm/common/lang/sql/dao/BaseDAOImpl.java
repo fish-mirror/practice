@@ -225,9 +225,9 @@ public class BaseDAOImpl<V extends CanonicalDomain<K>, K extends Serializable> e
             return ObjectUtil.nullToDefault(this.getHibernateTemplate()
                                                 .execute(session -> {
                                                     Criteria criteria = dc.getExecutableCriteria(session);
-                                                    Integer count = Integer.parseInt((criteria.setProjection(Projections
+                                                    Integer count = NumberUtil.parseIntQuietly(criteria.setProjection(Projections
                                                                                                                      .rowCount())
-                                                                                              .uniqueResult()).toString());
+                                                                                              .uniqueResult());
                                                     criteria.setProjection(null);
                                                     return count;
                                                 }), 0);
