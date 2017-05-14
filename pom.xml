@@ -160,7 +160,7 @@
                     <uriEncoding>${default.encoding}</uriEncoding>
                     <server>aliyun</server>
                     <url>http://139.129.37.224:8080/manager/text</url>
-                    <path>/practice</path>
+                    <path>/</path>
                     <warFile>${project.build.directory}/dist/${project.build.finalName}.${project.packaging}</warFile>
                     <warSourceDirectory>web</warSourceDirectory>
                     <!--<systemProperties>-->

@@ -34,6 +34,9 @@ public class CommonInterceptor implements HandlerInterceptor {
 
             RootController controller = (RootController) ((HandlerMethod) handler).getBean();
 
+            response.setHeader("Access-Control-Allow-Origin", "*");
+            response.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE");
+
             // session 不存在时，尝试获取 cookie 中的登录 ID 信息
             if (request.getAttribute(HttpConsts.Request.ATTRIBUTES_SESSIONID) == null) {
                 String sessionId = sessionCookieHandler.getCookieValue(request);
@@ -89,8 +92,6 @@ public class CommonInterceptor implements HandlerInterceptor {
                                 HttpServletResponse response,
                                 Object o,
                                 Exception e) throws Exception {
-        response.setHeader("Access-Control-Allow-Origin", "*");
-        response.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE");
 
     }
 }
