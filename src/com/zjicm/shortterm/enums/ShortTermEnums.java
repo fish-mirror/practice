@@ -10,7 +10,9 @@ public class ShortTermEnums {
         cancel(0),                  // 关闭选课
         can_selected(1),            // 可选课
         can_upload_report(2),       // 可上传
-        can_grade(3);               // 可评分
+        can_grade(3),               // 可评分
+
+        uncheck(10);                // 企业创建，待审核
 
         private int value;
 

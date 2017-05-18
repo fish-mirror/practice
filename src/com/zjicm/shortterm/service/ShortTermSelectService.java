@@ -9,6 +9,7 @@ import com.zjicm.common.lang.util.BooleanUtil;
 import com.zjicm.customkeyvalue.dao.CustomKeyValueDao;
 import com.zjicm.customkeyvalue.domain.CustomKeyValue;
 import com.zjicm.customkeyvalue.enums.CustomKey;
+import com.zjicm.customkeyvalue.service.CustomKeyValueService;
 import com.zjicm.shortterm.dao.ShortTermProjectDao;
 import com.zjicm.shortterm.dao.ShortTermReportDao;
 import com.zjicm.shortterm.domain.ShortTermProject;
@@ -61,12 +62,11 @@ public class ShortTermSelectService {
         Map<String, Boolean> openMap = JsonUtil.toMap(value);
 
         if (openMap == null) openMap = new HashMap<>();
-        if (BooleanUtil.is(openMap.get(String.valueOf(institute)))) return true;
-
-        openMap.put(String.valueOf(institute), true);
-        customKeyValue.setValue(JsonUtil.toString(openMap));
-        customKeyValueDao.save(customKeyValue);
-
+        if (!BooleanUtil.is(openMap.get(String.valueOf(institute)))) {
+            openMap.put(String.valueOf(institute), true);
+            customKeyValue.setValue(JsonUtil.toString(openMap));
+            customKeyValueDao.save(customKeyValue);
+        }
         List<ShortTermProject> projects = shortTermProjectDao.getAllCanSelected(institute,
                                                                                 CollegeInfoSupport.getCurrentTerm());
         getCanSelectProjectsMap().put(institute, projects);
@@ -106,6 +106,19 @@ public class ShortTermSelectService {
         if (CollectionUtils.isEmpty(projects)) return null;
 
         return projects.stream().filter(project -> project.getId() == id).findFirst().orElse(null);
+    }
+
+    /**
+     * 判断是否可选
+     *
+     * @param institute
+     * @return
+     */
+    public boolean canSelect(int institute) {
+        String value = CustomKeyValueService.getValue(CustomKey.short_term_can_select.name());
+        Map<String, Boolean> openMap = JsonUtil.toMap(value);
+        if (openMap == null) return false;
+        return BooleanUtil.is(openMap.get(String.valueOf(institute)));
     }
 
     /**

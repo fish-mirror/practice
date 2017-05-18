@@ -1,5 +1,6 @@
 package com.zjicm.shortterm.service;
 
+import com.zjicm.auth.enums.Role;
 import com.zjicm.common.beans.UserSession;
 import com.zjicm.common.lang.page.PageResult;
 import com.zjicm.common.lang.util.StringUtil;
@@ -41,6 +42,8 @@ public class ShortTermInfoService {
     private ShortTermCommentDao shortTermCommentDao;
     @Autowired
     private CompanyService companyService;
+    @Autowired
+    private ShortTermSelectService shortTermSelectService;
 
 
     /**
@@ -54,16 +57,22 @@ public class ShortTermInfoService {
         if (params == null || session == null || session.getUserId() <= 0) return null;
 
         Company company = null;
-        if (StringUtils.isNotBlank(params.getCompany_number())) {
-            company = companyService.getByNum(params.getCompany_number());
+        ShortTermProject project = new ShortTermProject();
+        if (session.getRoleId() == Role.company.getValue()){
+            company = companyService.getByNum(session.getNumber());
+            project.setInstitute(params.getInstitute());
+            project.setStatus(ShortTermEnums.ProjectStatus.uncheck.getValue());
+        } else {
+            project.setInstitute(session.getInstitute());
+            project.setStatus(ShortTermEnums.ProjectStatus.cancel.getValue());
+            if (StringUtils.isNotBlank(params.getCompany_number())) {
+                company = companyService.getByNum(params.getCompany_number());
+            }
         }
 
-        ShortTermProject project = new ShortTermProject();
-        project.setCreator(session.getUserId());
-        project.setInstitute(session.getInstitute());
-        project.setStatus(ShortTermEnums.ProjectStatus.cancel.getValue());
-        project.setTerm(CollegeInfoSupport.getCurrentTerm());
 
+        project.setCreator(session.getUserId());
+        project.setTerm(CollegeInfoSupport.getCurrentTerm());
         project.setAttId(params.getAtt_id());
         project.setCompany(company);
         project.setContent(params.getContent());
@@ -119,7 +128,9 @@ public class ShortTermInfoService {
         List<Criterion> criteria = new ArrayList<>();
         criteria.add(Restrictions.eq("id", id));
         criteria.add(Restrictions.eq("institute", institute));
-        return shortTermProjectDao.fieldUpdate("status", status, criteria, modifier, null, null);
+        int result =  shortTermProjectDao.fieldUpdate("status", status, criteria, modifier, null, null);
+        if (shortTermSelectService.canSelect(institute)) shortTermSelectService.open(institute);
+        return result;
     }
 
     /**
@@ -131,11 +142,28 @@ public class ShortTermInfoService {
     public ShortTermProject getProject(Integer id) {
         return shortTermProjectDao.getById(id);
     }
+
+    /**
+     * 获取短学期项目
+     *
+     * @param id
+     * @param status
+     * @param institute
+     * @return
+     */
     public ShortTermProject getProject(Integer id, int status, int institute) {
         List<Criterion> criteria = new ArrayList<>();
         criteria.add(Restrictions.eq("id", id));
         criteria.add(Restrictions.eq("institute", institute));
-        criteria.add(Restrictions.eq("status", status));
+        if (status > -1) criteria.add(Restrictions.eq("status", status));
+
+        return shortTermProjectDao.get(criteria,null);
+    }
+
+    public ShortTermProject getProject(Integer id, String companyNumber) {
+        List<Criterion> criteria = new ArrayList<>();
+        criteria.add(Restrictions.eq("id", id));
+        criteria.add(Restrictions.eq("company.number", companyNumber));
 
         return shortTermProjectDao.get(criteria,null);
     }
@@ -166,7 +194,7 @@ public class ShortTermInfoService {
                                                      int size) {
         List<Criterion> criteria = new ArrayList<>();
         if (institute > 0) criteria.add(Restrictions.eq("institute", institute));
-        if (StringUtils.isNotBlank(companyNumber)) criteria.add(Restrictions.eq("companyNumber", companyNumber));
+        if (StringUtils.isNotBlank(companyNumber)) criteria.add(Restrictions.eq("company.number", companyNumber));
         if (StringUtils.isNotBlank(term)) criteria.add(Restrictions.eq("term", term));
         if (StringUtils.isNotBlank(name)) criteria.add(Restrictions.like("name", "%" + name + "%"));
         if (status != null) criteria.add(Restrictions.eq("status", status.getValue()));

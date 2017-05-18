@@ -15,6 +15,7 @@ public class ProjectParams {
     @Length(max = 30)
     private String name;
     private String company_number;
+    private int institute = 11;
     @NotBlank
     @Length(max = 500)
     private String purpose;
@@ -48,6 +49,14 @@ public class ProjectParams {
 
     public void setCompany_number(String company_number) {
         this.company_number = company_number;
+    }
+
+    public int getInstitute() {
+        return institute;
+    }
+
+    public void setInstitute(int institute) {
+        this.institute = institute;
     }
 
     public String getPurpose() {
