@@ -11,7 +11,6 @@ import com.zjicm.common.web.RootController;
 import com.zjicm.company.domain.Company;
 import com.zjicm.cooperation.beans.CompanyRegisterParams;
 import com.zjicm.cooperation.service.CooperationService;
-import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -23,8 +22,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 统一账号接口
@@ -63,8 +62,9 @@ public class AuthAccountApi extends RootController {
         UserSession userSession = doLogin(request, response, user.getId());
         if (userSession == null) return jsonDataHolder.putToError(404, "该账号状态异常");
 
-
-        return jsonDataHolder.addToItems(new KeyValue<>("url", "http://139.129.37.224:8080/practice/home"));
+        Map<String, String> map = new HashMap<>();
+        map.put("url", "http://139.129.37.224:8080/practice/home");
+        return jsonDataHolder.addToItems(map);
     }
 
     /**
