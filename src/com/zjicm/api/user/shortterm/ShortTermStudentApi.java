@@ -29,7 +29,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Controller
 @RequestMapping("/student/i/shortterm")
-public class ProjectStudentApi extends StudentBaseController {
+public class ShortTermStudentApi extends StudentBaseController {
     @Autowired
     ShortTermInfoService shortTermInfoService;
     @Autowired

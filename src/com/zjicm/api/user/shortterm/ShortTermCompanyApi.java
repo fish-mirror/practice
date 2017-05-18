@@ -30,7 +30,7 @@ import javax.validation.Valid;
  */
 @Controller
 @RequestMapping("/company/i/shortterm")
-public class ProjectCompanyApi extends CompanyBaseController {
+public class ShortTermCompanyApi extends CompanyBaseController {
     @Autowired
     private ShortTermInfoService shortTermInfoService;
     @Autowired
@@ -215,6 +215,9 @@ public class ProjectCompanyApi extends CompanyBaseController {
         if (report.getProject().getCompany() == null ||
             !session.getNumber().equals(report.getProject().getCompany().getNumber())) {
             return jsonDataHolder.error403();
+        }
+        if (report.getProject().getStatus() != ShortTermEnums.ProjectStatus.can_grade.getValue()) {
+            return jsonDataHolder.putToError(405, "不是评分时间不能进行评分");
         }
 
         shortTermInfoService.addComment(report, session.getUserId(), score, comment);

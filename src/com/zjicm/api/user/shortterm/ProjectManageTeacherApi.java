@@ -24,7 +24,7 @@ import javax.validation.Valid;
  * Created by yujing on 2017/5/11.
  */
 @Controller
-@RequestMapping("/teacher/i/shortterm")
+@RequestMapping("/teacher/i/shortterm/project")
 public class ProjectManageTeacherApi extends TeacherBaseController {
     @Autowired
     private ShortTermInfoService shortTermInfoService;
@@ -37,7 +37,7 @@ public class ProjectManageTeacherApi extends TeacherBaseController {
      * @param results
      * @return
      */
-    @RequestMapping(value = "/project", method = RequestMethod.POST)
+    @RequestMapping(value = "", method = RequestMethod.POST)
     @ResponseBody
     public JsonDataHolder create(HttpServletRequest request,
                                  @Valid @ModelAttribute ProjectParams params,
@@ -62,7 +62,7 @@ public class ProjectManageTeacherApi extends TeacherBaseController {
      * @param results
      * @return
      */
-    @RequestMapping(value = "/project", method = RequestMethod.PATCH)
+    @RequestMapping(value = "", method = RequestMethod.PATCH)
     @ResponseBody
     public JsonDataHolder patch(HttpServletRequest request,
                                 @Valid @ModelAttribute ProjectPatchParams params,
@@ -93,7 +93,7 @@ public class ProjectManageTeacherApi extends TeacherBaseController {
      * @param status
      * @return
      */
-    @RequestMapping(value = "/project/status", method = RequestMethod.POST)
+    @RequestMapping(value = "/status", method = RequestMethod.POST)
     @ResponseBody
     public JsonDataHolder updateStatus(HttpServletRequest request,
                                        @RequestParam(value = "id", defaultValue = "0", required = false) int id,

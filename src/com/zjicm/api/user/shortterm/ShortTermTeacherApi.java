@@ -4,8 +4,10 @@ import com.zjicm.common.beans.UserSession;
 import com.zjicm.common.lang.json.JsonDataHolder;
 import com.zjicm.common.lang.page.PageResult;
 import com.zjicm.shortterm.domain.ShortTermProject;
+import com.zjicm.shortterm.domain.ShortTermReport;
 import com.zjicm.shortterm.enums.ShortTermEnums;
 import com.zjicm.shortterm.service.ShortTermInfoService;
+import com.zjicm.shortterm.service.ShortTermSelectService;
 import com.zjicm.web.teacher.TeacherBaseController;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +26,11 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Controller
 @RequestMapping("/teacher/i/shortterm")
-public class ProjectTeacherApi extends TeacherBaseController {
+public class ShortTermTeacherApi extends TeacherBaseController {
     @Autowired
     private ShortTermInfoService shortTermInfoService;
+    @Autowired
+    private ShortTermSelectService shortTermSelectService;
 
     /**
      * 单数据获取
@@ -98,5 +102,33 @@ public class ProjectTeacherApi extends TeacherBaseController {
 
         jsonDataHolder.putAttrToJsonDataHolder(pr);
         return jsonDataHolder.addListToItems(pr.getResult());
+    }
+
+    /**
+     * 短学期项目的学生列表
+     *
+     * @param request
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "/report/list", method = RequestMethod.GET)
+    @ResponseBody
+    public JsonDataHolder listStudent(HttpServletRequest request,
+                                      @RequestParam(value = "project_id", defaultValue = "0", required = false) int id,
+                                      @RequestParam(value = "page_index", defaultValue = "1", required = false) int page,
+                                      @RequestParam(value = "items_per_page", defaultValue = "10", required = false) int size
+    ) {
+        JsonDataHolder jsonDataHolder = new JsonDataHolder();
+        if (id <= 0) return jsonDataHolder.error400();
+
+        UserSession session = getUserSession(request);
+        ShortTermProject project = shortTermInfoService.getProject(id, -1, session.getInstitute());
+        if (project == null) return jsonDataHolder.error403();
+
+        PageResult<ShortTermReport> pageResult = shortTermSelectService.getReportsByProject(id, page, size);
+        if (pageResult == null || CollectionUtils.isEmpty(pageResult.getResult())) return jsonDataHolder.error101();
+
+        jsonDataHolder.putAttrToJsonDataHolder(pageResult);
+        return jsonDataHolder.addListToItems(pageResult.getResult());
     }
 }
