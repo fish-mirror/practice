@@ -43,6 +43,9 @@ public class Student implements CanonicalDomain<Integer> {
 
     public Student() {
     }
+    public Student(String number) {
+        this.number = number;
+    }
 
     @Override
     public void prepare() {

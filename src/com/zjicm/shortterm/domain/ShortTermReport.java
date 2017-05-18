@@ -1,6 +1,10 @@
 package com.zjicm.shortterm.domain;
 
 import com.zjicm.common.lang.sql.domain.CanonicalDomain;
+import com.zjicm.student.domain.Student;
+import org.apache.commons.collections.CollectionUtils;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -19,8 +23,13 @@ public class ShortTermReport implements CanonicalDomain<Integer> {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    private String studentNumber;
-    private int projectId;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "studentNumber", referencedColumnName = "number")
+    private Student student;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "projectId", referencedColumnName = "id")
+    private ShortTermProject project;
     private int attId;
     private int type;
 
@@ -28,12 +37,15 @@ public class ShortTermReport implements CanonicalDomain<Integer> {
     private Date createTime;                            // 创建时间
     private Date modifyTime;                            // 修改时间
 
+    @OneToMany(mappedBy = "reportId", fetch = FetchType.EAGER)
+    private Set<ShortTermComment> comments;
+
     public ShortTermReport() {
     }
 
-    public ShortTermReport(String studentNumber, int projectId, int type) {
-        this.studentNumber = studentNumber;
-        this.projectId = projectId;
+    public ShortTermReport(Student student, ShortTermProject project, int type) {
+        this.student = student;
+        this.project = project;
         this.type = type;
     }
 
@@ -50,20 +62,20 @@ public class ShortTermReport implements CanonicalDomain<Integer> {
         this.id = id;
     }
 
-    public String getStudentNumber() {
-        return studentNumber;
+    public Student getStudent() {
+        return student;
     }
 
-    public void setStudentNumber(String studentNumber) {
-        this.studentNumber = studentNumber;
+    public void setStudent(Student student) {
+        this.student = student;
     }
 
-    public int getProjectId() {
-        return projectId;
+    public ShortTermProject getProject() {
+        return project;
     }
 
-    public void setProjectId(int projectId) {
-        this.projectId = projectId;
+    public void setProject(ShortTermProject project) {
+        this.project = project;
     }
 
     public int getAttId() {
@@ -96,5 +108,21 @@ public class ShortTermReport implements CanonicalDomain<Integer> {
 
     public void setModifyTime(Date modifyTime) {
         this.modifyTime = modifyTime;
+    }
+
+    public Set<ShortTermComment> getComments() {
+        return comments;
+    }
+
+    public void setComments(Set<ShortTermComment> comments) {
+        this.comments = comments;
+    }
+
+    public int getAverageScore() {
+        if (CollectionUtils.isEmpty(comments)) return 0;
+
+        int sum = 0;
+        for (ShortTermComment comment : comments) sum += comment.getScore();
+        return sum / comments.size();
     }
 }

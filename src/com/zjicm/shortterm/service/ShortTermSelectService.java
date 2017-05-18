@@ -15,13 +15,18 @@ import com.zjicm.shortterm.dao.ShortTermReportDao;
 import com.zjicm.shortterm.domain.ShortTermProject;
 import com.zjicm.shortterm.domain.ShortTermReport;
 import com.zjicm.shortterm.enums.ShortTermEnums;
+import com.zjicm.student.domain.Student;
 import com.zjicm.student.support.CollegeInfoSupport;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -198,7 +203,7 @@ public class ShortTermSelectService {
         } else return "专业限制，名额已满";
 
         shortTermProjectDao.save(project);
-        ShortTermReport report = new ShortTermReport(session.getNumber(), project.getId(), recordType);
+        ShortTermReport report = new ShortTermReport(new Student(session.getNumber()), project, recordType);
         shortTermReportDao.save(report);
         // 保存 10 分钟缓存
         cacheService.set(CacheConsts.Storage.SHORT_TERM, "short_term_project_" + session.getNumber(), project, 10 * 60);
@@ -259,12 +264,27 @@ public class ShortTermSelectService {
         return project;
     }
 
+    /**
+     * 获取实习报告列表
+     *
+     * @param projectId
+     * @param page
+     * @param size
+     * @return
+     */
+    public PageResult<ShortTermReport> getReportsByProject(int projectId, int page, int size) {
+        List<Criterion> criteria = new ArrayList<>(1);
+        criteria.add(Restrictions.eq("project.id", projectId));
+
+        List<Order> orders = new ArrayList<>();
+        orders.add(Order.asc("student.number"));
+
+        return shortTermReportDao.getPageResult(criteria, orders, page, size);
+
+    }
 
     public static Map<Integer, List<ShortTermProject>> getCanSelectProjectsMap() {
         return canSelectProjectsMap;
     }
 
-    public static void setCanSelectProjectsMap(Map<Integer, List<ShortTermProject>> canSelectProjectsMap) {
-        ShortTermSelectService.canSelectProjectsMap = canSelectProjectsMap;
-    }
 }

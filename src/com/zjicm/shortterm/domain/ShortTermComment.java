@@ -1,7 +1,8 @@
 package com.zjicm.shortterm.domain;
 
-import com.zjicm.auth.domain.User;
 import com.zjicm.common.lang.sql.domain.CanonicalDomain;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -17,11 +18,11 @@ public class ShortTermComment implements CanonicalDomain<Integer> {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    private int rid;
+    private int reportId;
     private int teacherUserId;
     private String studentNumber;
     private String comment;
-    private float grade;
+    private int score;
     @Column(updatable = false)
     private Date createTime;                            // 创建时间
     private Date modifyTime;                            // 修改时间
@@ -43,12 +44,12 @@ public class ShortTermComment implements CanonicalDomain<Integer> {
         this.id = id;
     }
 
-    public int getRid() {
-        return rid;
+    public int getReportId() {
+        return reportId;
     }
 
-    public void setRid(int rid) {
-        this.rid = rid;
+    public void setReportId(int reportId) {
+        this.reportId = reportId;
     }
 
     public int getTeacherUserId() {
@@ -75,12 +76,12 @@ public class ShortTermComment implements CanonicalDomain<Integer> {
         this.comment = comment;
     }
 
-    public float getGrade() {
-        return grade;
+    public int getScore() {
+        return score;
     }
 
-    public void setGrade(float grade) {
-        this.grade = grade;
+    public void setScore(int score) {
+        this.score = score;
     }
 
     public Date getCreateTime() {

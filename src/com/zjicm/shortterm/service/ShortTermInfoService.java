@@ -3,7 +3,6 @@ package com.zjicm.shortterm.service;
 import com.zjicm.auth.enums.Role;
 import com.zjicm.common.beans.UserSession;
 import com.zjicm.common.lang.page.PageResult;
-import com.zjicm.common.lang.util.StringUtil;
 import com.zjicm.company.domain.Company;
 import com.zjicm.company.service.CompanyService;
 import com.zjicm.shortterm.beans.ProjectParams;
@@ -58,7 +57,7 @@ public class ShortTermInfoService {
 
         Company company = null;
         ShortTermProject project = new ShortTermProject();
-        if (session.getRoleId() == Role.company.getValue()){
+        if (session.getRoleId() == Role.company.getValue()) {
             company = companyService.getByNum(session.getNumber());
             project.setInstitute(params.getInstitute());
             project.setStatus(ShortTermEnums.ProjectStatus.uncheck.getValue());
@@ -128,7 +127,7 @@ public class ShortTermInfoService {
         List<Criterion> criteria = new ArrayList<>();
         criteria.add(Restrictions.eq("id", id));
         criteria.add(Restrictions.eq("institute", institute));
-        int result =  shortTermProjectDao.fieldUpdate("status", status, criteria, modifier, null, null);
+        int result = shortTermProjectDao.fieldUpdate("status", status, criteria, modifier, null, null);
         if (shortTermSelectService.canSelect(institute)) shortTermSelectService.open(institute);
         return result;
     }
@@ -157,7 +156,7 @@ public class ShortTermInfoService {
         criteria.add(Restrictions.eq("institute", institute));
         if (status > -1) criteria.add(Restrictions.eq("status", status));
 
-        return shortTermProjectDao.get(criteria,null);
+        return shortTermProjectDao.get(criteria, null);
     }
 
     public ShortTermProject getProject(Integer id, String companyNumber) {
@@ -165,7 +164,7 @@ public class ShortTermInfoService {
         criteria.add(Restrictions.eq("id", id));
         criteria.add(Restrictions.eq("company.number", companyNumber));
 
-        return shortTermProjectDao.get(criteria,null);
+        return shortTermProjectDao.get(criteria, null);
     }
 
     /**
@@ -253,8 +252,8 @@ public class ShortTermInfoService {
         if (projectId <= 0 || StringUtils.isBlank(studentNumber)) return null;
 
         List<Criterion> criteria = new ArrayList<>();
-        criteria.add(Restrictions.eq("projectId", projectId));
-        criteria.add(Restrictions.eq("studentNumber", studentNumber));
+        criteria.add(Restrictions.eq("project.id", projectId));
+        criteria.add(Restrictions.eq("student.number", studentNumber));
         return shortTermReportDao.get(criteria, null);
     }
 
@@ -264,24 +263,63 @@ public class ShortTermInfoService {
 
     public PageResult<ShortTermReport> pageReport(String studentNumber, int page, int size) {
         List<Criterion> criteria = new ArrayList<>();
-        criteria.add(Restrictions.eq("studentNumber", studentNumber));
+        criteria.add(Restrictions.eq("student.number", studentNumber));
         List<Order> orders = new ArrayList<>();
         orders.add(Order.desc("id"));
         return shortTermReportDao.getPageResult(criteria, orders, page, size);
     }
 
 
+    /**
+     * 获取评分信息
+     *
+     * @param id
+     * @return
+     */
+    public ShortTermComment getComment(Integer id) {
+        return shortTermCommentDao.getById(id);
+    }
 
+    /**
+     * 获取评分信息
+     *
+     * @param reportId
+     * @param teacherUserId
+     * @return
+     */
+    public ShortTermComment getComment(int reportId, int teacherUserId) {
+        if (reportId <= 0 || teacherUserId > 0) return null;
 
-    public void addCommemt(Integer rid, String userId, float grade) {
-        // TODO Auto-generated method stub
+        List<Criterion> criteria = new ArrayList<>(2);
+        criteria.add(Restrictions.eq("reportId", reportId));
+        criteria.add(Restrictions.eq("teacherUserId", teacherUserId));
+
+        return shortTermCommentDao.get(criteria, null);
+    }
+
+    /**
+     * 添加评价
+     *
+     * @param report
+     * @param userId
+     * @param score
+     * @param comment
+     */
+    public void addComment(ShortTermReport report, int userId, int score, String comment) {
+        if (report == null || report.getStudent() == null || userId <= 0 || score < 0) return;
+
+        ShortTermComment shortTermComment = new ShortTermComment();
+        shortTermComment.setReportId(report.getId());
+        shortTermComment.setScore(score);
+        shortTermComment.setComment(comment);
+        shortTermComment.setStudentNumber(report.getStudent().getNumber());
+        shortTermComment.setTeacherUserId(userId);
+
+        shortTermCommentDao.save(shortTermComment
+        );
 
     }
 
-    public void updateComment(Integer id, float grade) {
-        // TODO Auto-generated method stub
-
-    }
 
     public Float getGrade(Integer rid) {
         // TODO Auto-generated method stub
