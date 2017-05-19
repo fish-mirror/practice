@@ -59,14 +59,47 @@ public class AttUserApi extends RootController {
         JsonDataHolder jsonDataHolder = new JsonDataHolder();
         AttEnums.Type type = AttEnums.Type.is(typeVal);
 
-        PageResult<Attachment> pr = attachmentService.page(userId, type, page_index, items_per_page);
+        PageResult<Attachment> pr = attachmentService.pageByUser(userId, type, page_index, items_per_page);
 
         if (pr == null || pr.getResult() == null || pr.getResult().size() <= 0) {
             return jsonDataHolder.error101();
         }
 
         jsonDataHolder.putAttrToJsonDataHolder(pr);
-         pr.getResult().forEach(att -> jsonDataHolder.addToItems(new AttUserOut(att)));
+        pr.getResult().forEach(att -> jsonDataHolder.addToItems(new AttUserOut(att)));
+
+        return jsonDataHolder;
+    }
+
+    /**
+     * 获取公开附件列表
+     *
+     * @param request
+     * @param response
+     * @param page_index
+     * @param items_per_page
+     * @return
+     */
+    @RequestMapping(value = "/public/list", method = RequestMethod.GET)
+    @ResponseBody
+    public JsonDataHolder publicList(HttpServletRequest request,
+                                     HttpServletResponse response,
+                                     @RequestParam(value = "page_index", defaultValue = "1", required = false) int page_index,
+                                     @RequestParam(value = "items_per_page", defaultValue = "5", required = false) int items_per_page
+    ) {
+        UserSession session = getUserSession(request);
+        int userId = session.getUserId();
+
+        JsonDataHolder jsonDataHolder = new JsonDataHolder();
+
+        PageResult<Attachment> pr = attachmentService.pagePublic(page_index, items_per_page);
+
+        if (pr == null || pr.getResult() == null || pr.getResult().size() <= 0) {
+            return jsonDataHolder.error101();
+        }
+
+        jsonDataHolder.putAttrToJsonDataHolder(pr);
+        pr.getResult().forEach(att -> jsonDataHolder.addToItems(new AttUserOut(att)));
 
         return jsonDataHolder;
     }
@@ -105,8 +138,8 @@ public class AttUserApi extends RootController {
      *
      * @param request
      * @param response
-     * @param files     文件信息
-     * @param type      文件类型
+     * @param files    文件信息
+     * @param type     文件类型
      * @return
      */
     @RequestMapping(value = "/upload", method = RequestMethod.POST)

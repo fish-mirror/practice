@@ -4,6 +4,7 @@ import com.zjicm.attachment.domain.Attachment;
 import com.zjicm.attachment.enums.AttEnums;
 import com.zjicm.common.dao.PracticeBaseDaoImpl;
 import com.zjicm.common.lang.page.PageResult;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by yujing on 2017/4/15.
@@ -25,10 +27,10 @@ public class AttachmentDaoImpl extends PracticeBaseDaoImpl<Attachment, Integer> 
     }
 
     @Override
-    public PageResult<Attachment> page(int userId, AttEnums.Type type, int page, int size) {
+    public PageResult<Attachment> page(int userId, List<Integer> types, int page, int size) {
         List<Criterion> criterions = new ArrayList<>();
-        if (type != null) {
-            criterions.add(Restrictions.eq("objectType", type.getValue()));
+        if (CollectionUtils.isNotEmpty(types)) {
+            criterions.add(Restrictions.in("objectType", types));
         }
         if (userId > 0) {
             criterions.add(Restrictions.eq("userId", userId));

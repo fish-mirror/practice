@@ -19,7 +19,12 @@ public class AttEnums {
         excel(3),                                          // EXCEL 文件
         analytic_excel(4),                                 // 数据解析的: EXCEL 文件
 
-        news_picture(5);                                   // 资讯图片文件
+        news_picture(5),                                   // 资讯图片文件
+
+        short_term_introduce(11),                           // 短学期介绍文件
+        short_term_report(12),                              // 短学期报告
+        practice_report(13),                                // 实习报告
+        practice_work(14);                                  // 实习作品
 
 
         private int value;
