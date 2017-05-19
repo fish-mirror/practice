@@ -1,5 +1,8 @@
 package com.zjicm.api.user.shortterm;
 
+import com.zjicm.attachment.domain.Attachment;
+import com.zjicm.attachment.enums.AttEnums;
+import com.zjicm.attachment.service.AttachmentService;
 import com.zjicm.common.beans.UserSession;
 import com.zjicm.common.lang.json.JsonDataHolder;
 import com.zjicm.common.lang.json.MsgType;
@@ -9,7 +12,6 @@ import com.zjicm.shortterm.domain.ShortTermReport;
 import com.zjicm.shortterm.enums.ShortTermEnums;
 import com.zjicm.shortterm.service.ShortTermInfoService;
 import com.zjicm.shortterm.service.ShortTermSelectService;
-import com.zjicm.student.support.CollegeInfoSupport;
 import com.zjicm.web.student.StudentBaseController;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -31,9 +33,11 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/student/i/shortterm")
 public class ShortTermStudentApi extends StudentBaseController {
     @Autowired
-    ShortTermInfoService shortTermInfoService;
+    private ShortTermInfoService shortTermInfoService;
     @Autowired
-    ShortTermSelectService shortTermSelectService;
+    private ShortTermSelectService shortTermSelectService;
+    @Autowired
+    private AttachmentService attachmentService;
 
 
     /**
@@ -171,6 +175,37 @@ public class ShortTermStudentApi extends StudentBaseController {
 
         jsonDataHolder.putAttrToJsonDataHolder(pr);
         return jsonDataHolder.addListToItems(pr.getResult());
+    }
+
+    /**
+     * 关联报告附件
+     *
+     * @param request
+     * @param id
+     * @param attId
+     * @return
+     */
+    @RequestMapping(value = "/report", method = RequestMethod.PATCH)
+    @ResponseBody
+    public JsonDataHolder linkAtt(HttpServletRequest request,
+                                  @RequestParam(value = "id", defaultValue = "", required = false) int id,
+                                  @RequestParam(value = "att_id", defaultValue = "", required = false) int attId
+
+    ) {
+        JsonDataHolder jsonDataHolder = new JsonDataHolder();
+        UserSession session = getUserSession(request);
+
+        ShortTermReport report = shortTermInfoService.getReport(id, session.getNumber());
+        if (report == null) return jsonDataHolder.error101();
+
+        Attachment attachment = attachmentService.getById(attId, session.getUserId());
+        if (attachment == null) return jsonDataHolder.error101();
+        if (attachment.getObjectType() != AttEnums.Type.short_term_report.getValue()) return jsonDataHolder.error403();
+
+        report.setAttId(attId);
+        shortTermInfoService.saveReport(report);
+
+        return jsonDataHolder.simpleMsg(id, MsgType.update);
     }
 
 }

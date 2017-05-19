@@ -320,15 +320,13 @@ public class ShortTermInfoService {
 
     }
 
-
-    public Float getGrade(Integer rid) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    public List<ShortTermComment> getGradeList(Integer rid) {
-        // TODO Auto-generated method stub
-        return null;
+    /**
+     * 保存或更新报告
+     *
+     * @param report
+     */
+    public void saveReport(ShortTermReport report) {
+        shortTermReportDao.save(report);
     }
 
 

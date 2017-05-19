@@ -22,7 +22,6 @@ import org.apache.commons.lang.StringUtils;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.validator.constraints.Range;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -282,6 +281,7 @@ public class ShortTermSelectService {
         return shortTermReportDao.getPageResult(criteria, orders, page, size);
 
     }
+
 
     public static Map<Integer, List<ShortTermProject>> getCanSelectProjectsMap() {
         return canSelectProjectsMap;
