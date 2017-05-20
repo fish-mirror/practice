@@ -4,14 +4,18 @@ import com.zjicm.attachment.domain.Attachment;
 import com.zjicm.attachment.enums.AttEnums;
 import com.zjicm.attachment.service.AttachmentService;
 import com.zjicm.common.beans.UserSession;
+import com.zjicm.common.lang.http.util.WebUtil;
 import com.zjicm.common.lang.json.JsonDataHolder;
 import com.zjicm.common.lang.json.MsgType;
 import com.zjicm.common.lang.page.PageResult;
+import com.zjicm.practice.beans.LocationSinaTemp;
 import com.zjicm.practice.beans.PracticeParams;
 import com.zjicm.practice.beans.PracticePatchParams;
+import com.zjicm.practice.beans.WeeklyDataParams;
 import com.zjicm.practice.domain.PracticeInfo;
 import com.zjicm.practice.service.PracticeGenerateService;
 import com.zjicm.practice.service.PracticeInfoService;
+import com.zjicm.practice.service.WeeklyDataService;
 import com.zjicm.web.student.StudentBaseController;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +40,8 @@ public class PracticeStudentApi extends StudentBaseController {
     private PracticeGenerateService practiceGenerateService;
     @Autowired
     private AttachmentService attachmentService;
+    @Autowired
+    private WeeklyDataService weeklyDataService;
 
     /**
      * 单数据获取
@@ -171,4 +177,47 @@ public class PracticeStudentApi extends StudentBaseController {
 
         return jsonDataHolder.simpleMsg(id, MsgType.update);
     }
+
+    /**
+     * 获取位置信息
+     *
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/location", method = RequestMethod.GET)
+    @ResponseBody
+    public JsonDataHolder getLocation(HttpServletRequest request) {
+        JsonDataHolder jsonDataHolder = new JsonDataHolder();
+
+        LocationSinaTemp temp = weeklyDataService.getLocation(WebUtil.getRemoteAddress(request));
+        if (temp == null) return jsonDataHolder.error404();
+        return jsonDataHolder.addToItems(temp);
+    }
+
+    /**
+     * 发布实习周记
+     *
+     * @param request
+     * @param params
+     * @param results
+     * @return
+     */
+    @RequestMapping(value = "/data", method = RequestMethod.POST)
+    @ResponseBody
+    public JsonDataHolder createData(HttpServletRequest request,
+                                     @Valid @ModelAttribute WeeklyDataParams params,
+                                     BindingResult results
+    ) {
+        JsonDataHolder jsonDataHolder = new JsonDataHolder();
+        if (jsonDataHolder.checkError(results)) return jsonDataHolder;
+        UserSession session = getUserSession(request);
+
+
+        int dataId = weeklyDataService.createPracticeData(params, session);
+        if (dataId <= 0) return jsonDataHolder.error404();
+
+        return jsonDataHolder.simpleMsg(dataId, MsgType.add);
+    }
+
+
 }
