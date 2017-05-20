@@ -23,8 +23,7 @@ public class AttEnums {
 
         short_term_introduce(11),                           // 短学期介绍文件
         short_term_report(12),                              // 短学期报告
-        practice_report(13),                                // 实习报告
-        practice_work(14);                                  // 实习作品
+        practice_report(13);                                // 实习报告
 
 
         private int value;

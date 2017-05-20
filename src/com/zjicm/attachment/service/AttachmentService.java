@@ -41,7 +41,12 @@ public class AttachmentService {
         switch (type) {
             case avatar:
             case news_picture:
+            case short_term_introduce:
                 return attachment;
+            case short_term_report:
+            case practice_report:
+                return attachment;
+
             default:
                 if (attachment.getUserId() == userId) return attachment;
                 break;
