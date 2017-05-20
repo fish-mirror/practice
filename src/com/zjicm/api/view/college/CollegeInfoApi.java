@@ -41,7 +41,7 @@ public class CollegeInfoApi {
     @ResponseBody
     public JsonDataHolder listClass(HttpServletRequest request,
                                     HttpServletResponse response,
-                                    @RequestParam(value = "institute", defaultValue = "", required = false) int institute
+                                    @RequestParam(value = "institute", defaultValue = "0", required = false) int institute
     ) {
         JsonDataHolder jsonDataHolder = new JsonDataHolder();
 
