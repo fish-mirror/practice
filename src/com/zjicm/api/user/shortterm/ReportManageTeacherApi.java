@@ -56,7 +56,7 @@ public class ReportManageTeacherApi extends TeacherBaseController {
 
         UserSession session = getUserSession(request);
         ShortTermComment shortTermComment = shortTermInfoService.getComment(id, session.getUserId());
-        if (shortTermComment != null) return jsonDataHolder.putToError(405, "已评过分请勿重复评分");
+        if (shortTermComment != null) return jsonDataHolder.putToError(406, "已评过分请勿重复评分");
 
         ShortTermReport report = shortTermInfoService.getReport(id);
         if (report == null || report.getProject() == null) return jsonDataHolder.error101();
@@ -66,7 +66,7 @@ public class ReportManageTeacherApi extends TeacherBaseController {
         }
 
         if (report.getProject().getStatus() != ShortTermEnums.ProjectStatus.can_grade.getValue()) {
-            return jsonDataHolder.putToError(405, "不是评分时间不能进行评分");
+            return jsonDataHolder.putToError(406, "不是评分时间不能进行评分");
         }
 
         shortTermInfoService.addComment(report, session.getUserId(), score, comment);

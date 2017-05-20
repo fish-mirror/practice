@@ -122,12 +122,12 @@ public class ShortTermStudentApi extends StudentBaseController {
 
         if (select) {
             String result = shortTermSelectService.selectProject(project, session);
-            if (StringUtils.isNotBlank(result)) return jsonDataHolder.putToError(405, result);
+            if (StringUtils.isNotBlank(result)) return jsonDataHolder.putToError(406, result);
 
             return jsonDataHolder.simpleMsg(id, MsgType.add);
         } else {
             boolean result = shortTermSelectService.cancalProject(project, session);
-            if (!result) return jsonDataHolder.putToError(405, "状态异常");
+            if (!result) return jsonDataHolder.putToError(406, "状态异常");
 
             return jsonDataHolder.simpleMsg(id, MsgType.delete);
         }

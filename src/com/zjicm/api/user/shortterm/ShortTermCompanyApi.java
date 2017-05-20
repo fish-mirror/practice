@@ -152,7 +152,7 @@ public class ShortTermCompanyApi extends CompanyBaseController {
         if (project == null) return jsonDataHolder.error403();
 
         if (project.getStatus() == ShortTermEnums.ProjectStatus.can_selected.getValue()) {
-            return jsonDataHolder.putToError(405, "选课状态下的项目不可修改，请关闭后重试");
+            return jsonDataHolder.putToError(406, "选课状态下的项目不可修改，请关闭后重试");
         }
 
         shortTermInfoService.updateProject(params, project);
@@ -207,7 +207,7 @@ public class ShortTermCompanyApi extends CompanyBaseController {
 
         UserSession session = getUserSession(request);
         ShortTermComment shortTermComment = shortTermInfoService.getComment(id, session.getUserId());
-        if (shortTermComment != null) return jsonDataHolder.putToError(405, "已评过分请勿重复评分");
+        if (shortTermComment != null) return jsonDataHolder.putToError(406, "已评过分请勿重复评分");
 
         ShortTermReport report = shortTermInfoService.getReport(id);
         if (report == null || report.getProject() == null) return jsonDataHolder.error101();
@@ -217,7 +217,7 @@ public class ShortTermCompanyApi extends CompanyBaseController {
             return jsonDataHolder.error403();
         }
         if (report.getProject().getStatus() != ShortTermEnums.ProjectStatus.can_grade.getValue()) {
-            return jsonDataHolder.putToError(405, "不是评分时间不能进行评分");
+            return jsonDataHolder.putToError(406, "不是评分时间不能进行评分");
         }
 
         shortTermInfoService.addComment(report, session.getUserId(), score, comment);

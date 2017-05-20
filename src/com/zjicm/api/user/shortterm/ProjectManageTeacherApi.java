@@ -77,7 +77,7 @@ public class ProjectManageTeacherApi extends TeacherBaseController {
         if (project.getInstitute() != session.getInstitute()) return jsonDataHolder.error403();
 
         if (project.getStatus() == ShortTermEnums.ProjectStatus.can_selected.getValue()) {
-            return jsonDataHolder.putToError(405, "选课状态下的项目不可修改，请关闭后重试");
+            return jsonDataHolder.putToError(406, "选课状态下的项目不可修改，请关闭后重试");
         }
 
         shortTermInfoService.updateProject(params, project);
