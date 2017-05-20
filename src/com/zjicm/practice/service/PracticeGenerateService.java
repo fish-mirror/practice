@@ -46,7 +46,8 @@ public class PracticeGenerateService {
         practiceInfo.setStudent(new Student(session.getNumber()));
         practiceInfo.setStatus(PracticeStatus.unreview.getValue());
         practiceInfo.setCreator(session.getUserId());
-
+        practiceInfo.setModifier(session.getUserId());
+        practiceInfo.setInstitute(session.getInstitute());
         practiceInfoDao.save(practiceInfo);
         return practiceInfo.getId();
     }
@@ -61,17 +62,17 @@ public class PracticeGenerateService {
     public void updatePracticeInfo(PracticePatchParams params, PracticeInfo practiceInfo, int userId) {
         if (params == null || practiceInfo == null) return;
 
-        if (StringUtils.isNotBlank(practiceInfo.getAddress())) practiceInfo.setAddress(params.getAddress());
-        if (StringUtils.isNotBlank(practiceInfo.getCellphone())) practiceInfo.setCellphone(params.getCellphone());
-        if (StringUtils.isNotBlank(practiceInfo.getCity())) practiceInfo.setCity(params.getCity());
-        if (StringUtils.isNotBlank(practiceInfo.getCompanyName())) practiceInfo.setCompanyName(params.getCompany_name());
-        if (StringUtils.isNotBlank(practiceInfo.getCompanyNumber())) {
+        if (StringUtils.isNotBlank(params.getAddress())) practiceInfo.setAddress(params.getAddress());
+        if (StringUtils.isNotBlank(params.getCellphone())) practiceInfo.setCellphone(params.getCellphone());
+        if (StringUtils.isNotBlank(params.getCity())) practiceInfo.setCity(params.getCity());
+        if (StringUtils.isNotBlank(params.getCompany_name())) practiceInfo.setCompanyName(params.getCompany_name());
+        if (StringUtils.isNotBlank(params.getCompany_number())) {
             practiceInfo.setCompanyNumber(params.getCompany_number());
         }
-        if (StringUtils.isNotBlank(practiceInfo.getJob())) practiceInfo.setJob(params.getJob());
-        if (StringUtils.isNotBlank(practiceInfo.getLinkman())) practiceInfo.setLinkman(params.getLinkman());
-        if (StringUtils.isNotBlank(practiceInfo.getProvince())) practiceInfo.setProvince(params.getProvince());
-        if (StringUtils.isNotBlank(practiceInfo.getPurpose())) practiceInfo.setPurpose(params.getPurpose());
+        if (StringUtils.isNotBlank(params.getJob())) practiceInfo.setJob(params.getJob());
+        if (StringUtils.isNotBlank(params.getLinkman())) practiceInfo.setLinkman(params.getLinkman());
+        if (StringUtils.isNotBlank(params.getProvince())) practiceInfo.setProvince(params.getProvince());
+        if (StringUtils.isNotBlank(params.getPurpose())) practiceInfo.setPurpose(params.getPurpose());
         practiceInfo.setStatus(PracticeStatus.unreview.getValue());
         practiceInfo.setModifier(userId);
 

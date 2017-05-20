@@ -38,10 +38,13 @@ public class PracticeManageTeacherApi extends TeacherBaseController {
      * @param id
      * @return
      */
-    @RequestMapping(value = "/agree", method = RequestMethod.PATCH)
+    @RequestMapping(value = "/agree", method = RequestMethod.POST)
+    @ResponseBody
     public JsonDataHolder agree(HttpServletRequest request,
-                                @RequestParam(value = "id", defaultValue = "0", required = false) int id
-    ) {
+                                @RequestParam(value = "id", defaultValue = "0", required = false) int id,
+                                @RequestParam(value = "agree", defaultValue= "true", required = false) boolean agree
+
+    ){
         JsonDataHolder jsonDataHolder = new JsonDataHolder();
         PracticeInfo practiceInfo = practiceInfoService.getPracticeInfo(id);
         if (practiceInfo == null) return jsonDataHolder.error101();
@@ -51,9 +54,11 @@ public class PracticeManageTeacherApi extends TeacherBaseController {
         UserSession session = getUserSession(request);
         if (practiceInfo.getStudent().getInstitute() != session.getInstitute()) return jsonDataHolder.error403();
 
-        practiceManageService.agreePracticeApply(practiceInfo);
+        practiceManageService.agreePracticeApply(practiceInfo, agree);
         return jsonDataHolder.simpleMsg(id, MsgType.update);
     }
+
+
 
     /**
      * 评分
@@ -61,7 +66,7 @@ public class PracticeManageTeacherApi extends TeacherBaseController {
      * @param request
      * @return
      */
-    @RequestMapping(value = "/score", method = RequestMethod.PATCH)
+    @RequestMapping(value = "/score", method = RequestMethod.POST)
     @ResponseBody
     public JsonDataHolder score(HttpServletRequest request,
                                 @RequestParam(value = "id", defaultValue = "0", required = false) int id,

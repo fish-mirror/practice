@@ -38,6 +38,7 @@ public class PracticeInfo implements CanonicalDomain<Integer> {
     private String purpose;
     private int status;
     private int attId;
+    private int institute;
 
     @OneToMany(mappedBy = "practiceId", fetch = FetchType.EAGER)
     private Set<PracticeComment> comments;
@@ -153,6 +154,14 @@ public class PracticeInfo implements CanonicalDomain<Integer> {
 
     public int getAttId() {
         return attId;
+    }
+
+    public int getInstitute() {
+        return institute;
+    }
+
+    public void setInstitute(int institute) {
+        this.institute = institute;
     }
 
     public Set<PracticeComment> getComments() {

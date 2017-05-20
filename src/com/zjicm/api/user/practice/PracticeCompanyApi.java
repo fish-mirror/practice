@@ -90,10 +90,10 @@ public class PracticeCompanyApi extends CompanyBaseController {
             }
         }
 
-        PageResult<PracticeInfo> pr = practiceInfoService.pagePracticeInfoByInstitute(session.getInstitute(),
-                                                                                      practiceStatus,
-                                                                                      page,
-                                                                                      size);
+        PageResult<PracticeInfo> pr = practiceInfoService.pagePracticeInfoByCompany(session.getNumber(),
+                                                                                    practiceStatus,
+                                                                                    page,
+                                                                                    size);
 
         if (pr == null || CollectionUtils.isEmpty(pr.getResult())) return jsonDataHolder.error101();
 

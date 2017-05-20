@@ -25,7 +25,7 @@ public class PracticeParams {
     @Length(max = 16)
     private String cellphone;
     @NotNull
-    @Length(max = 20)
+    @Length(max = 50)
     private String address;
     @NotNull
     @Length(max = 10)
@@ -34,7 +34,7 @@ public class PracticeParams {
     @Length(max = 10)
     private String city;
     @NotNull
-    @Length(max = 0)
+    @Length(max = 100)
     private String purpose;
 
     public String getCompany_number() {

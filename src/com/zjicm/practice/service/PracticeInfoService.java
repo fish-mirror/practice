@@ -67,7 +67,7 @@ public class PracticeInfoService {
 
         List<Criterion> criterionList = new ArrayList<>(2);
         criterionList.add(Restrictions.eq("id", id));
-        criterionList.add(Restrictions.eq("student.institute", institute));
+        criterionList.add(Restrictions.eq("institute", institute));
 
         return practiceInfoDao.get(criterionList, null);
     }
@@ -121,7 +121,7 @@ public class PracticeInfoService {
                                                                 int page,
                                                                 int size) {
         List<Criterion> criterionList = new ArrayList<>(2);
-        criterionList.add(Restrictions.eq("student.institute", institute));
+        criterionList.add(Restrictions.eq("institute", institute));
         if (status != null) criterionList.add(Restrictions.eq("status", status.getValue()));
 
         List<Order> orders = new ArrayList<>();
@@ -130,12 +130,12 @@ public class PracticeInfoService {
         return practiceInfoDao.getPageResult(criterionList, orders, page, size);
     }
 
-    public PageResult<PracticeInfo> pagePracticeInfoByCompany(int institute,
+    public PageResult<PracticeInfo> pagePracticeInfoByCompany(String  number,
                                                               PracticeStatus status,
                                                               int page,
                                                               int size) {
         List<Criterion> criterionList = new ArrayList<>(2);
-        criterionList.add(Restrictions.eq("companyNumber", institute));
+        criterionList.add(Restrictions.eq("companyNumber", number));
         if (status != null) criterionList.add(Restrictions.eq("status", status.getValue()));
 
         List<Order> orders = new ArrayList<>();

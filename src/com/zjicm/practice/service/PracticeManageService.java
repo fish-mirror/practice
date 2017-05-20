@@ -30,22 +30,28 @@ public class PracticeManageService {
      * 同意实习申请
      *
      * @param practiceInfo
+     * @param agree
      */
-    public void agreePracticeApply(PracticeInfo practiceInfo) {
+    public void agreePracticeApply(PracticeInfo practiceInfo, boolean agree) {
         if (practiceInfo == null) return;
-
         if (practiceInfo.getStatus() != PracticeStatus.unreview.getValue()) return;
-        practiceInfo.setStatus(PracticeStatus.ok.getValue());
-        // 更新学生实习状态信息
-        practiceInfo.getStudent().setStatus(StudentEnums.Status.practicing.getValue());
 
-        // 创建合作企业
-        if (StringUtils.isBlank(practiceInfo.getCompanyNumber())) {
-            Company company = cooperationService.createCampay(practiceInfo);
-            if (company != null) practiceInfo.setCompanyNumber(company.getNumber());
+        if (!agree) {
+            practiceInfo.setStatus(PracticeStatus.rejected.getValue());
+            practiceInfoDao.save(practiceInfo);
+        } else {
+            practiceInfo.setStatus(PracticeStatus.ok.getValue());
+            // 更新学生实习状态信息
+            practiceInfo.getStudent().setStatus(StudentEnums.Status.practicing.getValue());
+
+            // 创建合作企业
+            if (StringUtils.isBlank(practiceInfo.getCompanyNumber())) {
+                Company company = cooperationService.createCampay(practiceInfo);
+                if (company != null) practiceInfo.setCompanyNumber(company.getNumber());
+            }
+
+            practiceInfoDao.save(practiceInfo);
         }
-
-        practiceInfoDao.save(practiceInfo);
 
     }
 
