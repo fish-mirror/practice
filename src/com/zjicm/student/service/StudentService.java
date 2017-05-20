@@ -3,6 +3,7 @@ package com.zjicm.student.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.zjicm.attachment.domain.Attachment;
 import com.zjicm.auth.dao.UserDao;
 import com.zjicm.auth.domain.User;
 import com.zjicm.auth.enums.Role;
@@ -169,6 +170,9 @@ public class StudentService {
         if (params.getBirthday() != null) student.setBirth(params.getBirthday());
         if (params.getWeight() > 0) student.setWeight(params.getWeight());
         if (params.getHeight() > 0) student.setHeight(params.getHeight());
+
+        // TODO 检查附件的属者
+        if (params.getAtt_id() > 0)  student.setAttId(params.getAtt_id());
         studentDao.save(student);
 
     }

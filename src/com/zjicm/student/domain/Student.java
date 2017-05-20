@@ -32,10 +32,10 @@ public class Student implements CanonicalDomain<Integer> {
     private String nation;
     private String politics;
     private int status;
-    private String imgUrl;
     private int height;
     private int weight;
     private String address;
+    private int attId;
 
     @Column(updatable = false)
     private Date createTime;                            // 创建时间
@@ -166,15 +166,6 @@ public class Student implements CanonicalDomain<Integer> {
         this.status = status;
     }
 
-    public String getImgUrl() {
-        return this.imgUrl;
-    }
-
-    public void setImgUrl(String imgUrl) {
-        this.imgUrl = imgUrl;
-    }
-
-
     public int getHeight() {
         return height;
     }
@@ -197,6 +188,14 @@ public class Student implements CanonicalDomain<Integer> {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public int getAttId() {
+        return attId;
+    }
+
+    public void setAttId(int attId) {
+        this.attId = attId;
     }
 
     public Date getCreateTime() {

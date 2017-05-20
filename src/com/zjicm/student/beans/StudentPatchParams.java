@@ -23,6 +23,8 @@ public class StudentPatchParams {
     private String politic;
     private String address;
 
+    private int att_id;
+
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Past(message = "出生日期非法")
     private Date birthday;
@@ -69,6 +71,14 @@ public class StudentPatchParams {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public int getAtt_id() {
+        return att_id;
+    }
+
+    public void setAtt_id(int att_id) {
+        this.att_id = att_id;
     }
 
     public Date getBirthday() {

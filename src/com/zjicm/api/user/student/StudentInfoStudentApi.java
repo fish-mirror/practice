@@ -55,7 +55,7 @@ public class StudentInfoStudentApi extends RootController {
      * 单字段更新
      *
      * @param request
-     * @param respons
+     * @param response
      * @param params
      * @param results
      * @return
@@ -63,7 +63,7 @@ public class StudentInfoStudentApi extends RootController {
     @RequestMapping(value = "", method = RequestMethod.PATCH)
     @ResponseBody
     public JsonDataHolder patch(HttpServletRequest request,
-                                HttpServletResponse respons,
+                                HttpServletResponse response,
                                 @Valid @ModelAttribute StudentPatchParams params,
                                 BindingResult results
     ) {
