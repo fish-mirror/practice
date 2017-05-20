@@ -93,6 +93,9 @@ public class AuthorityRouteSupport {
         if (authorities.contains(AuthEnums.short_term_project_manage.getValue())) {
             studentMR.addRoute(new RouteBean("编辑短学期项目", "/short_term/edit"));
         }
+        if (authorities.contains(AuthEnums.short_term_manage.getValue())) {
+            studentMR.addRoute(new RouteBean("短学期评分", "/short_term/score"));
+        }
         routesOuts.add(cooperationMR);
 
         // 职位管理
@@ -117,7 +120,8 @@ public class AuthorityRouteSupport {
             routesOuts.add(new RoutesOut("后台管理",
                                          new RouteBean("院系账号列表", "/admin/account"),
                                          new RouteBean("设置权限", "/admin/authority"),
-                                         new RouteBean("重置密码", "/admin/resetpwd")));
+                                         new RouteBean("重置密码", "/admin/resetpwd"),
+                                         new RouteBean("短学期状态管理", "/admin/shortterm")));
         }
         return routesOuts;
     }

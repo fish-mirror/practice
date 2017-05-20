@@ -195,11 +195,14 @@ public class ShortTermStudentApi extends StudentBaseController {
         JsonDataHolder jsonDataHolder = new JsonDataHolder();
         UserSession session = getUserSession(request);
 
-        ShortTermReport report = shortTermInfoService.getReport(id, session.getNumber());
-        if (report == null) return jsonDataHolder.error101();
+        ShortTermReport report = shortTermInfoService.getReport(id);
+        if (report == null || report.getStudent() == null ||
+            !session.getNumber().equals(report.getStudent().getNumber())) {
+            return jsonDataHolder.putToError(101, "该报告不存在或不是所有者");
+        }
 
         Attachment attachment = attachmentService.getById(attId, session.getUserId());
-        if (attachment == null) return jsonDataHolder.error101();
+        if (attachment == null) return jsonDataHolder.putToError(101, "该附件不存在或不是所有者");
         if (attachment.getObjectType() != AttEnums.Type.short_term_report.getValue()) return jsonDataHolder.error403();
 
         report.setAttId(attId);
