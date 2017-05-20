@@ -159,6 +159,13 @@ public class ShortTermInfoService {
         return shortTermProjectDao.get(criteria, null);
     }
 
+    /**
+     * 获取短学期项目
+     *
+     * @param id
+     * @param companyNumber
+     * @return
+     */
     public ShortTermProject getProject(Integer id, String companyNumber) {
         List<Criterion> criteria = new ArrayList<>();
         criteria.add(Restrictions.eq("id", id));
@@ -221,33 +228,24 @@ public class ShortTermInfoService {
         return shortTermProjectDao.getPageResult(criteria, orders, page, size);
     }
 
-
-    public boolean cancelSelectedProject(Integer id, String stuId, String term, String major) {
-//        ShortTermReport str = this.getReport(id);
-//        //判断是否是有效的学生对象和学期
-//        if (str != null && str.getStuId().equals(stuId) && str.getShortTermProject().getTerm().equals(term)) {
-//            ShortTermProject stp = str.getShortTermProject();
-//            stp.setSelectedNum(stp.getSelectedNum() - 1);
-//            if (stp.getMajorNeed().equals("all") || stp.getMajorNeed().equals(major)) {
-//
-//            } else {
-//                stp.setUnmajorSelected(stp.getUnmajorSelected() - 1);
-//            }
-//            shortTermProjectDao.update(stp);
-//            shortTermReportDao.delete(str);
-//            return true;
-//        } else {
-//            return false;
-//        }
-        return false;
-
-    }
-
+    /**
+     * 获取短学期报告
+     *
+     * @param id
+     * @return
+     */
     public ShortTermReport getReport(Integer id) {
         if (id <= 0) return null;
         return shortTermReportDao.getById(id);
     }
 
+    /**
+     * 获取短学期报告
+     *
+     * @param projectId
+     * @param studentNumber
+     * @return
+     */
     public ShortTermReport getReport(int projectId, String studentNumber) {
         if (projectId <= 0 || StringUtils.isBlank(studentNumber)) return null;
 
@@ -257,27 +255,31 @@ public class ShortTermInfoService {
         return shortTermReportDao.get(criteria, null);
     }
 
+    /**
+     * 获取当前已选短学期
+     *
+     * @param stuId
+     * @param term
+     * @return
+     */
     public ShortTermProject getProjectSelected(String stuId, String term) {
         return null;
     }
 
+    /**
+     * 短学期报告（选课记录/学生名单）的分页列表
+     *
+     * @param studentNumber
+     * @param page
+     * @param size
+     * @return
+     */
     public PageResult<ShortTermReport> pageReport(String studentNumber, int page, int size) {
         List<Criterion> criteria = new ArrayList<>();
         criteria.add(Restrictions.eq("student.number", studentNumber));
         List<Order> orders = new ArrayList<>();
         orders.add(Order.desc("id"));
         return shortTermReportDao.getPageResult(criteria, orders, page, size);
-    }
-
-
-    /**
-     * 获取评分信息
-     *
-     * @param id
-     * @return
-     */
-    public ShortTermComment getComment(Integer id) {
-        return shortTermCommentDao.getById(id);
     }
 
     /**
@@ -315,8 +317,7 @@ public class ShortTermInfoService {
         shortTermComment.setStudentNumber(report.getStudent().getNumber());
         shortTermComment.setTeacherUserId(userId);
 
-        shortTermCommentDao.save(shortTermComment
-        );
+        shortTermCommentDao.save(shortTermComment);
 
     }
 
