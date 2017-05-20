@@ -5,12 +5,16 @@ import com.zjicm.auth.domain.User;
 import com.zjicm.auth.enums.Role;
 import com.zjicm.common.beans.UserSession;
 import com.zjicm.common.lang.page.PageResult;
+import com.zjicm.common.lang.pinyin.PinyinHelper;
+import com.zjicm.common.lang.util.StringUtil;
 import com.zjicm.company.dao.CompanyDao;
 import com.zjicm.company.domain.Company;
 import com.zjicm.cooperation.beans.CompanyRegisterParams;
 import com.zjicm.cooperation.dao.CooperationDao;
 import com.zjicm.cooperation.domain.Cooperation;
 import com.zjicm.cooperation.enums.CooperationStatus;
+import com.zjicm.practice.domain.PracticeInfo;
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -101,6 +105,34 @@ public class CooperationService {
     }
 
     /**
+     * 创建企业信息
+     *
+     * @param practiceInfo
+     * @return
+     */
+    public Company createCampay(PracticeInfo practiceInfo) {
+        if (practiceInfo == null) return null;
+
+        User user = new User();
+        String number = generateCompanyNumber(practiceInfo.getCompanyName());
+        user.setNumber(number);
+        user.setPassword(number);
+        user.setRoleId(Role.company.getValue());
+
+        Company company = new Company();
+        company.setNumber(number);
+        company.setName(practiceInfo.getCompanyName());
+        company.setAddress(practiceInfo.getAddress());
+        company.setLinkman(practiceInfo.getLinkman());
+        company.setTel(practiceInfo.getCellphone());
+
+        userDao.save(user);
+        companyDao.save(company);
+
+        return company;
+    }
+
+    /**
      * 创建合作关系
      *
      * @param insititute
@@ -116,6 +148,19 @@ public class CooperationService {
         cooperation.setCreator(session.getUserId());
         cooperateDao.save(cooperation);
         return cooperation.getId();
+    }
+
+    /**
+     * 生成企业账号编号
+     *
+     * @param companyName
+     * @return
+     */
+    private String generateCompanyNumber(String companyName) {
+        if (StringUtils.isBlank(companyName)) return StringUtil.random(8).toLowerCase();
+
+        return StringUtil.substring(PinyinHelper.getShortPinyin(companyName), 0, 4) +
+               StringUtil.random(4).toLowerCase();
     }
 
 }
