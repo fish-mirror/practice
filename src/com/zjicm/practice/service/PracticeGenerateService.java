@@ -6,6 +6,7 @@ import com.zjicm.practice.beans.PracticePatchParams;
 import com.zjicm.practice.dao.PracticeInfoDao;
 import com.zjicm.practice.domain.PracticeInfo;
 import com.zjicm.practice.enums.PracticeStatus;
+import com.zjicm.student.dao.StudentDao;
 import com.zjicm.student.domain.Student;
 import com.zjicm.student.enums.StudentEnums;
 import org.apache.commons.lang.StringUtils;
@@ -21,6 +22,8 @@ import org.springframework.stereotype.Service;
 public class PracticeGenerateService {
     @Autowired
     private PracticeInfoDao practiceInfoDao;
+    @Autowired
+    private StudentDao studentDao;
 
 
     /**
@@ -90,6 +93,8 @@ public class PracticeGenerateService {
         practiceInfo.setAttId(attId);
         practiceInfo.setStatus(PracticeStatus.can_score.getValue());
         practiceInfo.getStudent().setStatus(StudentEnums.Status.practiced.getValue());
+
+        studentDao.save(practiceInfo.getStudent());
         practiceInfoDao.save(practiceInfo);
     }
 

@@ -7,6 +7,7 @@ import com.zjicm.practice.dao.PracticeInfoDao;
 import com.zjicm.practice.domain.PracticeComment;
 import com.zjicm.practice.domain.PracticeInfo;
 import com.zjicm.practice.enums.PracticeStatus;
+import com.zjicm.student.dao.StudentDao;
 import com.zjicm.student.enums.StudentEnums;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,8 @@ public class PracticeManageService {
     private PracticeInfoDao practiceInfoDao;
     @Autowired
     private PracticeCommentDao practiceCommentDao;
+    @Autowired
+    private StudentDao studentDao;
     @Autowired
     private CooperationService cooperationService;
 
@@ -49,7 +52,7 @@ public class PracticeManageService {
                 Company company = cooperationService.createCampay(practiceInfo);
                 if (company != null) practiceInfo.setCompanyNumber(company.getNumber());
             }
-
+            studentDao.save(practiceInfo.getStudent());
             practiceInfoDao.save(practiceInfo);
         }
 
