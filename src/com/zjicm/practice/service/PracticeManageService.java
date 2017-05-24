@@ -1,5 +1,6 @@
 package com.zjicm.practice.service;
 
+import com.zjicm.common.beans.UserSession;
 import com.zjicm.company.domain.Company;
 import com.zjicm.cooperation.service.CooperationService;
 import com.zjicm.practice.dao.PracticeCommentDao;
@@ -35,7 +36,7 @@ public class PracticeManageService {
      * @param practiceInfo
      * @param agree
      */
-    public void agreePracticeApply(PracticeInfo practiceInfo, boolean agree) {
+    public void agreePracticeApply(PracticeInfo practiceInfo, UserSession session, boolean agree) {
         if (practiceInfo == null) return;
         if (practiceInfo.getStatus() != PracticeStatus.unreview.getValue()) return;
 
@@ -51,6 +52,7 @@ public class PracticeManageService {
             if (StringUtils.isBlank(practiceInfo.getCompanyNumber())) {
                 Company company = cooperationService.createCampay(practiceInfo);
                 if (company != null) practiceInfo.setCompanyNumber(company.getNumber());
+                cooperationService.createCooperation(session.getInstitute(), company, session);
             }
             studentDao.save(practiceInfo.getStudent());
             practiceInfoDao.save(practiceInfo);

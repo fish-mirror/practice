@@ -54,7 +54,7 @@ public class PracticeManageTeacherApi extends TeacherBaseController {
         UserSession session = getUserSession(request);
         if (practiceInfo.getStudent().getInstitute() != session.getInstitute()) return jsonDataHolder.error403();
 
-        practiceManageService.agreePracticeApply(practiceInfo, agree);
+        practiceManageService.agreePracticeApply(practiceInfo, session, agree);
         return jsonDataHolder.simpleMsg(id, MsgType.update);
     }
 
