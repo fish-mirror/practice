@@ -79,9 +79,11 @@ public class WeeklyDataService {
      * @param size
      * @return
      */
-    public PageResult<PracticeData> page(int institute, int page, int size) {
+    public PageResult<PracticeData> page(int institute, String number, int page, int size) {
         List<Criterion> criteria = new ArrayList<>(1);
         criteria.add(Restrictions.eq("institute", institute));
+        if (StringUtils.isNotBlank(number)) criteria.add(Restrictions.eq("student.number", number));
+
 
         List<Order> orders = new ArrayList<>(1);
         orders.add(Order.desc("id"));

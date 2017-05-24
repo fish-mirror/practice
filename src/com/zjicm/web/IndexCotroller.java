@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class IndexCotroller extends RootController {
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String index() {
-        return "layout.index";
+        return "account.login";
     }
 
 }

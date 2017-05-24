@@ -46,7 +46,8 @@ public class StudentDaoImpl extends PracticeBaseDaoImpl<Student, Integer> implem
         }
 
         if (institute > 0) criterions.add(Restrictions.eq("institute", institute));
-        if (grade > 10) criterions.add(Restrictions.eq("grade", grade));
+        if (grade > 12) criterions.add(Restrictions.eq("grade", grade));
+        else criterions.add(Restrictions.gt("grade", 12));
         if (StringUtils.isNotBlank(major)) {
             criterions.add(Restrictions.eq("major", major));
             if (classIndex > 0) criterions.add(Restrictions.eq("classIndex", classIndex));

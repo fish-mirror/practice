@@ -40,12 +40,13 @@ public class WeeklyDataUserApi extends RootController {
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
     public JsonDataHolder listData(HttpServletRequest request,
+                                   @RequestParam(value = "number", defaultValue = "", required = false) String number,
                                    @RequestParam(value = "page_index", defaultValue = "1", required = false) int page,
                                    @RequestParam(value = "items_per_page", defaultValue = "5", required = false) int size
     ) {
         JsonDataHolder jsonDataHolder = new JsonDataHolder();
         UserSession session = getUserSession(request);
-        PageResult<PracticeData> pr = weeklyDataService.page(session.getInstitute(), page, size);
+        PageResult<PracticeData> pr = weeklyDataService.page(session.getInstitute(),number, page, size);
 
         if (pr == null || CollectionUtils.isEmpty(pr.getResult())) return jsonDataHolder.error101();
 
